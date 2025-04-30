@@ -63,7 +63,7 @@ def is_allowed_user(user_id):
 # Helper function to send messages
 def send_message(reply_token, message):
     try:
-        line_bot_api.reply_message(reply_token, TextMessage(text=message))
+        line_bot_api.reply_message(reply_token, [TextMessage(text=message)])
     except Exception as e:
         app.logger.error(f"Error sending message: {e}")
 
@@ -95,7 +95,7 @@ def handle_text(event):
             text="請傳送您的位置訊息，以便確認您是否在停車場範圍內：",
             quick_reply=QuickReply(items=[QuickReplyItem(action=LocationAction(label="傳送位置"))])
         )
-        line_bot_api.reply_message(event.reply_token, reply)
+        line_bot_api.reply_message(event.reply_token, [reply])
 
     except Exception as e:
         app.logger.error(f"Error while processing text message: {e}")
@@ -129,7 +129,7 @@ def handle_location(event):
             app.logger.info(f"User {user_id} is outside the parking lot range.")
             reply = TextMessage(text="您目前不在停車場範圍內，請靠近後再試。")
 
-        line_bot_api.reply_message(event.reply_token, reply)
+        line_bot_api.reply_message(event.reply_token, [reply])
 
     except Exception as e:
         app.logger.error(f"Error while processing location message: {e}")
