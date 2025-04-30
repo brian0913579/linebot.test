@@ -14,15 +14,15 @@ from sortedcontainers import SortedDict
 
 app = Flask(__name__)
 
+# Load environment variables from .env file
+load_dotenv()
+
 import json
 # Fetch the allowed users from environment variable and parse it as a dictionary
 ALLOWED_USERS = json.loads(os.getenv('ALLOWED_USERS'))
 PENDING_USERS = set()
 # Initialize a SortedDict to store tokens, ordered by expiry time
 TOKENS = SortedDict()
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Set up logging configuration
 log_handler = RotatingFileHandler('app.log', maxBytes=10 * 1024 * 1024, backupCount=3)  # Log rotation
