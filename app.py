@@ -17,9 +17,18 @@ app = Flask(__name__)
 # Load environment variables from .env file
 load_dotenv()
 
-import json
-# Fetch the allowed users from environment variable and parse it as a dictionary
-ALLOWED_USERS = json.loads(os.getenv('ALLOWED_USERS'))
+import sqlite3
+
+# Fetch the allowed users from SQLite database
+def get_allowed_users():
+    connection = sqlite3.connect('users.db')
+    cursor = connection.cursor()
+    cursor.execute("SELECT user_id, user_name FROM allowed_users")
+    users = cursor.fetchall()
+    connection.close()
+    return {user[0]: user[1] for user in users}
+
+ALLOWED_USERS = get_allowed_users()
 PENDING_USERS = set()
 # Initialize a SortedDict to store tokens, ordered by expiry time
 TOKENS = SortedDict()
