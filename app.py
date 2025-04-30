@@ -95,7 +95,7 @@ def handle_text(event):
             text="請傳送您的位置訊息，以便確認您是否在停車場範圍內：",
             quick_reply=QuickReply(items=[QuickReplyItem(action=LocationAction(label="傳送位置"))])
         )
-        line_bot_api.reply_message(event.reply_token, [reply])
+        line_bot_api.reply_message(event.reply_token, reply)
 
     except Exception as e:
         app.logger.error(f"Error while processing text message: {e}")
