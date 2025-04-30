@@ -21,7 +21,7 @@ This repository contains the code for a LineBot service, developed as a test app
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/linebot.test.git
+   git clone https://github.com/brian13579/linebot.test.git
    cd linebot.test
    ```
 
