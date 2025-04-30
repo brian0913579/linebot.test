@@ -22,10 +22,6 @@ TOKENS = {}
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 
-if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
-    print("Error: LINE_CHANNEL_ACCESS_TOKEN or LINE_CHANNEL_SECRET is not set properly.")
-    exit(1)
-
 configuration = Configuration(access_token=LINE_CHANNEL_ACCESS_TOKEN)
 api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
