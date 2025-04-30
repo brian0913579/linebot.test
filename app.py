@@ -14,10 +14,9 @@ from sortedcontainers import SortedDict
 
 app = Flask(__name__)
 
-ALLOWED_USERS = {
-    "Uea6813ef8ec77e7446090621ebcf472a": "admin_Brian",
-    "U1d640cea545510e631396b5306ade151": "cyn.18"
-}
+import json
+# Fetch the allowed users from environment variable and parse it as a dictionary
+ALLOWED_USERS = json.loads(os.getenv('ALLOWED_USERS'))
 PENDING_USERS = set()
 # Initialize a SortedDict to store tokens, ordered by expiry time
 TOKENS = SortedDict()
