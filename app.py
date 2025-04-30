@@ -9,6 +9,7 @@ import os
 from geopy.distance import geodesic
 from dotenv import load_dotenv
 import logging
+from logging.handlers import RotatingFileHandler
 from sortedcontainers import SortedDict
 
 app = Flask(__name__)
@@ -24,8 +25,20 @@ TOKENS = SortedDict()
 # Load environment variables from .env file
 load_dotenv()
 
-# Set up logging
-logging.basicConfig(level=logging.INFO)
+# Set up logging configuration
+log_handler = RotatingFileHandler('app.log', maxBytes=10 * 1024 * 1024, backupCount=3)  # Log rotation
+log_handler.setLevel(logging.INFO)  # Log level can be adjusted
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_handler.setFormatter(formatter)
+
+# Add log handler to Flask's logger
+app.logger.addHandler(log_handler)
+
+# Optionally, you can log to the console as well
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(formatter)
+app.logger.addHandler(console_handler)
 
 # 用你的 channel access token 跟 secret 替換
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
@@ -48,10 +61,10 @@ def webhook():
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
-        logging.error("Invalid signature. Could not verify the signature.")
+        app.logger.error("Invalid signature. Could not verify the signature.")
         abort(400)  # Return a 400 Bad Request status
     except Exception as e:
-        logging.error(f"Unexpected error occurred while handling the webhook: {e}")
+        app.logger.error(f"Unexpected error occurred while handling the webhook: {e}")
         abort(500)  # Internal server error
     return 'OK'
 
@@ -61,6 +74,7 @@ def handle_text(event):
         user_id = event.source.user_id
         user_msg = event.message.text
         print("使用者 ID：", user_id)
+        app.logger.info(f"User {user_id} sent a text message.")
 
         if user_id not in ALLOWED_USERS:
             line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。"))
@@ -78,7 +92,7 @@ def handle_text(event):
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
     except Exception as e:
-        logging.error(f"Error while processing text message: {e}")
+        app.logger.error(f"Error while processing text message: {e}")
         line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 系統錯誤，請稍後再試。"))
 
 @handler.add(MessageEvent, message=LocationMessageContent)
@@ -94,6 +108,7 @@ def handle_location(event):
         distance = geodesic(user_loc, GATE_LOCATION).meters
 
         if distance <= GATE_RADIUS_METERS:
+            app.logger.info(f"User {user_id} is accessing the parking lot.")
             print("✅ GPS OK，可進行操作")
             # Generate one-time tokens valid for 5 minutes
             token_open = secrets.token_urlsafe(16)
@@ -108,13 +123,14 @@ def handle_location(event):
                 ])
             )
         else:
+            app.logger.info(f"User {user_id} is outside the parking lot range.")
             print("❌ GPS 不在範圍內")
             reply = TextMessage(text="您目前不在停車場範圍內，請靠近後再試。")
 
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
     except Exception as e:
-        logging.error(f"Error while processing location message: {e}")
+        app.logger.error(f"Error while processing location message: {e}")
         line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 系統錯誤，請稍後再試。"))
 
 # Function to clean expired tokens (can be called periodically or with each operation)
@@ -152,10 +168,10 @@ def handle_postback(event):
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[TextMessage(text="✅ 門已關閉，感謝您的使用。")]))
 
     except KeyError:
-        logging.error("Token not found or invalid token provided.")
+        app.logger.error("Token not found or invalid token provided.")
         line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 無效操作"))
     except Exception as e:
-        logging.error(f"Unexpected error during postback handling: {e}")
+        app.logger.error(f"Unexpected error during postback handling: {e}")
         line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 系統錯誤，請稍後再試。"))
 
 if __name__ == "__main__":
