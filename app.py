@@ -85,7 +85,8 @@ def handle_text(event):
         app.logger.info(f"User {user_id} sent a text message.")
 
         if user_id not in ALLOWED_USERS:
-            line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。"))
+            reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
+            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
             return
 
         else:
@@ -101,7 +102,8 @@ def handle_text(event):
 
     except Exception as e:
         app.logger.error(f"Error while processing text message: {e}")
-        line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 系統錯誤，請稍後再試。"))
+        reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
 @handler.add(MessageEvent, message=LocationMessageContent)
 def handle_location(event):
@@ -109,7 +111,8 @@ def handle_location(event):
         user_id = event.source.user_id
 
         if user_id not in ALLOWED_USERS:
-            line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 未授權使用者，請勿嘗試操作。"))
+            reply = TextMessage(text="❌ 未授權使用者，請勿嘗試操作。")
+            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
             return
 
         user_loc = (event.message.latitude, event.message.longitude)
@@ -139,7 +142,8 @@ def handle_location(event):
 
     except Exception as e:
         app.logger.error(f"Error while processing location message: {e}")
-        line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 系統錯誤，請稍後再試。"))
+        reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
 # Function to clean expired tokens (can be called periodically or with each operation)
 def clean_expired_tokens():
@@ -160,27 +164,33 @@ def handle_postback(event):
         token = event.postback.data
         record = TOKENS.get(token)
         if not record:
-            return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[TextMessage(text="❌ 無效操作")]))
+            reply = TextMessage(text="❌ 無效操作")
+            return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
         user_id, action, expiry = record
         if event.source.user_id != user_id or time.time() > expiry:
             TOKENS.pop(token, None)
-            return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[TextMessage(text="❌ 此操作已失效，請重新傳送位置")]))
+            reply = TextMessage(text="❌ 此操作已失效，請重新傳送位置")
+            return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
         
         # valid, consume token
         TOKENS.pop(token, None)
         if action == 'open':
             # TODO: insert GPIO open logic
-            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[TextMessage(text="✅ 門已開啟，請小心進出。")]))
+            reply = TextMessage(text="✅ 門已開啟，請小心進出。")
+            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
         else:
             # TODO: insert GPIO close logic
-            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[TextMessage(text="✅ 門已關閉，感謝您的使用。")]))
+            reply = TextMessage(text="✅ 門已關閉，感謝您的使用。")
+            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
     except KeyError:
         app.logger.error("Token not found or invalid token provided.")
-        line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 無效操作"))
+        reply = TextMessage(text="❌ 無效操作")
+        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
     except Exception as e:
         app.logger.error(f"Unexpected error during postback handling: {e}")
-        line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 系統錯誤，請稍後再試。"))
+        reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
 if __name__ == "__main__":
     app.run(host='localhost', port=5000)
