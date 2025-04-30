@@ -68,3 +68,13 @@ reply_message_request
   value is not a valid dict (type=type_error.dict)
 args
   2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:57:20,357 - app - ERROR - Error while processing text message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:57:20,358 - app - ERROR - Unexpected error occurred while handling the webhook: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
