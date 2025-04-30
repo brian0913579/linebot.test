@@ -1,0 +1,50 @@
+2025-05-01 04:09:22,906 - app - ERROR - Error while processing text message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:09:22,907 - app - ERROR - Error sending message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:09:30,875 - app - ERROR - Error while processing text message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:09:30,876 - app - ERROR - Error sending message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:09:38,473 - app - ERROR - Error while processing text message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:09:38,474 - app - ERROR - Error sending message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:11:12,680 - app - ERROR - Error while processing text message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:11:12,680 - app - ERROR - Error sending message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:15:30,421 - app - ERROR - Error while processing text message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
+2025-05-01 04:15:30,422 - app - ERROR - Error sending message: 2 validation errors for ReplyMessage
+reply_message_request
+  value is not a valid dict (type=type_error.dict)
+args
+  2 positional arguments expected but 3 given (type=type_error)
