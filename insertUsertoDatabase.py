@@ -1,3 +1,4 @@
+import sqlite3
 def insert_user(user_id, user_name):
     connection = sqlite3.connect('users.db')  # Connect to the database
     cursor = connection.cursor()
