@@ -19,6 +19,9 @@ PENDING_USERS = set()
 # Single-use tokens: token -> (user_id, action, expiry_timestamp)
 TOKENS = {}
 
+# Load environment variables from .env file
+load_dotenv()
+
 # 用你的 channel access token 跟 secret 替換
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
