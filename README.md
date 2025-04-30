@@ -35,7 +35,6 @@ This repository contains the code for a LineBot service, developed as a test app
    ```env
    LINE_CHANNEL_ACCESS_TOKEN=your_channel_access_token
    LINE_CHANNEL_SECRET=your_channel_secret
-   ALLOWED_USERS={"Uea6813ef8ec77e7446090621ebcf472a": "admin_Brian", "U1d640cea545510e631396b5306ade151": "cyn.18"}
    ```
 
 4. Create the SQLite database:
