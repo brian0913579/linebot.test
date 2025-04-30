@@ -7,6 +7,7 @@ import time
 import secrets
 import os
 from geopy.distance import geodesic
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -19,8 +20,8 @@ PENDING_USERS = set()
 TOKENS = {}
 
 # 用你的 channel access token 跟 secret 替換
-LINE_CHANNEL_ACCESS_TOKEN = 'I6l46sYem5H4kuRx/J14iT64aNNTxSvOaSQzD3Wsp5U+tN/yjMM/mbq2H74zn6Jjo/cpiPfIaUAnV8sMsO4UnhNetrUZxLpC9SK8fIR4hSRomSJ3H4wr+y0GXcr+uBIiKjdnzi0jKE7+K4gzXYvIRQdB04t89/1O/w1cDnyilFU='
-LINE_CHANNEL_SECRET = '2eeb33ec876a3a3ad7cba129de6d3207'
+LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
+LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 
 configuration = Configuration(access_token=LINE_CHANNEL_ACCESS_TOKEN)
 api_client = ApiClient(configuration)
