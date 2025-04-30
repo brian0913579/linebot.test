@@ -9,6 +9,7 @@ import os
 from geopy.distance import geodesic
 from dotenv import load_dotenv
 import logging
+from sortedcontainers import SortedDict
 
 app = Flask(__name__)
 
@@ -17,8 +18,8 @@ ALLOWED_USERS = {
     "U1d640cea545510e631396b5306ade151": "cyn.18"
 }
 PENDING_USERS = set()
-# Single-use tokens: token -> (user_id, action, expiry_timestamp)
-TOKENS = {}
+# Initialize a SortedDict to store tokens, ordered by expiry time
+TOKENS = SortedDict()
 
 # Load environment variables from .env file
 load_dotenv()
@@ -116,22 +117,31 @@ def handle_location(event):
         logging.error(f"Error while processing location message: {e}")
         line_bot_api.reply_message(event.reply_token, TextMessage(text="❌ 系統錯誤，請稍後再試。"))
 
+# Function to clean expired tokens (can be called periodically or with each operation)
+def clean_expired_tokens():
+    current_time = time.time()
+    # Remove tokens that have expired
+    expired_tokens = list(TOKENS.keys())  # Get all token keys
+    for token in expired_tokens:
+        _, _, expiry = TOKENS[token]
+        if expiry <= current_time:  # Check if expired
+            del TOKENS[token]
 
 # Postback handler for one-time token actions
 @handler.add(PostbackEvent)
 def handle_postback(event):
     try:
+        clean_expired_tokens()  # Clean expired tokens before processing
+
         token = event.postback.data
         record = TOKENS.get(token)
-        # clean expired tokens
-        TOKENS.clear()
-        TOKENS.update({k: v for k, v in TOKENS.items() if v[2] > time.time()})
         if not record:
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[TextMessage(text="❌ 無效操作")]))
         user_id, action, expiry = record
         if event.source.user_id != user_id or time.time() > expiry:
             TOKENS.pop(token, None)
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[TextMessage(text="❌ 此操作已失效，請重新傳送位置")]))
+        
         # valid, consume token
         TOKENS.pop(token, None)
         if action == 'open':
