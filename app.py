@@ -15,7 +15,7 @@ app = Flask(__name__)
 ALLOWED_USERS = get_allowed_users()
 
 # Set up logging
-setup_logging()
+setup_logging(app)
 
 configuration = Configuration(access_token=LINE_CHANNEL_ACCESS_TOKEN)
 api_client = ApiClient(configuration)
