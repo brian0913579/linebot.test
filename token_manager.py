@@ -2,7 +2,9 @@ import secrets
 import time
 from sortedcontainers import SortedDict
 
-TOKENS = SortedDict()
+# token_manager.py
+
+TOKENS = {}
 
 def generate_token(user_id):
     token_open = secrets.token_urlsafe(16)

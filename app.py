@@ -99,13 +99,17 @@ def handle_location(event):
         reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
+# app.py
+
+from token_manager import TOKENS  # Import the TOKENS dictionary
+
 @handler.add(PostbackEvent)
 def handle_postback(event):
     try:
         clean_expired_tokens()
 
         token = event.postback.data
-        record = TOKENS.get(token)
+        record = TOKENS.get(token)  # Now TOKENS is properly defined
         if not record:
             reply = TextMessage(text="❌ 無效操作")
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
@@ -131,6 +135,6 @@ def handle_postback(event):
         app.logger.error(f"Unexpected error during postback handling: {e}")
         reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-
+        
 if __name__ == "__main__":
     app.run(host='localhost', port=5000)
