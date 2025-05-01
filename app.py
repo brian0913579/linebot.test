@@ -37,8 +37,6 @@ def webhook():
         abort(500)
     return 'OK'
 
-from linebot.v3.messaging import TemplateSendMessage, ButtonsTemplate, MessageTemplateAction
-
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text(event):
     try:
@@ -47,30 +45,24 @@ def handle_text(event):
         print("使用者 ID：", user_id)
         app.logger.info(f"User {user_id} sent a text message.")
 
+        # Respond only to the specific message "開關門"
+        if user_msg != "開關門":
+            return  # Do nothing if the message is not "開關門"
+
+        # If the user sends "開關門", proceed with the parking lot logic
         if user_id not in ALLOWED_USERS:
             reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
             return
 
-        # Check if the user message is "開關門" (open/close door)
-        if user_msg == "開關門":
-            # Create a Buttons Template with a button to request the location
-            buttons_template = ButtonsTemplate(
-                title="選擇操作",  # Title of the buttons template
-                text="請選擇一個操作來開始：",
-                actions=[
-                    MessageTemplateAction(label="傳送位置", text="傳送位置")  # Action to send location
-                ]
-            )
-            template_message = TemplateSendMessage(alt_text="選擇操作", template=buttons_template)
-
-            # Send the template message with the button
-            line_bot_api.reply_message(
-                event.reply_token, template_message
-            )
         else:
-            # No response for other messages
-            pass
+            reply = TextMessage(
+                text="請傳送您的位置訊息，以便確認您是否在停車場範圍內：",
+                quick_reply=QuickReply(items=[
+                    QuickReplyItem(action=LocationAction(label="傳送位置"))
+                ])
+            )
+            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
     except Exception as e:
         app.logger.error(f"Error while processing text message: {e}")
