@@ -37,6 +37,8 @@ def webhook():
         abort(500)
     return 'OK'
 
+from linebot.v3.messaging import TemplateSendMessage, ButtonsTemplate, MessageTemplateAction
+
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text(event):
     try:
@@ -50,14 +52,25 @@ def handle_text(event):
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
             return
 
-        else:
-            reply = TextMessage(
-                text="請傳送您的位置訊息，以便確認您是否在停車場範圍內：",
-                quick_reply=QuickReply(items=[
-                    QuickReplyItem(action=LocationAction(label="傳送位置"))
-                ])
+        # Check if the user message is "開關門" (open/close door)
+        if user_msg == "開關門":
+            # Create a Buttons Template with a button to request the location
+            buttons_template = ButtonsTemplate(
+                title="選擇操作",  # Title of the buttons template
+                text="請選擇一個操作來開始：",
+                actions=[
+                    MessageTemplateAction(label="傳送位置", text="傳送位置")  # Action to send location
+                ]
             )
-            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+            template_message = TemplateSendMessage(alt_text="選擇操作", template=buttons_template)
+
+            # Send the template message with the button
+            line_bot_api.reply_message(
+                event.reply_token, template_message
+            )
+        else:
+            # No response for other messages
+            pass
 
     except Exception as e:
         app.logger.error(f"Error while processing text message: {e}")
