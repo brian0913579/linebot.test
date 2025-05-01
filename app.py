@@ -109,12 +109,19 @@ def handle_postback(event):
         clean_expired_tokens()
 
         token = event.postback.data
-        record = TOKENS.get(token)  # Now TOKENS is properly defined
+        record = TOKENS.get(token)  # Get the token data from TOKENS
+
         if not record:
             reply = TextMessage(text="❌ 無效操作")
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-        action, expiry = record
-        if event.source.user_id not in ALLOWED_USERS or time.time() > expiry:
+
+        # Now check if there are exactly 3 elements to unpack
+        if len(record) == 3:
+            user_id, action, expiry = record
+        else:
+            raise ValueError("Token record does not have 3 values.")
+
+        if event.source.user_id != user_id or time.time() > expiry:
             TOKENS.pop(token, None)
             reply = TextMessage(text="❌ 此操作已失效，請重新傳送位置")
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
@@ -131,10 +138,14 @@ def handle_postback(event):
         app.logger.error("Token not found or invalid token provided.")
         reply = TextMessage(text="❌ 無效操作")
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+    except ValueError as e:
+        app.logger.error(f"Error in token unpacking: {e}")
+        reply = TextMessage(text="❌ 無效操作")
+        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
     except Exception as e:
         app.logger.error(f"Unexpected error during postback handling: {e}")
         reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-        
+
 if __name__ == "__main__":
     app.run(host='localhost', port=5000)
