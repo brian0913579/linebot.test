@@ -9,7 +9,6 @@ blinker==1.9.0
 certifi==2020.6.20
 chardet==4.0.0
 charset-normalizer==3.4.1
-chrome-gnome-shell==0.0.0
 click==8.1.8
 cupshelpers==1.0
 dbus-python==1.2.16
