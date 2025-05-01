@@ -4,11 +4,14 @@ from sortedcontainers import SortedDict
 
 TOKENS = SortedDict()
 
-def generate_token():
+def generate_token(user_id):
     token_open = secrets.token_urlsafe(16)
     token_close = secrets.token_urlsafe(16)
-    TOKENS[token_open] = ('open', time.time() + 300)
-    TOKENS[token_close] = ('close', time.time() + 300)
+    
+    # Store user_id, action, and expiry for both tokens
+    TOKENS[token_open] = (user_id, 'open', time.time() + 300)
+    TOKENS[token_close] = (user_id, 'close', time.time() + 300)
+    
     return token_open, token_close
 
 def clean_expired_tokens():

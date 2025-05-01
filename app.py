@@ -79,7 +79,7 @@ def handle_location(event):
         if check_location(user_loc):
             app.logger.info(f"User {user_id} is accessing the parking lot.")
             print("✅ GPS OK，可進行操作")
-            token_open, token_close = generate_token()
+            token_open, token_close = generate_token(user_id)
             reply = TextMessage(
                 text="您目前在停車場範圍內，請選擇動作：",
                 quick_reply=QuickReply(items=[
