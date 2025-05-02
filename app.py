@@ -3,14 +3,15 @@ from logging.config import dictConfig
 from flask import Flask, request, abort
 import hashlib
 import hmac
+import os
+from google.cloud import secretmanager
 from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, LocationAction, PostbackAction
 from linebot.v3 import WebhookHandler
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, LocationMessageContent, PostbackEvent
 from linebot.v3.exceptions import InvalidSignatureError
 import time
-from config import LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET
 from models import get_allowed_users
-from token_manager import generate_token, clean_expired_tokens
+from token_manager import generate_token, clean_expired_tokens, TOKENS
 from location_manager import check_location
 
 app = Flask(__name__)
@@ -37,6 +38,18 @@ dictConfig({
         },
     }
 })
+
+# Function to access secrets from Google Cloud Secret Manager
+def get_secret(secret_name):
+    client = secretmanager.SecretManagerServiceClient()
+    secret_path = f"projects/{os.getenv('GOOGLE_CLOUD_PROJECT')}/secrets/{secret_name}/versions/latest"
+    response = client.access_secret_version(name=secret_path)
+    secret_data = response.payload.data.decode("UTF-8")
+    return secret_data
+
+# Retrieve secrets
+LINE_CHANNEL_ACCESS_TOKEN = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
+LINE_CHANNEL_SECRET = get_secret("LINE_CHANNEL_SECRET")
 
 ALLOWED_USERS = get_allowed_users()
 
@@ -136,10 +149,6 @@ def handle_location(event):
         app.logger.error(f"Error while processing location message: {e}")
         reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-
-# app.py
-
-from token_manager import TOKENS  # Import the TOKENS dictionary
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
