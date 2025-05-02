@@ -47,9 +47,9 @@ def get_secret(secret_name):
     secret_data = response.payload.data.decode("UTF-8")
     return secret_data
 
-# Retrieve secrets
-LINE_CHANNEL_ACCESS_TOKEN = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
-LINE_CHANNEL_SECRET = get_secret("LINE_CHANNEL_SECRET")
+# Retrieve the new secrets (updated names)
+LINE_CHANNEL_ACCESS_TOKEN = get_secret("line-channel-token2")  # Updated secret name
+LINE_CHANNEL_SECRET = get_secret("line-channel-secret2")  # Updated secret name
 
 ALLOWED_USERS = get_allowed_users()
 
