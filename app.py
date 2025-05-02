@@ -1,6 +1,8 @@
 import logging
 from logging.config import dictConfig
 from flask import Flask, request, abort
+import hashlib
+import hmac
 from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, LocationAction, PostbackAction
 from linebot.v3 import WebhookHandler
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, LocationMessageContent, PostbackEvent
@@ -43,20 +45,30 @@ api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
+# Verify signature function
+def verify_signature(signature, body):
+    expected_signature = hmac.new(
+        key=LINE_CHANNEL_SECRET.encode(),
+        msg=body.encode(),
+        digestmod=hashlib.sha256
+    ).hexdigest()
+    return signature == expected_signature
+
 @app.route("/webhook", methods=['POST'])
 def webhook():
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
 
     try:
+        # Verify the signature
+        if not verify_signature(signature, body):
+            app.logger.error("Invalid signature. Could not verify the signature.")
+            abort(400)  # Return 400 if signature is invalid
         handler.handle(body, signature)
-    except InvalidSignatureError:
-        app.logger.error("Invalid signature. Could not verify the signature.")
-        abort(400)  # Bad Request if signature is invalid
     except Exception as e:
         app.logger.error(f"Unexpected error occurred while handling the webhook: {e}")
-        abort(500)  # Internal Server Error if something goes wrong in the app
-    return 'OK', 200  # Explicitly returning 200 OK status code
+        abort(500)  # Return 500 for other errors
+    return 'OK', 200  # Explicitly return 200 OK response
 
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text(event):
