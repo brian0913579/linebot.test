@@ -19,7 +19,3 @@ automatic_scaling:
 
 network:
   instance_tag: "line-bot-instance"  # Add this tag if you want to add custom network configuration later (optional)
-
-# Optional: Configure logging settings (will work if you use `setup_logging` function)
-logging:
-  level: INFO  # Adjust logging level based on your preference
