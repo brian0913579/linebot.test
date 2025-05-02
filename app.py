@@ -60,11 +60,21 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 # Verify signature function
 def verify_signature(signature, body):
+    # Debugging log to check the received signature and body
+    app.logger.debug(f"Received Signature: {signature}")
+    app.logger.debug(f"Request Body: {body}")
+    
+    # Calculate expected signature
     expected_signature = hmac.new(
         key=LINE_CHANNEL_SECRET.encode(),
         msg=body.encode(),
         digestmod=hashlib.sha256
     ).hexdigest()
+
+    # Debugging log to compare the expected signature with the received signature
+    app.logger.debug(f"Expected Signature: {expected_signature}")
+    
+    # Return whether the received signature matches the expected signature
     return signature == expected_signature
 
 @app.route("/webhook", methods=['POST'])
