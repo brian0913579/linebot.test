@@ -205,4 +205,4 @@ def handle_postback(event):
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=5000)
+    app.run(host='localhost', port=8080)
