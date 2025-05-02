@@ -1,3 +1,5 @@
+import logging
+from logging.config import dictConfig
 from flask import Flask, request, abort
 from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, LocationAction, PostbackAction
 from linebot.v3 import WebhookHandler
@@ -8,14 +10,33 @@ from config import LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET
 from models import get_allowed_users
 from token_manager import generate_token, clean_expired_tokens
 from location_manager import check_location
-from logging_config import setup_logging
 
 app = Flask(__name__)
 
-ALLOWED_USERS = get_allowed_users()
-
 # Set up logging
-setup_logging(app)
+dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': 'INFO',
+            'handlers': ['console'],
+        },
+    }
+})
+
+ALLOWED_USERS = get_allowed_users()
 
 configuration = Configuration(access_token=LINE_CHANNEL_ACCESS_TOKEN)
 api_client = ApiClient(configuration)
