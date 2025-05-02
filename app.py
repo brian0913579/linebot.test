@@ -52,11 +52,11 @@ def webhook():
         handler.handle(body, signature)
     except InvalidSignatureError:
         app.logger.error("Invalid signature. Could not verify the signature.")
-        abort(400)
+        abort(400)  # Bad Request if signature is invalid
     except Exception as e:
         app.logger.error(f"Unexpected error occurred while handling the webhook: {e}")
-        abort(500)
-    return 'OK'
+        abort(500)  # Internal Server Error if something goes wrong in the app
+    return 'OK', 200  # Explicitly returning 200 OK status code
 
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text(event):
