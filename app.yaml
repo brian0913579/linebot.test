@@ -1,0 +1,25 @@
+runtime: python39  # Use the latest stable Python 3.9 runtime
+
+entrypoint: gunicorn -b :$PORT app:app  # Use gunicorn to run the Flask app
+
+env_variables:
+  LINE_CHANNEL_ACCESS_TOKEN: "your_line_channel_access_token"
+  LINE_CHANNEL_SECRET: "your_line_channel_secret"
+  # Add other environment variables if necessary, such as for database connections or API keys
+
+handlers:
+  - url: /webhook  # This maps to your webhook route
+    script: auto  # Tells GAE to route to your app's entry point (Flask app)
+  - url: /static  # Serves static files like CSS, JS, or images from the 'static' folder
+    static_dir: static/  # You can serve static content from a directory
+
+automatic_scaling:
+  min_instances: 1  # Ensure that at least one instance is always running
+  max_instances: 3  # You can set the max number of instances based on expected traffic
+
+network:
+  instance_tag: "line-bot-instance"  # Add this tag if you want to add custom network configuration later (optional)
+
+# Optional: Configure logging settings (will work if you use `setup_logging` function)
+logging:
+  level: INFO  # Adjust logging level based on your preference
