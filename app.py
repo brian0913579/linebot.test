@@ -42,7 +42,7 @@ dictConfig({
 # Function to access secrets from Google Cloud Secret Manager
 def get_secret(secret_name):
     client = secretmanager.SecretManagerServiceClient()
-    secret_path = f"projects/{os.getenv('GOOGLE_CLOUD_PROJECT')}/secrets/{secret_name}/versions/latest"
+    secret_path = f"projects/{os.getenv('GOOGLE_CLOUD_PROJECT')}/secrets/{secret_name}/versions/latest"  # Access latest version
     response = client.access_secret_version(name=secret_path)
     secret_data = response.payload.data.decode("UTF-8")
     return secret_data
