@@ -4,6 +4,12 @@ from flask import Flask, request, abort
 import hashlib
 import hmac
 import os
+from dotenv import load_dotenv
+from pathlib import Path
+# Load .env if present for local development
+env_path = Path(__file__).parent / '.env'
+if env_path.exists():
+    load_dotenv(dotenv_path=env_path)
 from google.cloud import secretmanager
 from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, LocationAction, PostbackAction
 from linebot.v3 import WebhookHandler
@@ -15,6 +21,10 @@ from token_manager import generate_token, clean_expired_tokens, TOKENS
 from location_manager import check_location
 
 app = Flask(__name__)
+
+@app.route("/healthz", methods=["GET"])
+def healthz():
+    return "OK", 200
 
 # Set up logging
 dictConfig({
@@ -47,9 +57,12 @@ def get_secret(secret_name):
     secret_data = response.payload.data.decode("UTF-8")
     return secret_data
 
-# Retrieve the new secrets (updated names)
-LINE_CHANNEL_ACCESS_TOKEN = get_secret("line-channel-token2")  # Updated secret name
-LINE_CHANNEL_SECRET = get_secret("line-channel-secret2")  # Updated secret name
+# Support local .env overrides or fall back to Secret Manager
+LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN") or get_secret("line-channel-token2")
+LINE_CHANNEL_SECRET       = os.getenv("LINE_CHANNEL_SECRET")       or get_secret("line-channel-secret2")
+
+if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
+    raise RuntimeError("LINE_CHANNEL_ACCESS_TOKEN and LINE_CHANNEL_SECRET must be set via .env or Secret Manager")
 
 ALLOWED_USERS = get_allowed_users()
 
@@ -205,4 +218,5 @@ def handle_postback(event):
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+    port = int(os.getenv("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
