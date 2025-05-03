@@ -6,6 +6,8 @@ import hmac
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import base64
+from werkzeug.exceptions import HTTPException
 # Load .env if present for local development
 env_path = Path(__file__).parent / '.env'
 if env_path.exists():
@@ -78,11 +80,13 @@ def verify_signature(signature, body):
     app.logger.debug(f"Request Body: {body}")
     
     # Calculate expected signature
-    expected_signature = hmac.new(
-        key=LINE_CHANNEL_SECRET.encode(),
-        msg=body.encode(),
-        digestmod=hashlib.sha256
-    ).hexdigest()
+    expected_signature = base64.b64encode(
+        hmac.new(
+            key=LINE_CHANNEL_SECRET.encode(),
+            msg=body.encode(),
+            digestmod=hashlib.sha256
+        ).digest()
+    ).decode()
 
     # Debugging log to compare the expected signature with the received signature
     app.logger.debug(f"Expected Signature: {expected_signature}")
@@ -101,6 +105,9 @@ def webhook():
             app.logger.error("Invalid signature. Could not verify the signature.")
             abort(400)  # Return 400 if signature is invalid
         handler.handle(body, signature)
+    except HTTPException:
+        # Propagate HTTP errors (like abort(400))
+        raise
     except Exception as e:
         app.logger.error(f"Unexpected error occurred while handling the webhook: {e}")
         abort(500)  # Return 500 for other errors
