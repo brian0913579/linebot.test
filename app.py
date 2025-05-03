@@ -58,7 +58,7 @@ api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
-# Verify signature function
+# Verify signature function with enhanced logging
 def verify_signature(signature, body):
     # Debugging log to check the received signature and body
     app.logger.debug(f"Received Signature: {signature}")
