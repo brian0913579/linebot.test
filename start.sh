@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 -m gunicorn -w 1 -b localhost:5000 app:app
+python3 -m gunicorn -w 1 -b 127.0.0.1:8080 app:app
