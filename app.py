@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import base64
 from werkzeug.exceptions import HTTPException
-import paho.mqtt.publish as publish
+from paho.mqtt import client as mqtt
 import ssl
 # Load .env if present for local development
 env_path = Path(__file__).parent / '.env'
@@ -222,14 +222,13 @@ def handle_postback(event):
         # Send command to Raspberry Pi via MQTT
         mqtt_cmd = 'up' if action == 'open' else 'down'
         try:
-            publish.single(
-                'garage/command',
-                mqtt_cmd,
-                hostname=MQTT_BROKER,
-                port=MQTT_PORT,
-                auth={'username': MQTT_USERNAME, 'password': MQTT_PASSWORD},
-                tls={'ssl_context': _ssl_context}
-            )
+            # Explicit MQTT client to allow ssl_context
+            client = mqtt.Client()
+            client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
+            client.tls_set_context(_ssl_context)
+            client.connect(MQTT_BROKER, MQTT_PORT)
+            client.publish('garage/command', mqtt_cmd)
+            client.disconnect()
             app.logger.info(f"Published MQTT command: {mqtt_cmd}")
         except Exception as e:
             app.logger.error(f"Failed to publish MQTT command: {e}")
