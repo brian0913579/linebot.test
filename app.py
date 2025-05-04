@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import base64
 from werkzeug.exceptions import HTTPException
+import paho.mqtt.publish as publish
 # Load .env if present for local development
 env_path = Path(__file__).parent / '.env'
 if env_path.exists():
@@ -72,6 +73,13 @@ configuration = Configuration(access_token=LINE_CHANNEL_ACCESS_TOKEN)
 api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
+
+# MQTT Broker settings for Pi garage controller
+MQTT_BROKER   = os.getenv('MQTT_BROKER', 'bri4nting.duckdns.org')
+MQTT_PORT     = int(os.getenv('MQTT_PORT', '8883'))
+MQTT_USERNAME = os.getenv('MQTT_USERNAME', 'piuser')
+MQTT_PASSWORD = os.getenv('MQTT_PASSWORD', 'cool.com')
+MQTT_CAFILE   = os.getenv('MQTT_CAFILE', '/etc/mosquitto/certs/ca.crt')
 
 # Verify signature function with enhanced logging
 def verify_signature(signature, body):
@@ -204,6 +212,22 @@ def handle_postback(event):
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
         TOKENS.pop(token, None)
+
+        # Send command to Raspberry Pi via MQTT
+        mqtt_cmd = 'up' if action == 'open' else 'down'
+        try:
+            publish.single(
+                'garage/command',
+                mqtt_cmd,
+                hostname=MQTT_BROKER,
+                port=MQTT_PORT,
+                auth={'username': MQTT_USERNAME, 'password': MQTT_PASSWORD},
+                tls={'ca_certs': MQTT_CAFILE}
+            )
+            app.logger.info(f"Published MQTT command: {mqtt_cmd}")
+        except Exception as e:
+            app.logger.error(f"Failed to publish MQTT command: {e}")
+
         if action == 'open':
             reply = TextMessage(text="✅ 門已開啟，請小心進出。")
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
