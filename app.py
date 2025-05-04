@@ -9,6 +9,7 @@ from pathlib import Path
 import base64
 from werkzeug.exceptions import HTTPException
 import paho.mqtt.publish as publish
+import ssl
 # Load .env if present for local development
 env_path = Path(__file__).parent / '.env'
 if env_path.exists():
@@ -80,6 +81,11 @@ MQTT_PORT     = int(os.getenv('MQTT_PORT', '8883'))
 MQTT_USERNAME = os.getenv('MQTT_USERNAME', 'piuser')
 MQTT_PASSWORD = os.getenv('MQTT_PASSWORD', 'cool.com')
 MQTT_CAFILE   = os.getenv('MQTT_CAFILE', '/etc/mosquitto/certs/ca.crt')
+
+# Prepare an SSL context that uses our CA but skips hostname verification
+_ssl_context = ssl.create_default_context(cafile=MQTT_CAFILE)
+_ssl_context.check_hostname = False
+_ssl_context.verify_mode = ssl.CERT_REQUIRED
 
 # Verify signature function with enhanced logging
 def verify_signature(signature, body):
@@ -222,7 +228,7 @@ def handle_postback(event):
                 hostname=MQTT_BROKER,
                 port=MQTT_PORT,
                 auth={'username': MQTT_USERNAME, 'password': MQTT_PASSWORD},
-                tls={'ca_certs': MQTT_CAFILE}
+                tls={'ssl_context': _ssl_context}
             )
             app.logger.info(f"Published MQTT command: {mqtt_cmd}")
         except Exception as e:
