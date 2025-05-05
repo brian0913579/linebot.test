@@ -16,7 +16,7 @@ if env_path.exists():
     load_dotenv(dotenv_path=env_path)
 from google.cloud import secretmanager
 from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, PostbackAction
-from linebot.models import TemplateSendMessage, ButtonsTemplate, URITemplateAction
+from linebot.v3.messaging.models import TemplateMessage, ButtonsTemplate, URIAction
 from linebot.v3 import WebhookHandler
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, PostbackEvent
 from linebot.v3.exceptions import InvalidSignatureError
@@ -166,12 +166,12 @@ def handle_text(event):
         else:
             # send user to browser-based verification
             verify_url = f"https://bri4nting.duckdns.org/verify-location?user_id={user_id}"
-            reply = TemplateSendMessage(
+            reply = TemplateMessage(
                 alt_text='請先驗證定位',
                 template=ButtonsTemplate(
                     text='請先在車場範圍內進行位置驗證',
                     actions=[
-                        URITemplateAction(label='📍 驗證我的位置', uri=verify_url)
+                        URIAction(label='📍 驗證我的位置', uri=verify_url)
                     ]
                 )
             )
@@ -189,11 +189,11 @@ def handle_postback(event):
     if user_id not in authorized_users:
         # user hasn’t passed verify step yet
         verify_url = f"https://bri4nting.duckdns.org/verify-location?user_id={user_id}"
-        reply = TemplateSendMessage(
+        reply = TemplateMessage(
             alt_text='請先驗證定位',
             template=ButtonsTemplate(
                 text='請先在車場範圍內進行位置驗證',
-                actions=[URITemplateAction(label='📍 驗證我的位置', uri=verify_url)]
+                actions=[URIAction(label='📍 驗證我的位置', uri=verify_url)]
             )
         )
         return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
