@@ -78,3 +78,679 @@ reply_message_request
   value is not a valid dict (type=type_error.dict)
 args
   2 positional arguments expected but 3 given (type=type_error)
+2025-05-05 21:14:26,867 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'c91cde9e-ced4-412c-9c28-0d0ba9e6ede8', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:14:26 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:14:26 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:14:27,357 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:14:29,119 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '89420f9b-bd8a-43cf-b965-67736b649c1b', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:14:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:14:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:14:34,591 mqtt_handler INFO     Connecting to MQTT broker at bri4nting.duckdns.org:8883
+2025-05-05 21:14:44,205 mqtt_handler INFO     Publishing up command to garage/command
+2025-05-05 21:14:49,208 mqtt_handler INFO     MQTT command sent successfully: up
+2025-05-05 21:14:53,579 mqtt_handler INFO     Connecting to MQTT broker at bri4nting.duckdns.org:8883
+2025-05-05 21:14:53,587 mqtt_handler INFO     Publishing down command to garage/command
+2025-05-05 21:14:58,589 mqtt_handler INFO     MQTT command sent successfully: down
+2025-05-05 21:14:59,253 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1e0c21b8-4ce7-4e58-ac5b-6ec5a60a9a8e', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:14:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:14:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:14:59,428 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '33c2074c-18c5-473e-bd7c-9be45e8b0398', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:14:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:14:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:07,749 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ed436349-a745-4549-8067-58a2e7d59670', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:07 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:07 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:07,901 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e36b92e2-c471-4ec9-9c2b-ddfe6d40663f', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:07 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:07 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:13,045 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '965c9294-8c4b-4944-a54c-f8ebc75f3f22', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:13 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:13,206 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'de0df140-1180-4c03-98c8-9a49177754ba', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:13 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:18,681 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '67f163cb-1630-44da-bd88-b339680a0e95', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:18 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:18 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:18,850 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'f24466e4-1a55-4e26-a477-1a8cb0c23bd2', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:18 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:18 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:27,193 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '150e2ef9-1943-43c8-9a3c-3e91a632cee0', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:27 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:27 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:27,352 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ae290524-efff-44f7-a300-e8cc6da4c9fc', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:27 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:27 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:29,324 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '50a18f77-6b90-458f-861e-f2d1427a43dc', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:29,489 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '174f778c-bece-470c-8353-fc5496bd1dbb', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:33,048 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:15:36,804 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '81014272-b6e1-4086-8181-aecaad631f97', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:36 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:36 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:41,613 mqtt_handler INFO     Connecting to MQTT broker at bri4nting.duckdns.org:8883
+2025-05-05 21:15:46,432 mqtt_handler ERROR    Failed to send MQTT command: [Errno -3] Temporary failure in name resolution
+2025-05-05 21:15:46,436 mqtt_handler ERROR    Detailed error: Traceback (most recent call last):
+  File "/home/cool_brian1206cool/linebot.test/mqtt_handler.py", line 47, in send_garage_command
+    client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)
+  File "/home/cool_brian1206cool/linebot.test/venv/lib/python3.11/site-packages/paho/mqtt/client.py", line 1435, in connect
+    return self.reconnect()
+           ^^^^^^^^^^^^^^^^
+  File "/home/cool_brian1206cool/linebot.test/venv/lib/python3.11/site-packages/paho/mqtt/client.py", line 1598, in reconnect
+    self._sock = self._create_socket()
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cool_brian1206cool/linebot.test/venv/lib/python3.11/site-packages/paho/mqtt/client.py", line 4609, in _create_socket
+    sock = self._create_socket_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cool_brian1206cool/linebot.test/venv/lib/python3.11/site-packages/paho/mqtt/client.py", line 4640, in _create_socket_connection
+    return socket.create_connection(addr, timeout=self._connect_timeout, source_address=source)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/socket.py", line 827, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/socket.py", line 962, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+2025-05-05 21:15:46,437 line_webhook ERROR    Failed to send garage command: Failed to send MQTT command: [Errno -3] Temporary failure in name resolution
+2025-05-05 21:15:55,771 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'd07bc0ab-4cc6-4e13-a0e8-7123af402470', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:55 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:55 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:55,933 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'd77c752d-768b-46fc-a652-24ee327c2423', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:55 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:55 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:59,735 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5cf8e3b1-d468-4427-bc72-58d9cfe24807', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:15:59,888 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '666e43fa-bfb7-4039-8458-314ee6c89d22', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:15:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:15:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:08,216 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'f0fbffb4-1aef-4c2b-8498-cfc4cea95699', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:08 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:08 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:08,384 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '43804ee7-715d-4e73-b794-de1d1b2febc9', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:08 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:08 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:13,502 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'b71377a2-bbb4-4704-8f3d-9a7e291244ea', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:13 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:13,669 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '85010cf5-19ae-4e3f-a12e-dcbfadc262bb', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:13 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:19,130 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'aee08620-769a-437c-8437-91bba083ce1b', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:19 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:19 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:19,289 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'd98ca008-7d2d-49f7-99b1-b9cb1d7efe74', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:19 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:19 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:27,649 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a9d9f736-b885-4150-85ea-1600edc21070', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:27 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:27 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:27,821 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '0d994175-9ecf-41d3-bc18-b92383418d22', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:27 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:27 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:29,702 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '57bdba6b-4255-485d-9133-5a7d78be5a96', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:29,981 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '6e3427af-2dd7-4c0c-b18b-85fea54523d3', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:37,101 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a5462964-2c24-43ef-9336-ea74f542baa6', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:37 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:37 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:37,427 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5417c95e-1219-4030-b350-6f89d39c448d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:37 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:37 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:43,856 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '783aa57f-b94e-49b1-b264-5fdc3dfd48c4', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:43 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:43 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:44,057 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ef64ea99-be4c-4afc-8c91-ae8ee82ee2aa', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:44 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:44 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:56,239 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'cbc3261d-e022-4596-af2a-2d73babe76be', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:56 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:56 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:16:56,389 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4f789a81-40cd-453f-95bb-bb83a3dc0ed5', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:16:56 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:16:56 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:00,181 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '45fd7a7c-2ddb-4d5a-9371-dc99adc71b7b', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:00,341 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a8c801e0-3f06-41f1-9d7f-f0480d92d47d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:08,750 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '21f07375-f457-4609-9a08-e9b0a5628866', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:08 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:08 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:08,908 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1a131ecd-574b-4804-9b37-ca1cf4d95fac', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:08 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:08 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:13,973 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '8589fc9b-2fd8-458c-b6ec-c873f6c24b46', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:13 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:14,128 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4054415e-be23-49cf-b574-ba67ee61b5bd', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:14 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:19,562 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '67977728-a941-48a5-b54d-459aa4abf68b', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:19 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:19 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:19,730 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '748c3ea4-408f-4edb-85d5-23b798a902cc', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:19 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:19 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:28,113 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a8eeef20-5e0f-4e8d-97b9-dda25b763266', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:28 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:28 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:28,258 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'c1b8ba05-31aa-4b9e-bec8-1ee1214af33d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:28 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:28 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:30,175 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a873ef98-a9f5-4a08-a96f-59374b727db2', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:30,336 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'b5aa997f-6609-463a-8496-cf54460ded32', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:37,711 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'd0cdc6ba-4ca7-433f-8fb6-501aaa355269', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:37 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:37 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:37,861 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '8ba268ab-0fc1-4d6b-878f-69b77bbc972e', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:37 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:37 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:44,443 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ead591fe-9cdc-48a3-92d7-712110087abb', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:44 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:44 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:44,598 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ba5b2624-8d90-47fe-9f9e-11e106dd7076', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:44 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:44 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:56,710 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '0a2150a7-a498-4423-886d-f8f469cfe23f', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:56 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:56 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:17:56,884 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'bf62011b-dc21-41cd-bb71-4468c8c10446', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:17:56 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:17:56 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:00,636 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '48a7b8b3-fa4d-476b-a529-153aa8a04fb9', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:00,788 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '8567dc7c-115a-4f42-a6f2-51d87c9d99a0', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:09,197 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '093cced4-f56f-4d56-972d-0f519e188679', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:09 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:09 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:09,460 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '903d9e68-71fc-460f-9f1d-0512002f6d99', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:09 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:09 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:14,406 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a7d340af-c5df-490f-b925-1af768302763', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:14 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:14,674 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '889ee11d-c3b2-4bc8-a865-44c19bb12d5d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:14 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:20,101 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '751d305f-5cb7-438d-841e-ef7e48428b9c', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:20 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:20 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:20,256 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ac6495c2-8f0b-4b98-a230-8880345dccfc', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:20 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:20 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:28,845 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5bf19018-48a1-4fa6-86f2-065d4ef943e9', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:28 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:28 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:29,011 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '55da9368-f210-47c4-bc2c-226fdbd8f164', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:30,681 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '42eba14f-acd4-4fe1-8f9f-36b52b3b0b94', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:30,857 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a669bf7c-f0fd-411c-b7d9-b69d84ef5c2b', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:38,170 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '08a3ead9-9d27-4af7-b197-b5eaaab5fbf3', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:38 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:38 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:38,433 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'fdc9620b-91bb-4447-9b42-1a2355d42555', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:38 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:38 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:18:51,330 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:18:57,125 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1af3adbb-8174-44b2-9a1c-0e7a1ae57a61', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:18:57 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:18:57 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:29,245 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '08fdac18-cc93-4b5e-bc13-ead20ce9afd6', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:29,407 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e8573d88-b8a4-4051-8fc2-1974c178862a', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:29,886 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:19:38,585 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '3b4ca91b-d042-48e7-85b1-2ff24f5a960e', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:38 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:38 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:38,732 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '3455ea3e-9714-4861-8de1-62ed5fb0fb8d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:38 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:38 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:44,877 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '51704faa-bcaf-499b-8c0a-d9943530c5b7', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:44 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:44 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:45,040 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '0676c069-112b-4f03-bf11-80283633d92e', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:45 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:45 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:47,399 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:19:57,266 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '91dc1be8-d5f3-4cd3-b83e-31eff53bcc44', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:57 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:57 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:19:57,436 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '810dc3d8-1348-4c97-b104-66ce501db2ba', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:19:57 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:19:57 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:29,741 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '6e9ad1a7-8b9d-4c64-9b0d-4e54170adc6e', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:29,909 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '3f480312-d1af-4f74-a3ee-7c7266469fe4', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:29 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:29 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:39,024 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '2105c153-d880-4bc0-8a99-a94a77ce20eb', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:39 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:39 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:39,197 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4e390687-925c-45c2-94ab-742edfe42d5a', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:39 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:39 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:45,341 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '6a04f136-c966-459a-8ef4-1dc33b6963b5', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:45 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:45 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:45,499 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4738b72f-892c-4db8-be90-b962bc08c780', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:45 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:45 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:57,730 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e4ac4e4d-8aac-430f-b907-185d12c39b89', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:57 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:57 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:20:57,887 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '3b200c5f-6790-49b1-9078-1315b080c1f4', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:20:57 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:20:57 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:30,245 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e7b216c2-4dcd-43d0-9c4a-3a05882115f0', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:30,413 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'a3fa318a-a633-4774-bb35-34f5c16e74a6', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:39,465 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4e8e3bad-da9b-47aa-b04c-c2eebb9552e7', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:39 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:39 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:39,652 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '32147367-67c8-4877-84a1-6255640cf8f1', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:39 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:39 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:45,799 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'fce096a9-659e-4bae-a282-4d18823ec7bf', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:45 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:45 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:45,993 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'f94404da-064c-4f15-8bbb-fd2c481ae8cb', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:45 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:45 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:58,183 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '626b7e74-8521-4ecf-9819-13be3d5ad5a4', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:58 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:58 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:21:58,437 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'bfb7d453-714e-4731-a971-b08592370edd', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:21:58 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:21:58 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:30,748 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '0fc461f7-3ac6-4eea-a92b-eea1808181ef', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:30,906 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '193b5cb4-9f34-4029-9be8-950df08fc989', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:30 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:39,924 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '751f122a-3504-438d-b783-0d1543bce1f5', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:39 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:39 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:40,155 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'c7d183b0-8c7c-49ea-b9d6-f81b95cb066d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:40 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:40 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:46,282 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '6ab235da-f557-4f20-ab4b-6bf8229802c0', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:46 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:46 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:46,443 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5831ceb6-261c-4529-8656-479003901e67', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:46 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:46 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:58,838 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1e68bd9d-b56e-4907-a3b4-f22fd32d9568', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:58 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:58 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:22:59,114 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'b2729ace-1503-444f-aceb-ea20b2c2442d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:22:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:22:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:23:40,477 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '23dec863-294d-454b-ba68-014bcf5c74d6', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:23:40 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:23:40 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:23:40,709 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4308a886-395e-4209-aabd-4cf90ea09116', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:23:40 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:23:40 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:23:46,727 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '51bb54c7-d42b-49a6-ab29-695d5e863a61', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:23:46 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:23:46 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:23:46,893 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '83688f3f-d656-4fde-9d6a-b0473ff618ed', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:23:46 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:23:46 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:23:59,416 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5c177f96-a717-4fd8-b0b9-0de9e5f7484c', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:23:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:23:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:23:59,582 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '9652b0f6-876d-4d3a-9457-7371929aa387', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:23:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:23:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:24:41,063 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '3602d7cc-e1bb-452c-ac4b-7eb7cd1d9cff', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:24:41 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:24:41 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:24:41,229 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'be160c3e-cd6a-4c6c-b696-739f5c76cf2c', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:24:41 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:24:41 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:24:47,191 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'dcb229c3-9957-4de7-b61b-35cc0649c96d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:24:47 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:24:47 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:24:47,470 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'f308f011-5191-4c42-837a-359f7641fdc2', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:24:47 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:24:47 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:24:59,884 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '8aa1d94b-fc8e-46e5-b41a-1dd839aa967a', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:24:59 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:24:59 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:25:00,032 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '3178b5a9-c048-4022-9741-c302951dac98', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:25:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:25:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:25:41,532 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '49058a2f-bba7-446e-b0bd-b42734133c4c', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:25:41 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:25:41 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:25:41,718 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '045596fb-5812-4e8b-99c1-56906ff435a5', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:25:41 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:25:41 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:25:47,859 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'd9fa6964-fdf4-444c-8cb5-e709222c1472', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:25:47 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:25:47 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:25:48,056 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'b82bf608-3d94-4d71-87c6-29c091510fc9', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:25:48 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:25:48 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:26:00,333 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'c77cba9c-5a79-415a-824e-4eb7c1693748', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:26:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:26:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:26:00,495 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5371e79b-f085-4731-962d-96f0422a8cf3', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:26:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:26:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:26:42,051 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '6d17d0fa-230d-49c5-a26b-b06bb79cd37f', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:26:42 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:26:42 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:26:42,221 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '0940021a-0f1c-4a13-839b-37476704c76c', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:26:42 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:26:42 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:26:48,348 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '2617f776-5097-48ca-bcb9-649e7f2356be', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:26:48 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:26:48 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:26:48,518 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '3035bf8f-f811-49fa-8bef-c4da7381a665', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:26:48 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:26:48 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:27:00,802 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'f51bc969-7d39-4faa-8eac-861f343e414f', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:27:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:27:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:27:00,973 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '49576cf3-424e-4cae-ace3-cbe39afcaf6b', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Mon, 05 May 2025 21:27:00 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Mon, 05 May 2025 21:27:00 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-05 21:27:30,994 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:27:30,995 line_webhook ERROR    Error while processing text message: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:27:33,380 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:27:33,381 line_webhook ERROR    Error while processing text message: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:27:42,341 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:27:48,639 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:28:01,095 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:28:42,465 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:28:48,759 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:29:01,220 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:29:54,172 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:29:54,173 line_webhook ERROR    Error while processing text message: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:29:56,294 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:29:56,295 line_webhook ERROR    Error while processing text message: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:30:01,342 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:30:49,003 line_webhook ERROR    Unexpected error occurred while handling the webhook: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:31:03,861 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-05 21:31:03,862 line_webhook ERROR    Error while processing text message: module 'secrets' has no attribute 'token_urlsafe'
+2025-05-05 21:32:37,571 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
