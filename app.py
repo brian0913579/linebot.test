@@ -13,7 +13,7 @@ from paho.mqtt import client as mqtt
 import ssl
 import time
 # How long a location verification remains valid (seconds)
-LOCATION_TTL = 3600  # 1 hour, adjust as needed
+LOCATION_TTL = 10  # 1 hour, adjust as needed
 # Load .env if present for local development
 env_path = Path(__file__).parent / '.env'
 if env_path.exists():
