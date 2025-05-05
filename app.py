@@ -16,9 +16,7 @@ if env_path.exists():
     load_dotenv(dotenv_path=env_path)
 from google.cloud import secretmanager
 from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, PostbackAction
-from linebot.v3.messaging.models.template_send_message import TemplateSendMessage
-from linebot.v3.messaging.models.buttons_template import ButtonsTemplate
-from linebot.v3.messaging.models.uri_template_action import URITemplateAction
+from linebot.models import TemplateSendMessage, ButtonsTemplate, URITemplateAction
 from linebot.v3 import WebhookHandler
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, PostbackEvent
 from linebot.v3.exceptions import InvalidSignatureError
