@@ -109,10 +109,7 @@ MQTT_BROKER   = os.getenv('MQTT_BROKER', 'bri4nting.duckdns.org')
 MQTT_PORT     = int(os.getenv('MQTT_PORT', '8883'))
 MQTT_USERNAME = os.getenv('MQTT_USERNAME', 'piuser')
 MQTT_PASSWORD = os.getenv('MQTT_PASSWORD', 'cool.com')
-MQTT_CAFILE   = os.getenv('MQTT_CAFILE', '/etc/mosquitto/certs/ca.crt')
-MQTT_TOPIC    = os.getenv('MQTT_TOPIC', 'garage/command')
-MQTT_RETRY_COUNT = int(os.getenv('MQTT_RETRY_COUNT', '3'))
-MQTT_RETRY_DELAY = int(os.getenv('MQTT_RETRY_DELAY', '2'))
+MQTT_CAFILE   = os.getenv('MQTT_CAFILE', 'ca.crt')
 
 # Prepare an SSL context that uses our CA but skips hostname verification
 _ssl_context = ssl.create_default_context(cafile=MQTT_CAFILE)
@@ -303,54 +300,35 @@ def handle_postback(event):
         # Send command to Raspberry Pi via MQTT
         mqtt_cmd = 'up' if action == 'open' else 'down'
         mqtt_success = False
-        mqtt_error = None
         
-        # MQTT with retry logic
-        for attempt in range(MQTT_RETRY_COUNT):
-            try:
-                # Explicit MQTT client to allow ssl_context
-                client = mqtt.Client()
-                client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
-                client.tls_set_context(_ssl_context)
-                
-                # Set connection timeout
-                connect_timeout = 10  # seconds
-                app.logger.info(f"MQTT connection attempt {attempt+1}/{MQTT_RETRY_COUNT}")
-                client.connect(MQTT_BROKER, MQTT_PORT, keepalive=connect_timeout)
-                
-                # Publish with QoS 1 for at-least-once delivery
-                result = client.publish(MQTT_TOPIC, mqtt_cmd, qos=1)
-                result.wait_for_publish(timeout=5)  # Wait up to 5 seconds for confirmation
-                
-                if not result.is_published():
-                    raise Exception(f"Message not confirmed as published, rc={result.rc}")
-                    
-                client.disconnect()
-                app.logger.info(f"Published MQTT command: {mqtt_cmd} successfully on attempt {attempt+1}")
-                mqtt_success = True
-                break
-                
-            except ssl.SSLError as e:
-                mqtt_error = f"SSL Error: {e}"
-                app.logger.error(f"MQTT SSL Error on attempt {attempt+1}: {e}")
-            except ConnectionRefusedError as e:
-                mqtt_error = f"Connection refused: {e}"
-                app.logger.error(f"MQTT connection refused on attempt {attempt+1}: {e}")
-            except TimeoutError as e:
-                mqtt_error = f"Connection timeout: {e}"
-                app.logger.error(f"MQTT connection timeout on attempt {attempt+1}: {e}")
-            except Exception as e:
-                mqtt_error = f"Error: {e}"
-                app.logger.error(f"MQTT error on attempt {attempt+1}: {e}")
-                
-            # Sleep before retry (if not last attempt)
-            if attempt < MQTT_RETRY_COUNT - 1:
-                time.sleep(MQTT_RETRY_DELAY)
-        
-        # Handle MQTT failure after all retries
-        if not mqtt_success:
-            app.logger.error(f"Failed to publish MQTT command after {MQTT_RETRY_COUNT} attempts. Last error: {mqtt_error}")
-            # Notify user of device communication issue
+        try:
+            # Simple, reliable MQTT approach
+            client = mqtt.Client()
+            
+            # Set up connection with proper error handling
+            client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
+            client.tls_set_context(_ssl_context)
+            
+            # Connect with timeout
+            app.logger.info(f"Attempting MQTT connection to {MQTT_BROKER}:{MQTT_PORT}")
+            client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)
+            
+            # Send command to the garage door controller
+            app.logger.info(f"Publishing command: {mqtt_cmd} to garage/command")
+            client.publish('garage/command', mqtt_cmd, qos=1)
+            
+            # Clean disconnect
+            client.disconnect()
+            app.logger.info(f"MQTT command sent successfully: {mqtt_cmd}")
+            mqtt_success = True
+            
+        except Exception as e:
+            app.logger.error(f"MQTT error: {str(e)}")
+            # Provide detailed error info in logs
+            import traceback
+            app.logger.error(f"Detailed error: {traceback.format_exc()}")
+            
+            # Notify user of communication problem
             reply = TextMessage(text=f"⚠️ 無法連接車庫控制器，請稍後再試。")
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
             return
