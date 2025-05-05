@@ -23,4 +23,4 @@ def remove_user(user_id):
 #insert_user('U82a11186c98448e8c2f8f9ee9145ffdc', '陳年曉')
 
 # Example usage to remove a user:
-#remove_user('Uea6813ef8ec77e7446090621ebcf472a')
+remove_user('Uea6813ef8ec77e7446090621ebcf472a')
