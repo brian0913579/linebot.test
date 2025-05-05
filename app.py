@@ -198,11 +198,13 @@ def handle_text(event):
             )
 
         # user is registered and verified -> show open/close buttons
+        # generate a unique pair of tokens for open and close
+        open_token, close_token = generate_token(user_id)
         buttons = ButtonsTemplate(
             text='請選擇操作',
             actions=[
-                PostbackAction(label='開門', data=generate_token(user_id, 'open')),
-                PostbackAction(label='關門', data=generate_token(user_id, 'close'))
+                PostbackAction(label='開門', data=open_token),
+                PostbackAction(label='關門', data=close_token)
             ]
         )
         reply = TemplateMessage(alt_text='開關門選單', template=buttons)
