@@ -1,45 +1,42 @@
+"""
+Configuration Module
+
+This module centralizes all application configuration settings
+and loads values from appropriate sources.
+"""
+
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-from google.cloud import secretmanager
+from secrets import get_secret, validate_required_secrets
 
-# Load .env if present for local development
-env_path = Path(__file__).parent / '.env'
-if env_path.exists():
-    load_dotenv(dotenv_path=env_path)
-
-# Function to access secrets from Google Cloud Secret Manager
-def get_secret(secret_name):
-    client = secretmanager.SecretManagerServiceClient()
-    secret_path = f"projects/{os.getenv('GOOGLE_CLOUD_PROJECT')}/secrets/{secret_name}/versions/latest"
-    response = client.access_secret_version(name=secret_path)
-    secret_data = response.payload.data.decode("UTF-8")
-    return secret_data
+# Ensure required secrets are available
+validate_required_secrets()
 
 # Line Bot Configuration
-LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN") or get_secret("line-channel-token2")
-LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET") or get_secret("line-channel-secret2")
-
-if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
-    raise RuntimeError("LINE_CHANNEL_ACCESS_TOKEN and LINE_CHANNEL_SECRET must be set via .env or Secret Manager")
+LINE_CHANNEL_ACCESS_TOKEN = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
+LINE_CHANNEL_SECRET = get_secret("LINE_CHANNEL_SECRET")
 
 # MQTT Broker Configuration
-MQTT_BROKER = os.getenv('MQTT_BROKER', 'bri4nting.duckdns.org')
-MQTT_PORT = int(os.getenv('MQTT_PORT', '8883'))
-MQTT_USERNAME = os.getenv('MQTT_USERNAME', 'piuser')
-MQTT_PASSWORD = os.getenv('MQTT_PASSWORD', 'cool.com')
-MQTT_CAFILE = os.getenv('MQTT_CAFILE', 'ca.crt')
-MQTT_TOPIC = os.getenv('MQTT_TOPIC', 'garage/command')
+MQTT_BROKER = get_secret('MQTT_BROKER', default='bri4nting.duckdns.org')
+MQTT_PORT = int(get_secret('MQTT_PORT', default='8883'))
+MQTT_USERNAME = get_secret('MQTT_USERNAME', default='piuser')
+MQTT_PASSWORD = get_secret('MQTT_PASSWORD', default='cool.com')
+MQTT_CAFILE = get_secret('MQTT_CAFILE', default='ca.crt')
+MQTT_TOPIC = get_secret('MQTT_TOPIC', default='garage/command')
 
 # Location Verification Configuration
-PARK_LAT = 24.79155    # Parking lot latitude
-PARK_LNG = 120.99442   # Parking lot longitude
-MAX_DIST_KM = 0.5      # 500 meters maximum distance
+PARK_LAT = float(get_secret('PARK_LAT', default='24.79155'))  # Parking lot latitude
+PARK_LNG = float(get_secret('PARK_LNG', default='120.99442'))  # Parking lot longitude
+MAX_DIST_KM = float(get_secret('MAX_DIST_KM', default='0.5'))  # 500 meters maximum distance
 
 # Time-to-live settings
-VERIFY_TTL = 300        # 5 minutes for one-time verification tokens
-LOCATION_TTL = 10       # 10 seconds location verification validity
+VERIFY_TTL = int(get_secret('VERIFY_TTL', default='300'))  # 5 minutes for one-time verification tokens
+LOCATION_TTL = int(get_secret('LOCATION_TTL', default='10'))  # 10 seconds location verification validity
 
 # Flask App Configuration
-PORT = int(os.getenv("PORT", 8080))
-VERIFY_URL_BASE = os.getenv('VERIFY_URL_BASE', 'https://bri4nting.duckdns.org/verify-location')
+PORT = int(get_secret('PORT', default='8080'))
+VERIFY_URL_BASE = get_secret('VERIFY_URL_BASE', default='https://bri4nting.duckdns.org/verify-location')
+
+# Security Configuration
+RATE_LIMIT_ENABLED = get_secret('RATE_LIMIT_ENABLED', default='false').lower() == 'true'
+MAX_REQUESTS_PER_MINUTE = int(get_secret('MAX_REQUESTS_PER_MINUTE', default='30'))
