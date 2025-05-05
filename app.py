@@ -20,7 +20,7 @@ if env_path.exists():
     load_dotenv(dotenv_path=env_path)
 from google.cloud import secretmanager
 from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, PostbackAction
-from linebot.v3.messaging.models import TemplateMessage, ButtonsTemplate, URIAction
+from linebot.v3.messaging.models import TemplateMessage, ButtonsTemplate, URIAction, PushMessageRequest
 from linebot.v3 import WebhookHandler
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, PostbackEvent
 from linebot.v3.exceptions import InvalidSignatureError
@@ -160,8 +160,21 @@ def verify_location():
     lat, lng, acc = data['lat'], data['lng'], data.get('acc', 999)
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
     if dist <= MAX_DIST_KM and acc <= 50:
-        # Store expiry timestamp instead of a simple set
         authorized_users[user_id] = time.time() + LOCATION_TTL
+        # immediately push the open/close buttons to the user
+        open_token, close_token = generate_token(user_id)
+        buttons = ButtonsTemplate(
+            text='請選擇操作',
+            actions=[
+                PostbackAction(label='開門', data=open_token),
+                PostbackAction(label='關門', data=close_token)
+            ]
+        )
+        template = TemplateMessage(alt_text='開關門選單', template=buttons)
+        line_bot_api.push_message(PushMessageRequest(
+            to=user_id,
+            messages=[template]
+        ))
         return jsonify(ok=True)
     else:
         return jsonify(ok=False, message='不在車場範圍內'), 200
