@@ -1,6 +1,6 @@
 import logging
 from logging.config import dictConfig
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 import hashlib
 import hmac
 import os
@@ -15,16 +15,18 @@ env_path = Path(__file__).parent / '.env'
 if env_path.exists():
     load_dotenv(dotenv_path=env_path)
 from google.cloud import secretmanager
-from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, LocationAction, PostbackAction
+from linebot.v3.messaging import ApiClient, MessagingApi, Configuration, ReplyMessageRequest, TextMessage, QuickReply, QuickReplyItem, MessageAction, LocationAction, PostbackAction, TemplateSendMessage, ButtonsTemplate, URITemplateAction
 from linebot.v3 import WebhookHandler
-from linebot.v3.webhooks import MessageEvent, TextMessageContent, LocationMessageContent, PostbackEvent
+from linebot.v3.webhooks import MessageEvent, TextMessageContent, PostbackEvent
 from linebot.v3.exceptions import InvalidSignatureError
 import time
 from models import get_allowed_users
 from token_manager import generate_token, clean_expired_tokens, TOKENS
-from location_manager import check_location
 
 app = Flask(__name__)
+
+# In-memory store of users who passed browser-based location check
+authorized_users = set()
 
 @app.route("/healthz", methods=["GET"])
 def healthz():
@@ -127,6 +129,21 @@ def webhook():
         abort(500)  # Return 500 for other errors
     return 'OK', 200  # Explicitly return 200 OK response
 
+@app.route('/api/verify-location', methods=['POST'])
+def verify_location():
+    # query param contains the LINE user ID to authorize
+    user_id = request.args.get('user_id')
+    data = request.get_json(silent=True)
+    if not user_id or not data or 'lat' not in data or 'lng' not in data:
+        return jsonify(ok=False, message='缺少參數'), 400
+    lat, lng, acc = data['lat'], data['lng'], data.get('acc', 999)
+    dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
+    if dist <= MAX_DIST_KM and acc <= 50:
+        authorized_users.add(user_id)
+        return jsonify(ok=True)
+    else:
+        return jsonify(ok=False, message='不在車場範圍內'), 200
+
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text(event):
     try:
@@ -146,56 +163,40 @@ def handle_text(event):
             return
 
         else:
-            reply = TextMessage(
-                text="請傳送您的位置訊息，以便確認您是否在停車場範圍內：",
-                quick_reply=QuickReply(items=[
-                    QuickReplyItem(action=LocationAction(label="傳送位置"))
-                ])
+            # send user to browser-based verification
+            verify_url = f"https://bri4nting.duckdns.org/verify-location?user_id={user_id}"
+            reply = TemplateSendMessage(
+                alt_text='請先驗證定位',
+                template=ButtonsTemplate(
+                    text='請先在車場範圍內進行位置驗證',
+                    actions=[
+                        URITemplateAction(label='📍 驗證我的位置', uri=verify_url)
+                    ]
+                )
             )
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+            return
 
     except Exception as e:
         app.logger.error(f"Error while processing text message: {e}")
         reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
         line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
-@handler.add(MessageEvent, message=LocationMessageContent)
-def handle_location(event):
-    try:
-        user_id = event.source.user_id
-
-        if user_id not in ALLOWED_USERS:
-            reply = TextMessage(text="❌ 未授權使用者，請勿嘗試操作。")
-            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-            return
-
-        user_loc = (event.message.latitude, event.message.longitude)
-
-        if check_location(user_loc):
-            app.logger.info(f"User {user_id} is accessing the parking lot.")
-            print("✅ GPS OK，可進行操作")
-            token_open, token_close = generate_token(user_id)
-            reply = TextMessage(
-                text="您目前在停車場範圍內，請選擇動作：",
-                quick_reply=QuickReply(items=[
-                    QuickReplyItem(action=PostbackAction(label="開門", data=token_open)),
-                    QuickReplyItem(action=PostbackAction(label="關門", data=token_close))
-                ])
-            )
-        else:
-            app.logger.info(f"User {user_id} is outside the parking lot range.")
-            print("❌ GPS 不在範圍內")
-            reply = TextMessage(text="您目前不在停車場範圍內，請靠近後再試。")
-
-        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-
-    except Exception as e:
-        app.logger.error(f"Error while processing location message: {e}")
-        reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
-        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-
 @handler.add(PostbackEvent)
 def handle_postback(event):
+    user_id = event.source.user_id
+    if user_id not in authorized_users:
+        # user hasn’t passed verify step yet
+        verify_url = f"https://bri4nting.duckdns.org/verify-location?user_id={user_id}"
+        reply = TemplateSendMessage(
+            alt_text='請先驗證定位',
+            template=ButtonsTemplate(
+                text='請先在車場範圍內進行位置驗證',
+                actions=[URITemplateAction(label='📍 驗證我的位置', uri=verify_url)]
+            )
+        )
+        return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+
     try:
         clean_expired_tokens()
 
