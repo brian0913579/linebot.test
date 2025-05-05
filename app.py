@@ -1,13 +1,17 @@
 import logging
 from logging.config import dictConfig
-from flask import Flask
+from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
+from rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
 
 from config_module import PORT
 from line_webhook import webhook_handler, verify_location_handler
 
 # Initialize Flask application
 app = Flask(__name__)
+
+# Configure rate limiting
+configure_limiter(app)
 
 # Set up logging
 dictConfig({
@@ -65,6 +69,10 @@ def handle_exception(e):
     # Log all other exceptions
     app.logger.error(f"Unhandled exception: {e}")
     return "Internal Server Error", 500
+
+# Apply rate limits to specific endpoints
+limit_webhook_endpoint(app)
+limit_verify_location_endpoint(app)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=PORT)
