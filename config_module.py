@@ -7,7 +7,7 @@ and loads values from appropriate sources.
 
 import os
 from pathlib import Path
-from secrets import get_secret, validate_required_secrets
+from secret_manager import get_secret, validate_required_secrets
 
 # Ensure required secrets are available
 validate_required_secrets()

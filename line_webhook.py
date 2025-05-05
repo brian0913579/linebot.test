@@ -3,7 +3,7 @@ import hashlib
 import hmac
 import base64
 import time
-import secrets
+import secrets as py_secrets
 from math import radians, sin, cos, sqrt, atan2
 from flask import request, abort, jsonify
 
@@ -158,7 +158,7 @@ def handle_text(event):
             authorized_users.pop(user_id, None)
             # Not yet verified -> send verify link
             # Generate one-time token for verification
-            verify_token = secrets.token_urlsafe(24)
+            verify_token = py_secrets.token_urlsafe(24)
             # Store mapping to user_id
             VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
             verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
@@ -201,7 +201,7 @@ def handle_postback(event):
     # Check if user is authorized
     if user_id not in authorized_users:
         # User hasn't passed verify step yet
-        verify_token = secrets.token_urlsafe(24)
+        verify_token = py_secrets.token_urlsafe(24)
         VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
         verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
         reply = TemplateMessage(
