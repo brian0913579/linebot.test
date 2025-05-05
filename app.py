@@ -53,7 +53,7 @@ def haversine(lat1, lon1, lat2, lon2):
 # Coordinates and allowed radius for your parking lot
 PARK_LAT    = 24.79155    # set to your actual gate latitude
 PARK_LNG    = 120.99442   # set to your actual gate longitude
-MAX_DIST_KM = 0.05       # 0.05 km = 50 meters
+MAX_DIST_KM = 0.5       # 0.5 km = 500 meters
 
 @app.route("/healthz", methods=["GET"])
 def healthz():
