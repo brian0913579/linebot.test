@@ -12,6 +12,12 @@ from math import radians, sin, cos, sqrt, atan2
 from paho.mqtt import client as mqtt
 import ssl
 import time
+import secrets
+
+# TTL for one-time verification tokens (seconds)
+VERIFY_TTL = 300  # 5 minutes
+# In-memory store of one-time tokens: token -> (user_id, expiry_timestamp)
+VERIFY_TOKENS = {}
 # How long a location verification remains valid (seconds)
 LOCATION_TTL = 10  # 1 hour, adjust as needed
 # Load .env if present for local development
@@ -152,10 +158,21 @@ def webhook():
 
 @app.route('/api/verify-location', methods=['POST'])
 def verify_location():
-    # query param contains the LINE user ID to authorize
-    user_id = request.args.get('user_id')
+    # query param contains the one-time verification token
+    token = request.args.get('token')
+    record = VERIFY_TOKENS.get(token)
     data = request.get_json(silent=True)
-    if not user_id or not data or 'lat' not in data or 'lng' not in data:
+    # validate token
+    if not token or not record:
+        return jsonify(ok=False, message='無效或已過期的驗證'), 400
+    user_id, expiry = record
+    # remove token so it cannot be reused
+    VERIFY_TOKENS.pop(token, None)
+    # check expiry
+    if time.time() > expiry:
+        return jsonify(ok=False, message='驗證已過期，請重新驗證'), 400
+
+    if not data or 'lat' not in data or 'lng' not in data:
         return jsonify(ok=False, message='缺少參數'), 400
     lat, lng, acc = data['lat'], data['lng'], data.get('acc', 999)
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
@@ -206,7 +223,11 @@ def handle_text(event):
             # remove expired entry if present
             authorized_users.pop(user_id, None)
             # not yet verified -> send verify link
-            verify_url = f"https://bri4nting.duckdns.org/verify-location?user_id={user_id}"
+            # generate one-time token for verification
+            verify_token = secrets.token_urlsafe(24)
+            # store mapping to user_id
+            VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
+            verify_url = f"https://bri4nting.duckdns.org/verify-location?token={verify_token}"
             reply = TemplateMessage(
                 alt_text='請先驗證定位',
                 template=ButtonsTemplate(
