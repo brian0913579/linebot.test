@@ -18,9 +18,9 @@ def remove_user(user_id):
     connection.close()  # Close the connection
 
 # Example usage to insert users:
-#insert_user('Uea6813ef8ec77e7446090621ebcf472a', 'admin_Brian')
+insert_user('Uea6813ef8ec77e7446090621ebcf472a', 'admin_Brian')
 #insert_user('U1d640cea545510e631396b5306ade151', 'cyn.18')
 #insert_user('U82a11186c98448e8c2f8f9ee9145ffdc', '陳年曉')
 
 # Example usage to remove a user:
-remove_user('Uea6813ef8ec77e7446090621ebcf472a')
+#remove_user('Uea6813ef8ec77e7446090621ebcf472a')
