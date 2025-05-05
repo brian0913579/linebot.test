@@ -42,26 +42,18 @@ def send_garage_command(action):
         # Create client
         client, _ = create_mqtt_client()
         
-        # Connect with timeout
-        logger.info(f"Connecting to MQTT broker at {MQTT_BROKER}:{MQTT_PORT}")
-        client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)
+        # Connect with minimal timeout
+        client.connect(MQTT_BROKER, MQTT_PORT, keepalive=10)
         
-        # Send command
-        logger.info(f"Publishing {mqtt_cmd} command to {MQTT_TOPIC}")
-        result = client.publish(MQTT_TOPIC, mqtt_cmd, qos=1)
+        # Send command with QoS 0 for faster delivery (fire-and-forget)
+        client.publish(MQTT_TOPIC, mqtt_cmd, qos=0)
         
-        # Wait for confirmation of delivery
-        if not result.is_published():
-            result.wait_for_publish(timeout=5)
-        
-        # Clean disconnect
+        # Clean disconnect without waiting for ACK
         client.disconnect()
-        logger.info(f"MQTT command sent successfully: {mqtt_cmd}")
         
         return True, None
         
     except Exception as e:
         error_msg = f"Failed to send MQTT command: {str(e)}"
         logger.error(error_msg)
-        logger.error(f"Detailed error: {traceback.format_exc()}")
         return False, error_msg
