@@ -11,6 +11,9 @@ from werkzeug.exceptions import HTTPException
 from math import radians, sin, cos, sqrt, atan2
 from paho.mqtt import client as mqtt
 import ssl
+import time
+# How long a location verification remains valid (seconds)
+LOCATION_TTL = 3600  # 1 hour, adjust as needed
 # Load .env if present for local development
 env_path = Path(__file__).parent / '.env'
 if env_path.exists():
@@ -21,14 +24,14 @@ from linebot.v3.messaging.models import TemplateMessage, ButtonsTemplate, URIAct
 from linebot.v3 import WebhookHandler
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, PostbackEvent
 from linebot.v3.exceptions import InvalidSignatureError
-import time
 from models import get_allowed_users
 from token_manager import generate_token, clean_expired_tokens, TOKENS
 
 app = Flask(__name__)
 
-# In-memory store of users who passed browser-based location check
-authorized_users = set()
+# In-memory store of users who passed browser-based location check with expiry
+# Maps user_id to expiry timestamp
+authorized_users = {}
 
 # ——— Location verification helpers ———
 
@@ -157,7 +160,8 @@ def verify_location():
     lat, lng, acc = data['lat'], data['lng'], data.get('acc', 999)
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
     if dist <= MAX_DIST_KM and acc <= 50:
-        authorized_users.add(user_id)
+        # Store expiry timestamp instead of a simple set
+        authorized_users[user_id] = time.time() + LOCATION_TTL
         return jsonify(ok=True)
     else:
         return jsonify(ok=False, message='不在車場範圍內'), 200
@@ -182,8 +186,12 @@ def handle_text(event):
                 ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
             )
 
-        # location verification check
-        if user_id not in authorized_users:
+        # location verification check with expiry handling
+        expiry = authorized_users.get(user_id)
+        # if no entry or expired, treat as unverified
+        if not expiry or expiry < time.time():
+            # remove expired entry if present
+            authorized_users.pop(user_id, None)
             # not yet verified -> send verify link
             verify_url = f"https://bri4nting.duckdns.org/verify-location?user_id={user_id}"
             reply = TemplateMessage(
