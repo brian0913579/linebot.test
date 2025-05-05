@@ -174,26 +174,41 @@ def handle_text(event):
         if user_msg != "開關門":
             return  # Do nothing if the message is not "開關門"
 
-        # If the user sends "開關門", proceed with the parking lot logic
+        # registration check
         if user_id not in ALLOWED_USERS:
+            # not a parking customer
             reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
-            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-            return
+            return line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            )
 
-        else:
-            # send user to browser-based verification
+        # location verification check
+        if user_id not in authorized_users:
+            # not yet verified -> send verify link
             verify_url = f"https://bri4nting.duckdns.org/verify-location?user_id={user_id}"
             reply = TemplateMessage(
                 alt_text='請先驗證定位',
                 template=ButtonsTemplate(
                     text='請先在車場範圍內進行位置驗證',
-                    actions=[
-                        URIAction(label='📍 驗證我的位置', uri=verify_url)
-                    ]
+                    actions=[URIAction(label='📍 驗證我的位置', uri=verify_url)]
                 )
             )
-            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-            return
+            return line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            )
+
+        # user is registered and verified -> show open/close buttons
+        buttons = ButtonsTemplate(
+            text='請選擇操作',
+            actions=[
+                PostbackAction(label='開門', data=generate_token(user_id, 'open')),
+                PostbackAction(label='關門', data=generate_token(user_id, 'close'))
+            ]
+        )
+        reply = TemplateMessage(alt_text='開關門選單', template=buttons)
+        return line_bot_api.reply_message(
+            ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+        )
 
     except Exception as e:
         app.logger.error(f"Error while processing text message: {e}")
