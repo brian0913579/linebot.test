@@ -1,4 +1,4 @@
-import secrets
+import secrets as py_secrets
 import time
 from sortedcontainers import SortedDict
 
@@ -7,8 +7,8 @@ from sortedcontainers import SortedDict
 TOKENS = {}
 
 def generate_token(user_id):
-    token_open = secrets.token_urlsafe(16)
-    token_close = secrets.token_urlsafe(16)
+    token_open = py_secrets.token_urlsafe(16)
+    token_close = py_secrets.token_urlsafe(16)
     
     # Store user_id, action, and expiry for both tokens
     TOKENS[token_open] = (user_id, 'open', time.time() + 300)
