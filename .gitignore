@@ -35,3 +35,8 @@ htmlcov/
 
 # OS specific
 .DS_Store
+=======
+*.pyc
+__pycache__/
+*.pyc
+>>>>>>> 4241e07 (chore: ignore Python bytecode)
