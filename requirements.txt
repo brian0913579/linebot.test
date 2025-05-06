@@ -22,6 +22,10 @@ python-dotenv==0.21.0
 # Rate limiting
 Flask-Limiter==3.12
 
+# Caching
+redis==5.0.1
+Flask-Caching==2.1.0
+
 # Utilities
 sortedcontainers==2.4.0
 requests==2.32.3

@@ -20,20 +20,27 @@ from linebot.v3.exceptions import InvalidSignatureError
 from config_module import (
     LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET,
     PARK_LAT, PARK_LNG, MAX_DIST_KM, 
-    VERIFY_TTL, LOCATION_TTL, VERIFY_URL_BASE
+    VERIFY_TTL, LOCATION_TTL, VERIFY_URL_BASE, CACHE_ENABLED
 )
 from mqtt_handler import send_garage_command
 from token_manager import generate_token, clean_expired_tokens, TOKENS
 from models import get_allowed_users
+from cache_manager import (
+    cache, store_verify_token, get_verify_token, 
+    authorize_user, is_user_authorized, 
+    store_action_token, get_action_token
+)
 
 # Configure logger
 logger = logging.getLogger(__name__)
 
 # In-memory store of one-time verification tokens: token -> (user_id, expiry_timestamp)
+# Used as fallback when Redis is unavailable
 VERIFY_TOKENS = {}
 
 # In-memory store of users who passed browser-based location check with expiry
 # Maps user_id to expiry timestamp
+# Used as fallback when Redis is unavailable
 authorized_users = {}
 
 # Set up LINE API clients
@@ -88,19 +95,26 @@ def webhook_handler():
 def verify_location_handler():
     # Query param contains the one-time verification token
     token = request.args.get('token')
-    record = VERIFY_TOKENS.get(token)
     data = request.get_json(silent=True)
     
+    # Try to get token from Redis first, then fallback to in-memory
+    if CACHE_ENABLED:
+        user_id, expiry = get_verify_token(token)
+    else:
+        record = VERIFY_TOKENS.get(token)
+        if not record:
+            user_id, expiry = None, None
+        else:
+            user_id, expiry = record
+            # Remove token so it cannot be reused
+            VERIFY_TOKENS.pop(token, None)
+    
     # Validate token
-    if not token or not record:
+    if not token or not user_id:
         return jsonify(ok=False, message='無效或已過期的驗證'), 400
     
-    user_id, expiry = record
-    # Remove token so it cannot be reused
-    VERIFY_TOKENS.pop(token, None)
-    
     # Check expiry
-    if time.time() > expiry:
+    if expiry and time.time() > expiry:
         return jsonify(ok=False, message='驗證已過期，請重新驗證'), 400
 
     if not data or 'lat' not in data or 'lng' not in data:
@@ -110,9 +124,20 @@ def verify_location_handler():
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
     
     if dist <= MAX_DIST_KM and acc <= 50:
-        authorized_users[user_id] = time.time() + LOCATION_TTL
+        # Store authorization in Redis if enabled, otherwise in memory
+        if CACHE_ENABLED:
+            authorize_user(user_id)
+        else:
+            authorized_users[user_id] = time.time() + LOCATION_TTL
+            
         # Immediately push the open/close buttons to the user
         open_token, close_token = generate_token(user_id)
+        
+        # If Redis cache is enabled, also store tokens there
+        if CACHE_ENABLED:
+            store_action_token(open_token, user_id, 'open')
+            store_action_token(close_token, user_id, 'close')
+            
         buttons = ButtonsTemplate(
             text='請選擇操作',
             actions=[
@@ -151,16 +176,30 @@ def handle_text(event):
             )
 
         # Location verification check with expiry handling
-        expiry = authorized_users.get(user_id)
-        # If no entry or expired, treat as unverified
-        if not expiry or expiry < time.time():
+        is_authorized = False
+        
+        # Check Redis first if enabled, then fallback to in-memory
+        if CACHE_ENABLED:
+            is_authorized = is_user_authorized(user_id)
+        else:
+            expiry = authorized_users.get(user_id)
+            is_authorized = expiry and expiry >= time.time()
+            
             # Remove expired entry if present
-            authorized_users.pop(user_id, None)
-            # Not yet verified -> send verify link
+            if expiry and expiry < time.time():
+                authorized_users.pop(user_id, None)
+        
+        # If not authorized, require verification
+        if not is_authorized:
             # Generate one-time token for verification
             verify_token = py_secrets.token_urlsafe(24)
-            # Store mapping to user_id
-            VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
+            
+            # Store token in Redis if enabled, otherwise in memory
+            if CACHE_ENABLED:
+                store_verify_token(verify_token, user_id)
+            else:
+                VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
+                
             verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
             reply = TemplateMessage(
                 alt_text='請先驗證定位',
@@ -176,6 +215,12 @@ def handle_text(event):
         # User is registered and verified -> show open/close buttons
         # Generate a unique pair of tokens for open and close
         open_token, close_token = generate_token(user_id)
+        
+        # If Redis cache is enabled, also store tokens there
+        if CACHE_ENABLED:
+            store_action_token(open_token, user_id, 'open')
+            store_action_token(close_token, user_id, 'close')
+            
         buttons = ButtonsTemplate(
             text='請選擇操作',
             actions=[
@@ -199,10 +244,25 @@ def handle_postback(event):
     user_id = event.source.user_id
     
     # Check if user is authorized
-    if user_id not in authorized_users:
+    is_authorized = False
+    
+    # Check Redis first if enabled, then fallback to in-memory
+    if CACHE_ENABLED:
+        is_authorized = is_user_authorized(user_id)
+    else:
+        expiry = authorized_users.get(user_id)
+        is_authorized = expiry and expiry >= time.time()
+    
+    if not is_authorized:
         # User hasn't passed verify step yet
         verify_token = py_secrets.token_urlsafe(24)
-        VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
+        
+        # Store token in Redis if enabled, otherwise in memory
+        if CACHE_ENABLED:
+            store_verify_token(verify_token, user_id)
+        else:
+            VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
+            
         verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
         reply = TemplateMessage(
             alt_text='請先驗證定位',
@@ -214,27 +274,32 @@ def handle_postback(event):
         return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
     try:
-        clean_expired_tokens()
+        # Clean expired tokens from in-memory storage if not using Redis
+        if not CACHE_ENABLED:
+            clean_expired_tokens()
 
         token = event.postback.data
-        record = TOKENS.get(token)  # Get the token data from TOKENS
+        
+        # Try to get token from Redis first, then fallback to in-memory
+        if CACHE_ENABLED:
+            user_id, action, expiry = get_action_token(token) or (None, None, None)
+            valid_token = bool(user_id and action and expiry)
+        else:
+            record = TOKENS.get(token)  # Get the token data from TOKENS
+            if not record or len(record) != 3:
+                valid_token = False
+            else:
+                user_id, action, expiry = record
+                TOKENS.pop(token, None)  # Remove token to prevent reuse
+                valid_token = True
 
-        if not record:
+        if not valid_token:
             reply = TextMessage(text="❌ 無效操作")
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
-        # Check if there are exactly 3 elements to unpack
-        if len(record) == 3:
-            user_id, action, expiry = record
-        else:
-            raise ValueError("Token record does not have 3 values.")
-
         if event.source.user_id != user_id or time.time() > expiry:
-            TOKENS.pop(token, None)
             reply = TextMessage(text="❌ 此操作已失效，請重新傳送位置")
             return line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-
-        TOKENS.pop(token, None)
 
         # Send command to MQTT broker
         success, error = send_garage_command(action)
@@ -251,14 +316,6 @@ def handle_postback(event):
             reply = TextMessage(text="✅ 門已關閉，感謝您的使用。")
             line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
 
-    except KeyError:
-        logger.error("Token not found or invalid token provided.")
-        reply = TextMessage(text="❌ 無效操作")
-        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
-    except ValueError as e:
-        logger.error(f"Error in token unpacking: {e}")
-        reply = TextMessage(text="❌ 無效操作")
-        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
     except Exception as e:
         logger.error(f"Unexpected error during postback handling: {e}")
         reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")

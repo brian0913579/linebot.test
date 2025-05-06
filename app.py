@@ -4,14 +4,20 @@ from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
 from rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
 
-from config_module import PORT
+from config_module import PORT, CACHE_ENABLED
 from line_webhook import webhook_handler, verify_location_handler
+from cache_manager import cache
 
 # Initialize Flask application
 app = Flask(__name__)
 
 # Configure rate limiting
 configure_limiter(app)
+
+# Initialize Flask-Caching
+if CACHE_ENABLED:
+    cache.init_app(app)
+    app.logger.info("Redis caching enabled")
 
 # Set up logging
 dictConfig({
