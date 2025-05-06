@@ -2,11 +2,11 @@ import os
 import logging
 from flask import Flask, jsonify, send_from_directory
 from werkzeug.exceptions import HTTPException
-from rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
+from middleware.rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
 import importlib.util
 
-from config_module import PORT, CACHE_ENABLED
-import logger_config
+from config.config_module import PORT, CACHE_ENABLED
+import utils.logger_config as logger_config
 
 # Initialize Flask application
 app = Flask(__name__, static_folder='static')
@@ -20,7 +20,7 @@ flask_caching_installed = importlib.util.find_spec("flask_caching") is not None
 # Initialize Flask-Caching only if available
 if CACHE_ENABLED and flask_caching_installed:
     try:
-        from cache_manager import cache
+        from middleware.cache_manager import cache
         if cache is not None:
             cache.init_app(app)
             app.logger.info("Redis caching enabled")
@@ -32,15 +32,15 @@ else:
     app.logger.info("Caching disabled or Flask-Caching not installed")
 
 # Apply middleware
-from middleware import apply_middleware
+from middleware.middleware import apply_middleware
 app = apply_middleware(app)
 
 # Initialize API documentation
-from api_docs import register_swagger_ui, document_api
+from docs.api_docs import register_swagger_ui, document_api
 app = register_swagger_ui(app)
 
 # Import webhook handlers after cache setup to avoid circular imports
-from line_webhook import webhook_handler, verify_location_handler
+from core.line_webhook import webhook_handler, verify_location_handler
 
 # Set up logging
 logger = logger_config.setup_logging()
@@ -76,7 +76,7 @@ document_api(
 )
 
 # Import the decorators
-from middleware import validate_line_signature, require_json, rate_limit_by_ip
+from middleware.middleware import validate_line_signature, require_json, rate_limit_by_ip
 
 # LINE Bot webhook endpoint
 @app.route("/webhook", methods=['POST'])
@@ -176,6 +176,61 @@ document_api(
     ]
 )
 
+# Error handlers for different HTTP errors
+@app.errorhandler(400)
+def bad_request_error(e):
+    """Handle 400 Bad Request errors"""
+    logger.error(f"400 Bad Request: {e}")
+    return jsonify({
+        'error': 'Bad Request',
+        'message': str(e) or "Invalid request parameters"
+    }), 400
+
+@app.errorhandler(401)
+def unauthorized_error(e):
+    """Handle 401 Unauthorized errors"""
+    logger.error(f"401 Unauthorized: {e}")
+    return jsonify({
+        'error': 'Unauthorized',
+        'message': str(e) or "Authentication required"
+    }), 401
+
+@app.errorhandler(403)
+def forbidden_error(e):
+    """Handle 403 Forbidden errors"""
+    logger.error(f"403 Forbidden: {e}")
+    return jsonify({
+        'error': 'Forbidden',
+        'message': str(e) or "You don't have permission to access this resource"
+    }), 403
+
+@app.errorhandler(404)
+def not_found_error(e):
+    """Handle 404 Not Found errors"""
+    logger.error(f"404 Not Found: {request.path}")
+    return jsonify({
+        'error': 'Not Found',
+        'message': f"The requested URL {request.path} was not found on the server"
+    }), 404
+
+@app.errorhandler(429)
+def rate_limit_error(e):
+    """Handle 429 Too Many Requests errors"""
+    logger.error(f"429 Rate Limit Exceeded: {request.remote_addr} - {request.path}")
+    return jsonify({
+        'error': 'Too Many Requests',
+        'message': str(e) or "Rate limit exceeded. Please try again later."
+    }), 429
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    """Handle 500 Internal Server Error errors"""
+    logger.error(f"500 Internal Server Error: {e}")
+    return jsonify({
+        'error': 'Internal Server Error',
+        'message': "An unexpected error occurred. Please try again later."
+    }), 500
+
 # Error handler for unexpected exceptions
 @app.errorhandler(Exception)
 def handle_exception(e):
@@ -184,8 +239,11 @@ def handle_exception(e):
         return e
 
     # Log all other exceptions
-    app.logger.error(f"Unhandled exception: {e}")
-    return "Internal Server Error", 500
+    logger.error(f"Unhandled exception: {e}")
+    return jsonify({
+        'error': 'Internal Server Error',
+        'message': "An unexpected error occurred. Please try again later."
+    }), 500
 
 # Apply rate limits to specific endpoints
 limit_webhook_endpoint(app)

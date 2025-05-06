@@ -1,4 +1,4 @@
-# Core framework
+# Core framework and dependencies
 Flask==3.1.0
 Werkzeug==3.1.3
 blinker==1.9.0
@@ -12,17 +12,17 @@ line-bot-sdk==3.17.1
 pydantic==2.11.4
 pydantic_core==2.33.2
 
-# MQTT client
+# MQTT client for garage door communication
 paho-mqtt==2.1.0
 
-# Security and secrets
+# Security and secret management
 google-cloud-secret-manager==2.7.0
 python-dotenv==0.21.0
 
-# Rate limiting
+# API security and limiting
 Flask-Limiter==3.12
 
-# Caching
+# Caching (Redis with fallback)
 redis==5.0.1
 Flask-Caching==2.1.0
 
