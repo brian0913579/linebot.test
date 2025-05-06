@@ -6,7 +6,7 @@ It uses flask-swagger-ui to serve the documentation and apispec to generate the 
 """
 
 import importlib.util
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, current_app
 from utils.logger_config import get_logger
 
 # Configure logger
@@ -16,6 +16,9 @@ logger = get_logger(__name__)
 swagger_ui_installed = importlib.util.find_spec("flask_swagger_ui") is not None
 apispec_installed = importlib.util.find_spec("apispec") is not None
 
+# Store endpoint documentation for later processing
+endpoint_registry = []
+
 api_docs_blueprint = Blueprint('api_docs', __name__)
 
 if swagger_ui_installed and apispec_installed:
@@ -24,54 +27,7 @@ if swagger_ui_installed and apispec_installed:
     from apispec.ext.marshmallow import MarshmallowPlugin
     from apispec_webframeworks.flask import FlaskPlugin
 
-    # Create APISpec instance
-    spec = APISpec(
-        title="LineBot API",
-        version="1.0.0",
-        openapi_version="3.0.2",
-        info=dict(
-            description="LINE Bot API for garage door control",
-            contact=dict(email="admin@example.com")
-        ),
-        plugins=[FlaskPlugin(), MarshmallowPlugin()],
-    )
-
-    # Define schemas
-    spec.components.schema(
-        "LocationVerificationRequest", 
-        {
-            "type": "object",
-            "properties": {
-                "lat": {"type": "number", "format": "float", "description": "Latitude coordinate"},
-                "lng": {"type": "number", "format": "float", "description": "Longitude coordinate"},
-                "acc": {"type": "number", "format": "float", "description": "Accuracy in meters"}
-            },
-            "required": ["lat", "lng"]
-        }
-    )
-
-    spec.components.schema(
-        "LocationVerificationResponse", 
-        {
-            "type": "object",
-            "properties": {
-                "ok": {"type": "boolean", "description": "Whether verification was successful"},
-                "message": {"type": "string", "description": "Error message if not successful"}
-            },
-            "required": ["ok"]
-        }
-    )
-
-    spec.components.schema(
-        "Error", 
-        {
-            "type": "object",
-            "properties": {
-                "error": {"type": "string", "description": "Error message"}
-            },
-            "required": ["error"]
-        }
-    )
+    # Import and configure APISpec - the actual spec will be created per request
 
     # Setup Swagger UI blueprint
     SWAGGER_URL = '/api/docs'  # URL for accessing API docs UI
@@ -89,7 +45,67 @@ if swagger_ui_installed and apispec_installed:
     # Register view to serve OpenAPI spec
     @api_docs_blueprint.route('/spec')
     def get_apispec():
-        return jsonify(spec.to_dict())
+        """Generate OpenAPI specification"""
+        # Create fresh spec for each request
+        current_spec = APISpec(
+            title="LineBot API",
+            version="1.0.0",
+            openapi_version="3.0.2",
+            info=dict(
+                description="LINE Bot API for garage door control",
+                contact=dict(email="admin@example.com")
+            ),
+            plugins=[FlaskPlugin(), MarshmallowPlugin()],
+        )
+        
+        # Add schemas
+        current_spec.components.schema(
+            "LocationVerificationRequest", 
+            {
+                "type": "object",
+                "properties": {
+                    "lat": {"type": "number", "format": "float", "description": "Latitude coordinate"},
+                    "lng": {"type": "number", "format": "float", "description": "Longitude coordinate"},
+                    "acc": {"type": "number", "format": "float", "description": "Accuracy in meters"}
+                },
+                "required": ["lat", "lng"]
+            }
+        )
+        
+        current_spec.components.schema(
+            "LocationVerificationResponse", 
+            {
+                "type": "object",
+                "properties": {
+                    "ok": {"type": "boolean", "description": "Whether verification was successful"},
+                    "message": {"type": "string", "description": "Error message if not successful"}
+                },
+                "required": ["ok"]
+            }
+        )
+        
+        current_spec.components.schema(
+            "Error", 
+            {
+                "type": "object",
+                "properties": {
+                    "error": {"type": "string", "description": "Error message"}
+                },
+                "required": ["error"]
+            }
+        )
+        
+        # Add paths from registry
+        for doc in endpoint_registry:
+            try:
+                current_spec.path(
+                    path=doc['path'],
+                    operations=doc['operations']
+                )
+            except Exception as e:
+                logger.warning(f"Failed to document endpoint {doc['path']}: {str(e)}")
+                
+        return jsonify(current_spec.to_dict())
 
     def register_swagger_ui(app):
         """Register Swagger UI with Flask app"""
@@ -114,7 +130,11 @@ if swagger_ui_installed and apispec_installed:
         for method in methods:
             operations[method.lower()] = kwargs
             
-        spec.path(view=view_function, path=f"/api{endpoint}", operations=operations)
+        # Store the documentation in the global registry
+        endpoint_registry.append({
+            'path': f"/api{endpoint}",
+            'operations': operations
+        })
 
 else:
     # Create dummy functions when Swagger UI or APISpec is not installed
