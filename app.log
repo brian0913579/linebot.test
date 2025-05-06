@@ -1333,3 +1333,219 @@ Reason: Bad Request
 HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '41025e7e-de02-4912-99c6-a3b1102f1e57', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:03:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:03:30 GMT', 'Connection': 'close'})
 HTTP response body: {"message":"Invalid reply token"}
 
+2025-05-06 15:08:39,286 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:08:45,541 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:08:45,574 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:08:48,980 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:08:49,027 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:08:59,928 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:08:59,964 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:09:29,421 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:09:29,466 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:13:58,504 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:13:58,788 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:12,996 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:14:13,035 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:14:14,169 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:21,566 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:28,460 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:14:28,507 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:14:30,201 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:33,652 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:14:33,699 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:14:34,825 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:15:12,966 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'bfd366ca-6ac8-4087-858f-4015754380a2', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:15:12 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:15:12 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:15:12,966 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-05-06 15:16:13,348 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ef71f348-1ea8-42e8-9a39-edbf560e3940', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:16:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:16:13 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:16:13,348 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-05-06 15:17:13,742 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1e1bb2d9-64b4-48fa-a0eb-35659a44bcbd', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:17:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:17:13 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:17:13,742 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-05-06 15:18:14,147 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '9ca7a479-10fc-4f46-9218-166a73f81b5c', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:18:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:18:14 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:18:14,148 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-05-06 15:20:02,170 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:20:02,431 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:20:10,304 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:20:10,343 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:20:11,487 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:20:14,633 line_webhook ERROR    Unexpected error during postback handling: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '06a01548-2dbf-4f81-bae9-f7c0bc97f918', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:20:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:20:14 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:20:14,866 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'aee7879f-065b-412d-a89b-d813fca2166a', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:20:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:20:14 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:20:14,866 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-05-06 15:20:18,002 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:21:11,267 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e94d2eeb-6f40-4523-b198-fbc7f2e5672d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:21:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:21:11 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:21:11,267 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-05-06 15:21:15,295 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5a330b84-6059-495a-a3eb-1bcad7850ab3', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:21:15 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:21:15 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:21:15,295 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2025-05-06 15:22:11,735 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'd81f514e-c985-4513-b582-48b3823a82c8', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:22:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:22:11 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:22:11,737 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"gowh3eIxhwc9-bAMd9YMvQ"},"webhookEventId":"01JTK2XMVWHS185YWTDFQ01HD6","deliveryContext":{"isRedeliv...
+2025-05-06 15:22:15,770 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4c83ee4a-56bd-4abe-a18f-3cb5d3da6cb0', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:22:15 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:22:15 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:22:15,770 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"FX_pGXkgY5IsWbhkCshj2w"},"webhookEventId":"01JTK2JPXB4W64XQ3EE648GQN2","deliveryContext":{"isRedeliv...
+2025-05-06 15:22:23,426 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:22:23,624 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:22:32,388 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:22:32,397 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:22:33,533 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:22:36,156 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:22:36,358 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:22:36,863 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:23:32,338 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '860bbd6a-0b1a-4ab6-af89-ec4527640a80', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:23:32 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:23:32 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:23:32,339 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"0tGGKhWHd3UodmGXRXFaKg"},"webhookEventId":"01JTK31YHYNBTWPVEKB3XBB03G","deliveryContext":{"isRedeliv...
+2025-05-06 15:27:49,628 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:27:49,840 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:01,206 mqtt_handler WARNING  Attempt 1/3 failed: Connection timed out after 5s
+2025-05-06 15:28:01,207 mqtt_handler INFO     Retrying in 0.5 seconds...
+2025-05-06 15:28:06,719 mqtt_handler WARNING  Attempt 2/3 failed: Connection timed out after 5s
+2025-05-06 15:28:06,719 mqtt_handler INFO     Retrying in 0.5 seconds...
+2025-05-06 15:28:10,620 mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 16
+2025-05-06 15:28:10,680 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:28:10,683 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:28:10,731 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:28:11,864 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:12,002 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:12,603 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:12,723 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:13,180 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:15,888 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:28:16,292 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:28:16,420 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:21,248 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:28:21,290 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:28:22,420 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:24,173 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:28:24,219 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:28:25,346 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:27,815 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:28:27,940 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:28:58,452 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '0117dea9-aab6-4a50-b4fc-0795052fc275', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:28:58 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:28:58 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:28:58,452 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3BWY4EJ0V6KZMGJ9CD09D","deliveryContext":{"isRedeliv...
+2025-05-06 15:29:02,063 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '944129f0-8ce6-415c-bd01-c2e1139bb58a', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:02 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:02 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:29:02,064 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C0CSA6609W572RCGJ1E7","deliveryContext":{"isRedeliv...
+2025-05-06 15:29:04,033 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e083e8cc-fd8c-4cc2-9cc7-28d6a6c15b05', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:04 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:04 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:29:04,034 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C0GMHHG8CRDGMZ74YNVY","deliveryContext":{"isRedeliv...
+2025-05-06 15:29:04,299 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1f99d3ec-2002-421b-8341-c0a5c575f385', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:04 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:04 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:29:04,300 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C0SF1R10QRQXYA2PFGJQ","deliveryContext":{"isRedeliv...
+2025-05-06 15:29:09,255 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '9e46afad-71de-40b6-8619-cefcb0eb6d11', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:09 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:09 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:29:09,255 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C7J10N08312PP2K903V8","deliveryContext":{"isRedeliv...
+2025-05-06 15:29:11,340 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '602a0607-a221-4f91-b00b-7ec5b72f1eaa', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:11 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:29:11,341 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C7P95GBQ1HM60BQK24A7","deliveryContext":{"isRedeliv...
+2025-05-06 15:29:11,580 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '344af722-ad86-4d11-9e30-764c1c9b8f10', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:11 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:29:11,581 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C86B6R7861BQ6AACQQ5N","deliveryContext":{"isRedeliv...
+2025-05-06 15:35:24,312 logger_config INFO     Logging configured with level: INFO
+2025-05-06 15:35:24,313 rate_limiter INFO     Rate limiting is disabled
+2025-05-06 15:35:24,313 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-06 15:35:24,315 middleware   INFO     Middleware applied successfully
+2025-05-06 15:35:25,149 logger_config INFO     Logging configured with level: INFO
+2025-05-06 15:35:37,177 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:35:37,391 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:35:56,532 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:35:56,571 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:35:57,711 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:36:06,050 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:36:11,628 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:36:11,677 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:36:12,804 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:36:54,505 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'f1832b27-234c-4910-a52d-aa0926cc2244', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:36:54 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:36:54 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:36:54,505 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"_Rr0d4rUU6CQZ_K0f_qSVw"},"webhookEventId":"01JTK3TDY7ZQWHASN79ZR3B3C8","deliveryContext":{"isRedeliv...
+2025-05-06 15:39:32,550 logger_config INFO     Logging configured with level: INFO
+2025-05-06 15:39:32,552 rate_limiter INFO     Rate limiting is disabled
+2025-05-06 15:39:32,552 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-06 15:39:32,553 middleware   INFO     Middleware applied successfully
+2025-05-06 15:39:33,374 logger_config INFO     Logging configured with level: INFO
+2025-05-06 15:39:44,309 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:39:44,586 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:39:54,088 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:39:54,129 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:39:55,259 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:39:58,376 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:39:58,423 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:39:59,543 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:40:04,626 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:40:04,736 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:40:13,404 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:40:13,452 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:40:14,579 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:40:15,192 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:40:15,239 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:40:16,392 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:40:19,273 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:40:55,023 line_webhook ERROR    Error while handling webhook: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'de1a003d-4641-4585-84ac-2e149da92455', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:40:55 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:40:55 GMT', 'Connection': 'close'})
+HTTP response body: {"message":"Invalid reply token"}
+
+2025-05-06 15:40:55,023 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"N_a9gf5xIC740DruB6S0EA"},"webhookEventId":"01JTK41RT1JGCA0A5XC52ZMXQW","deliveryContext":{"isRedeliv...
