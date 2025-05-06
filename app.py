@@ -3,10 +3,9 @@ from logging.config import dictConfig
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
 from rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
+import importlib.util
 
 from config_module import PORT, CACHE_ENABLED
-from line_webhook import webhook_handler, verify_location_handler
-from cache_manager import cache
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -14,10 +13,25 @@ app = Flask(__name__)
 # Configure rate limiting
 configure_limiter(app)
 
-# Initialize Flask-Caching
-if CACHE_ENABLED:
-    cache.init_app(app)
-    app.logger.info("Redis caching enabled")
+# Check if Flask-Caching is installed
+flask_caching_installed = importlib.util.find_spec("flask_caching") is not None
+
+# Initialize Flask-Caching only if available
+if CACHE_ENABLED and flask_caching_installed:
+    try:
+        from cache_manager import cache
+        if cache is not None:
+            cache.init_app(app)
+            app.logger.info("Redis caching enabled")
+        else:
+            app.logger.warning("Redis caching unavailable, using in-memory storage")
+    except ImportError:
+        app.logger.warning("Flask-Caching unavailable, using in-memory storage")
+else:
+    app.logger.info("Caching disabled or Flask-Caching not installed")
+
+# Import webhook handlers after cache setup to avoid circular imports
+from line_webhook import webhook_handler, verify_location_handler
 
 # Set up logging
 dictConfig({

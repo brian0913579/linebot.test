@@ -9,9 +9,33 @@ and allow for distributed deployments.
 import logging
 import json
 import time
-from flask_caching import Cache
-from redis import Redis
-from redis.exceptions import RedisError
+import importlib.util
+
+# Check if Redis is installed
+redis_installed = importlib.util.find_spec("redis") is not None
+flask_caching_installed = importlib.util.find_spec("flask_caching") is not None
+
+# Import Redis and Flask-Caching if available, otherwise use fallback
+if redis_installed:
+    from redis import Redis
+    from redis.exceptions import RedisError
+else:
+    # Define dummy classes if Redis is not installed
+    class Redis:
+        def __init__(self, *args, **kwargs):
+            pass
+    class RedisError(Exception):
+        pass
+
+if flask_caching_installed:
+    from flask_caching import Cache
+else:
+    # Define a dummy Cache class if Flask-Caching is not installed
+    class Cache:
+        def __init__(self, *args, **kwargs):
+            pass
+        def init_app(self, app):
+            pass
 
 from config_module import (
     REDIS_HOST, REDIS_PORT, REDIS_DB, REDIS_PASSWORD,
@@ -21,36 +45,44 @@ from config_module import (
 # Configure logger
 logger = logging.getLogger(__name__)
 
-# Initialize Redis client
-try:
-    redis_client = Redis(
-        host=REDIS_HOST,
-        port=REDIS_PORT,
-        db=REDIS_DB,
-        password=REDIS_PASSWORD,
-        ssl=REDIS_SSL,
-        socket_timeout=3,
-        socket_connect_timeout=3,
-        decode_responses=True  # Return strings instead of bytes
-    )
-    # Test connection
-    redis_client.ping()
-    logger.info("Successfully connected to Redis server")
-except RedisError as e:
-    logger.error(f"Failed to connect to Redis: {str(e)}")
-    logger.warning("Falling back to local in-memory cache")
+# Check if Redis and Flask-Caching are available
+if redis_installed and flask_caching_installed:
+    try:
+        # Initialize Redis client
+        redis_client = Redis(
+            host=REDIS_HOST,
+            port=REDIS_PORT,
+            db=REDIS_DB,
+            password=REDIS_PASSWORD,
+            ssl=REDIS_SSL,
+            socket_timeout=3,
+            socket_connect_timeout=3,
+            decode_responses=True  # Return strings instead of bytes
+        )
+        # Test connection
+        redis_client.ping()
+        logger.info("Successfully connected to Redis server")
+        
+        # Initialize Flask-Cache for route caching
+        cache = Cache(config={
+            'CACHE_TYPE': 'RedisCache',
+            'CACHE_REDIS_HOST': REDIS_HOST,
+            'CACHE_REDIS_PORT': REDIS_PORT,
+            'CACHE_REDIS_DB': REDIS_DB,
+            'CACHE_REDIS_PASSWORD': REDIS_PASSWORD,
+            'CACHE_REDIS_URL': f"redis{'s' if REDIS_SSL else ''}://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}",
+            'CACHE_DEFAULT_TIMEOUT': 300
+        })
+    except Exception as e:
+        logger.error(f"Failed to connect to Redis: {str(e)}")
+        logger.warning("Falling back to local in-memory cache")
+        redis_client = None
+        cache = Cache(config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT': 300})
+else:
+    # Redis or Flask-Caching not installed, use in-memory fallback
+    logger.warning("Redis or Flask-Caching not installed, using in-memory storage")
     redis_client = None
-
-# Initialize Flask-Cache for route caching
-cache = Cache(config={
-    'CACHE_TYPE': 'RedisCache' if redis_client else 'SimpleCache',
-    'CACHE_REDIS_HOST': REDIS_HOST if redis_client else None,
-    'CACHE_REDIS_PORT': REDIS_PORT if redis_client else None,
-    'CACHE_REDIS_DB': REDIS_DB if redis_client else None,
-    'CACHE_REDIS_PASSWORD': REDIS_PASSWORD if redis_client else None,
-    'CACHE_REDIS_URL': f"redis{'s' if REDIS_SSL else ''}://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}" if redis_client else None,
-    'CACHE_DEFAULT_TIMEOUT': 300
-})
+    cache = Cache(config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT': 300}) if flask_caching_installed else None
 
 # Authorization cache functions
 def store_verify_token(token, user_id):

@@ -5,6 +5,7 @@ import base64
 import time
 import secrets as py_secrets
 from math import radians, sin, cos, sqrt, atan2
+import importlib.util
 from flask import request, abort, jsonify
 
 from linebot.v3 import WebhookHandler
@@ -25,11 +26,36 @@ from config_module import (
 from mqtt_handler import send_garage_command
 from token_manager import generate_token, clean_expired_tokens, TOKENS
 from models import get_allowed_users
-from cache_manager import (
-    cache, store_verify_token, get_verify_token, 
-    authorize_user, is_user_authorized, 
-    store_action_token, get_action_token
-)
+
+# Check if Redis and Flask-Caching are available
+redis_installed = importlib.util.find_spec("redis") is not None
+flask_caching_installed = importlib.util.find_spec("flask_caching") is not None
+
+# Only import cache_manager if Redis and Flask-Caching are installed
+if redis_installed and flask_caching_installed and CACHE_ENABLED:
+    try:
+        from cache_manager import (
+            cache, store_verify_token, get_verify_token, 
+            authorize_user, is_user_authorized, 
+            store_action_token, get_action_token
+        )
+        caching_available = True
+    except ImportError:
+        caching_available = False
+else:
+    caching_available = False
+
+# Override CACHE_ENABLED based on actual availability
+CACHE_ENABLED = CACHE_ENABLED and caching_available
+
+# Define empty functions if caching is not available
+if not caching_available:
+    def store_verify_token(token, user_id): return True
+    def get_verify_token(token): return (None, None)
+    def authorize_user(user_id): return True
+    def is_user_authorized(user_id): return False
+    def store_action_token(token, user_id, action): return True
+    def get_action_token(token): return (None, None, None)
 
 # Configure logger
 logger = logging.getLogger(__name__)
