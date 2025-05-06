@@ -30,6 +30,10 @@ if CACHE_ENABLED and flask_caching_installed:
 else:
     app.logger.info("Caching disabled or Flask-Caching not installed")
 
+# Apply middleware
+from middleware import apply_middleware
+app = apply_middleware(app)
+
 # Import webhook handlers after cache setup to avoid circular imports
 from line_webhook import webhook_handler, verify_location_handler
 
@@ -69,13 +73,19 @@ dictConfig({
 def healthz():
     return "OK", 200
 
+# Import the decorators
+from middleware import validate_line_signature, require_json, rate_limit_by_ip
+
 # LINE Bot webhook endpoint
 @app.route("/webhook", methods=['POST'])
+@validate_line_signature
 def webhook():
     return webhook_handler()
 
 # Location verification API endpoint
 @app.route('/api/verify-location', methods=['POST'])
+@require_json
+@rate_limit_by_ip(max_requests=20, time_window=60)  # More strict rate limit for verification
 def verify_location():
     return verify_location_handler()
 

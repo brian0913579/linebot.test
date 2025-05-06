@@ -103,18 +103,21 @@ def verify_signature(signature, body):
 
 # Handler for webhook endpoint
 def webhook_handler():
-    signature = request.headers['X-Line-Signature']
+    """
+    Handle incoming webhook events from LINE Platform.
+    Signature validation is now performed by middleware.
+    """
     body = request.get_data(as_text=True)
+    signature = request.headers.get('X-Line-Signature', '')
 
     try:
-        # Verify the signature
-        if not verify_signature(signature, body):
-            logger.error("Invalid signature. Could not verify the signature.")
-            abort(400)  # Return 400 if signature is invalid
+        # Process the webhook content
         handler.handle(body, signature)
+        logger.info("Webhook processed successfully")
     except Exception as e:
         logger.error(f"Unexpected error occurred while handling the webhook: {e}")
         abort(500)  # Return 500 for other errors
+    
     return 'OK', 200
 
 # Handler for location verification
