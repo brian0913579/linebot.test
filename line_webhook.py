@@ -114,10 +114,17 @@ def webhook_handler():
         # Process the webhook content
         handler.handle(body, signature)
         logger.info("Webhook processed successfully")
+    except InvalidSignatureError:
+        logger.error("Invalid signature from LINE Platform")
+        abort(400, description="Invalid signature")
     except Exception as e:
-        logger.error(f"Unexpected error occurred while handling the webhook: {e}")
-        abort(500)  # Return 500 for other errors
+        # Log the error but still return 200 OK to LINE Platform
+        # This prevents unnecessary retries for transient errors
+        logger.error(f"Error while handling webhook: {e}")
+        logger.error(f"Request body: {body[:200]}...")  # Log partial body for debugging
     
+    # Always return 200 OK to LINE Platform
+    # This is recommended by LINE to acknowledge receipt of the webhook
     return 'OK', 200
 
 # Handler for location verification
@@ -264,8 +271,20 @@ def handle_text(event):
 
     except Exception as e:
         logger.error(f"Error while processing text message: {e}")
-        reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
-        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+        try:
+            reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+        except Exception as reply_error:
+            logger.error(f"Unable to send error reply: {reply_error}")
+            # If we can't reply, try to push a message instead
+            try:
+                line_bot_api.push_message(PushMessageRequest(
+                    to=user_id,
+                    messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")]
+                ))
+                logger.info(f"Sent push message instead of reply to user {user_id}")
+            except Exception as push_error:
+                logger.error(f"Failed to send push message: {push_error}")
 
 # Handle postback events
 @handler.add(PostbackEvent)
@@ -347,5 +366,17 @@ def handle_postback(event):
 
     except Exception as e:
         logger.error(f"Unexpected error during postback handling: {e}")
-        reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
-        line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+        try:
+            reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+            line_bot_api.reply_message(ReplyMessageRequest(reply_token=event.reply_token, messages=[reply]))
+        except Exception as reply_error:
+            logger.error(f"Unable to send error reply: {reply_error}")
+            # If we can't reply, try to push a message instead
+            try:
+                line_bot_api.push_message(PushMessageRequest(
+                    to=user_id,
+                    messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")]
+                ))
+                logger.info(f"Sent push message instead of reply to user {user_id}")
+            except Exception as push_error:
+                logger.error(f"Failed to send push message: {push_error}")
