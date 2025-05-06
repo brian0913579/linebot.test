@@ -1,0 +1,45 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Python files
+*.py text diff=python
+
+# Shell scripts should use LF line endings
+*.sh text eol=lf
+
+# Batch scripts should use CRLF line endings
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# HTML, CSS, JavaScript
+*.html text diff=html
+*.css text diff=css
+*.js text diff=javascript
+
+# Documentation
+*.md text diff=markdown
+*.txt text
+LICENSE text
+
+# Configuration files
+*.yaml text
+*.yml text
+*.json text
+*.conf text
+*.ini text
+Procfile text eol=lf
+app.yaml text
+
+# Declare files that will always have CRLF line endings
+*.sln text eol=crlf
+
+# Denote all files that are truly binary and should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.pdf binary
+*.sqlite binary
+*.db binary
