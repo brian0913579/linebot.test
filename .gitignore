@@ -1,1 +1,37 @@
+# Claude settings
 **/.claude/settings.local.json
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+venv/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Log files
+*.log
+
+# Environment variables
+.env
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS specific
+.DS_Store
