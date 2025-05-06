@@ -1,12 +1,12 @@
 import os
 import logging
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory, request
 from werkzeug.exceptions import HTTPException
 from middleware.rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
 import importlib.util
 
 from config.config_module import PORT, CACHE_ENABLED
-import utils.logger_config as logger_config
+from utils import setup_logging, get_logger
 
 # Initialize Flask application
 app = Flask(__name__, static_folder='static')
@@ -43,7 +43,7 @@ app = register_swagger_ui(app)
 from core.line_webhook import webhook_handler, verify_location_handler
 
 # Set up logging
-logger = logger_config.setup_logging()
+logger = setup_logging()
 
 # Root endpoint for documentation
 @app.route("/", methods=["GET"])

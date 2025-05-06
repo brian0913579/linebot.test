@@ -159,6 +159,14 @@ def setup_logging(log_level=None, config=None):
         level = LOG_LEVELS.get(log_level.upper(), logging.INFO)
         log_config['loggers']['']['level'] = level
         log_config['handlers']['console']['level'] = level
+    
+    # Inject the ImportantLogFilter directly to avoid circular import
+    logging.config.dictConfig = dictConfig
+    
+    # Register the filter class directly to avoid import issues
+    # This ensures the filter is accessible regardless of how the module is imported
+    if 'filters' in log_config and 'important_only' in log_config['filters']:
+        log_config['filters']['important_only']['()'] = ImportantLogFilter
         
     # Apply configuration
     dictConfig(log_config)
