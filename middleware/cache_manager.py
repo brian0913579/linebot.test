@@ -97,14 +97,16 @@ def store_verify_token(token, user_id):
         bool: True if stored successfully, False otherwise
     """
     expiry = time.time() + VERIFY_TTL
-    data = json.dumps({'user_id': user_id, 'expiry': expiry})
     
     try:
         if redis_client:
             # Store in Redis with expiry
+            data = json.dumps({'user_id': user_id, 'expiry': expiry})
             return redis_client.setex(f"verify_token:{token}", VERIFY_TTL, data)
-        # If Redis is unavailable, return True but don't store
-        return True
+        # If Redis is unavailable, we need to alert the caller that
+        # the operation actually failed so they can use an alternative
+        logger.warning(f"Redis unavailable for storing verify token, using in-memory fallback")
+        return False
     except RedisError as e:
         logger.error(f"Redis error while storing verify token: {str(e)}")
         return False
@@ -122,21 +124,30 @@ def get_verify_token(token):
     try:
         if redis_client:
             # Get from Redis
-            data = redis_client.get(f"verify_token:{token}")
+            key = f"verify_token:{token}"
+            logger.info(f"Looking up token in Redis: {key}")
+            data = redis_client.get(key)
+            
             if not data:
+                logger.warning(f"Token not found in Redis: {token[:8] if token else 'None'}...")
                 return None, None
                 
+            logger.info(f"Token found in Redis: {token[:8]}...")
             parsed = json.loads(data)
             # Delete immediately to prevent reuse
-            redis_client.delete(f"verify_token:{token}")
+            redis_client.delete(key)
+            logger.info(f"Deleted Redis token after lookup")
             
             # Check expiry
             if time.time() > parsed.get('expiry', 0):
+                logger.warning(f"Token expired in Redis: {token[:8]}...")
                 return None, None
                 
+            logger.info(f"Valid token from Redis for user_id: {parsed.get('user_id')}")
             return parsed.get('user_id'), parsed.get('expiry')
         
-        # If Redis is unavailable, return None
+        # If Redis is unavailable, we need to alert the caller
+        logger.warning(f"Redis unavailable for token lookup, returning None")
         return None, None
     except (RedisError, json.JSONDecodeError) as e:
         logger.error(f"Error retrieving verify token: {str(e)}")

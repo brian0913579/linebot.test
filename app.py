@@ -127,7 +127,6 @@ def verify_location_page():
 
 # Location verification API endpoint
 @app.route('/api/verify-location', methods=['POST'])
-@require_json
 @rate_limit_by_ip(max_requests=20, time_window=60)  # More strict rate limit for verification
 def verify_location():
     """

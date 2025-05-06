@@ -133,20 +133,30 @@ def verify_location_handler():
     token = request.args.get('token')
     data = request.get_json(silent=True)
     
+    logger.info(f"Received location verification request for token: {token[:8] if token else 'None'}...")
+    
     # Try to get token from Redis first, then fallback to in-memory
     if CACHE_ENABLED:
         user_id, expiry = get_verify_token(token)
+        logger.info(f"Redis token lookup result: user_id={user_id}, expiry={'valid' if expiry and time.time() <= expiry else 'expired or none'}")
     else:
         record = VERIFY_TOKENS.get(token)
+        logger.info(f"In-memory token lookup result: record_exists={record is not None}")
+        
         if not record:
             user_id, expiry = None, None
         else:
             user_id, expiry = record
             # Remove token so it cannot be reused
             VERIFY_TOKENS.pop(token, None)
+            logger.info(f"Found and removed token from in-memory store for user: {user_id}")
+    
+    # Debug check all tokens in memory
+    logger.info(f"Current tokens in memory: {len(VERIFY_TOKENS)}")
     
     # Validate token
     if not token or not user_id:
+        logger.warning(f"Invalid token: token_provided={token is not None}, user_id_found={user_id is not None}")
         return jsonify(ok=False, message='無效或已過期的驗證'), 400
     
     # Check expiry
@@ -232,9 +242,13 @@ def handle_text(event):
             
             # Store token in Redis if enabled, otherwise in memory
             if CACHE_ENABLED:
-                store_verify_token(verify_token, user_id)
+                if not store_verify_token(verify_token, user_id):
+                    # Redis storage failed, use in-memory fallback
+                    logger.info(f"Storing verification token in memory: {verify_token[:8]}...")
+                    VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
             else:
                 VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
+                logger.info(f"Stored verification token in memory: {verify_token[:8]}...")
                 
             verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
             reply = TemplateMessage(
@@ -307,9 +321,13 @@ def handle_postback(event):
         
         # Store token in Redis if enabled, otherwise in memory
         if CACHE_ENABLED:
-            store_verify_token(verify_token, user_id)
+            if not store_verify_token(verify_token, user_id):
+                # Redis storage failed, use in-memory fallback
+                logger.info(f"Storing verification token in memory: {verify_token[:8]}...")
+                VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
         else:
             VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
+            logger.info(f"Stored verification token in memory: {verify_token[:8]}...")
             
         verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
         reply = TemplateMessage(
