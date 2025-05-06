@@ -31,7 +31,7 @@ MAX_DIST_KM = float(get_secret('MAX_DIST_KM', default='0.5'))  # 500 meters maxi
 
 # Time-to-live settings
 VERIFY_TTL = int(get_secret('VERIFY_TTL', default='300'))  # 5 minutes for one-time verification tokens
-LOCATION_TTL = int(get_secret('LOCATION_TTL', default='10'))  # 10 seconds location verification validity
+LOCATION_TTL = int(get_secret('LOCATION_TTL', default='300'))  # 5 minutes location verification validity
 
 # Flask App Configuration
 PORT = int(get_secret('PORT', default='8080'))

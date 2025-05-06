@@ -115,6 +115,16 @@ document_api(
     tags=['LINE Webhook']
 )
 
+# Serve the verification page
+@app.route('/verify-location', methods=['GET'])
+def verify_location_page():
+    """
+    Serve the location verification page.
+    ---
+    This page prompts the user to share their location for verification.
+    """
+    return send_from_directory(app.static_folder, 'verify.html')
+
 # Location verification API endpoint
 @app.route('/api/verify-location', methods=['POST'])
 @require_json
@@ -129,7 +139,7 @@ def verify_location():
 
 document_api(
     verify_location,
-    '/verify-location',
+    '/api/verify-location',
     ['POST'],
     description="Verify user location for garage access",
     summary="Verify user location",
