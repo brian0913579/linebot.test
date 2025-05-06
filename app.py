@@ -20,12 +20,16 @@ flask_caching_installed = importlib.util.find_spec("flask_caching") is not None
 # Initialize Flask-Caching only if available
 if CACHE_ENABLED and flask_caching_installed:
     try:
-        from middleware.cache_manager import cache
+        from middleware.cache_manager import cache, redis_client
         if cache is not None:
             cache.init_app(app)
-            app.logger.info("Redis caching enabled")
+            # More accurate caching status based on actual Redis connection
+            if redis_client is not None:
+                app.logger.info("Redis caching enabled")
+            else:
+                app.logger.warning("Redis connection failed, using in-memory cache fallback")
         else:
-            app.logger.warning("Redis caching unavailable, using in-memory storage")
+            app.logger.warning("Cache initialization failed, using in-memory storage")
     except ImportError:
         app.logger.warning("Flask-Caching unavailable, using in-memory storage")
 else:
