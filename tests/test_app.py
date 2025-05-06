@@ -1,73 +1,197 @@
 import pytest
-from app import app  # Import your Flask app
-from flask import json
+import json
+import base64
+import hmac
+import hashlib
+import time
+from unittest.mock import patch, MagicMock
+from app import app
+from models import get_allowed_users
+from line_webhook import verify_signature, haversine, VERIFY_TOKENS, authorized_users
+from token_manager import TOKENS, generate_token, clean_expired_tokens
+from config_module import PARK_LAT, PARK_LNG, MAX_DIST_KM
 
 # Setup a test client
 @pytest.fixture
 def client():
+    app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
 
-# Test if the app is up and running
-def test_app_is_up(client):
-    """Test if the app is running."""
-    response = client.get('/')
+# Health endpoint test
+def test_health_endpoint(client):
+    """Test if health check endpoint is responding."""
+    response = client.get('/healthz')
     assert response.status_code == 200
+    assert response.data == b"OK"
 
-# Test user authentication for an allowed user
-def test_user_authentication(client):
-    """Test user authentication for an allowed user."""
-    allowed_user_id = 'Uea6813ef8ec77e7446090621ebcf472a'  # Replace with an allowed user ID
-    response = client.post('/some-endpoint', json={'user_id': allowed_user_id})
+# Mock LINE channel secret for testing
+@pytest.fixture
+def line_channel_secret():
+    return "test_channel_secret".encode()
+
+# Mock signature creation for LINE webhook
+def create_test_signature(body, secret):
+    """Create a test signature for LINE webhook tests."""
+    return base64.b64encode(
+        hmac.new(
+            key=secret,
+            msg=body.encode(),
+            digestmod=hashlib.sha256
+        ).digest()
+    ).decode()
+
+# Test signature verification function
+def test_verify_signature(line_channel_secret):
+    """Test the signature verification for LINE webhook."""
+    test_body = '{"test": "data"}'
+    correct_signature = create_test_signature(test_body, line_channel_secret)
+    
+    with patch('line_webhook.LINE_CHANNEL_SECRET', line_channel_secret):
+        assert verify_signature(correct_signature, test_body) == True
+        assert verify_signature("wrong_signature", test_body) == False
+
+# Test haversine distance function
+def test_haversine():
+    """Test the haversine distance calculation function."""
+    # Test with known coordinates and distance
+    # Empire State Building to Statue of Liberty is ~8.8 km
+    empire_lat, empire_lng = 40.7484, -73.9857
+    liberty_lat, liberty_lng = 40.6892, -74.0445
+    
+    distance = haversine(empire_lat, empire_lng, liberty_lat, liberty_lng)
+    assert 8.7 <= distance <= 8.9  # Allow small margin of error
+    
+    # Test with zero distance (same point)
+    assert haversine(PARK_LAT, PARK_LNG, PARK_LAT, PARK_LNG) == 0
+    
+    # Test with parking lot boundary
+    # Point right at MAX_DIST_KM away from the parking lot center
+    test_lat = PARK_LAT + (MAX_DIST_KM / 111.32)  # ~1 degree latitude = 111.32 km
+    assert haversine(PARK_LAT, PARK_LNG, test_lat, PARK_LNG) - MAX_DIST_KM < 0.01
+
+# Test location verification endpoint
+def test_verify_location_endpoint_invalid_token(client):
+    """Test location verification with invalid token."""
+    response = client.post('/api/verify-location?token=invalid_token', 
+                         json={'lat': PARK_LAT, 'lng': PARK_LNG})
+    assert response.status_code == 400
+    assert json.loads(response.data)['ok'] == False
+
+# Test location verification with valid token but invalid location
+@patch('line_webhook.VERIFY_TOKENS')
+def test_verify_location_endpoint_invalid_location(mock_tokens, client):
+    """Test location verification with valid token but location outside range."""
+    # Setup mock token
+    test_token = "valid_test_token"
+    user_id = "test_user_123"
+    expiry = time.time() + 300
+    mock_tokens.get.return_value = (user_id, expiry)
+    
+    # Test with location outside allowed radius
+    far_lat = PARK_LAT + 1.0  # ~111 km away
+    response = client.post(f'/api/verify-location?token={test_token}', 
+                         json={'lat': far_lat, 'lng': PARK_LNG})
     assert response.status_code == 200
-    assert b"Authorized" in response.data
+    assert json.loads(response.data)['ok'] == False
 
-# Test user authentication for a non-allowed user
-def test_user_not_authenticated(client):
-    """Test that an unauthorized user gets a rejection message."""
-    non_allowed_user_id = 'UnauthorizedUserID'
-    response = client.post('/some-endpoint', json={'user_id': non_allowed_user_id})
-    assert response.status_code == 403  # Forbidden
-    assert b"Unauthorized" in response.data
+# Test token generation and cleanup
+def test_token_generation_and_cleanup():
+    """Test token generation and expired token cleanup."""
+    # Clear tokens before test
+    TOKENS.clear()
+    
+    user_id = "test_user_456"
+    open_token, close_token = generate_token(user_id)
+    
+    # Verify tokens were stored correctly
+    assert open_token in TOKENS
+    assert close_token in TOKENS
+    
+    # Verify token contents
+    assert TOKENS[open_token][0] == user_id
+    assert TOKENS[open_token][1] == 'open'
+    
+    assert TOKENS[close_token][0] == user_id
+    assert TOKENS[close_token][1] == 'close'
+    
+    # Set expiry to past time
+    TOKENS[open_token] = (user_id, 'open', time.time() - 10)
+    
+    # Test cleanup
+    clean_expired_tokens()
+    assert open_token not in TOKENS
+    assert close_token in TOKENS
 
-# Test the location-based functionality
-def test_location_check(client):
-    """Test if the location check for the parking lot works."""
-    test_data = {
-        'latitude': 24.79155,
-        'longitude': 120.99442
-    }
-    response = client.post('/check-location', json=test_data)
-    assert response.status_code == 200
-    response_json = json.loads(response.data)
-    assert response_json["message"] == "Inside parking lot"
+# Mock MQTT client for testing
+@pytest.fixture
+def mock_mqtt_client():
+    with patch('mqtt_handler.mqtt.Client') as mock_client:
+        # Setup the mock client to simulate successful connection
+        instance = mock_client.return_value
+        instance.is_connected.return_value = True
+        
+        # Setup publish return value
+        publish_result = MagicMock()
+        publish_result.is_published.return_value = True
+        instance.publish.return_value = publish_result
+        
+        yield instance
 
-# Test the response when an invalid location is sent
-def test_invalid_location(client):
-    """Test if invalid locations are handled properly."""
-    invalid_data = {
-        'latitude': 0.0,
-        'longitude': 0.0
-    }
-    response = client.post('/check-location', json=invalid_data)
-    assert response.status_code == 400  # Bad request
-    response_json = json.loads(response.data)
-    assert response_json["error"] == "Invalid location"
+# Test MQTT handler
+@patch('mqtt_handler.create_mqtt_client')
+def test_mqtt_handler(mock_create_client, mock_mqtt_client):
+    """Test the MQTT handler for sending garage commands."""
+    from mqtt_handler import send_garage_command
+    
+    # Setup the mock
+    mock_create_client.return_value = (mock_mqtt_client, None)
+    
+    # Test opening command
+    success, error = send_garage_command('open')
+    assert success is True
+    assert error is None
+    mock_mqtt_client.publish.assert_called_with('garage/command', 'up', qos=1)
+    
+    # Test closing command
+    success, error = send_garage_command('close')
+    assert success is True
+    assert error is None
+    mock_mqtt_client.publish.assert_called_with('garage/command', 'down', qos=1)
 
-# Test token-based functionality for opening the gate
-def test_open_gate(client):
-    """Test the gate opening functionality using a valid token."""
-    valid_token = 'ValidToken123'
-    response = client.post('/open-gate', json={'token': valid_token})
-    assert response.status_code == 200
-    response_json = json.loads(response.data)
-    assert response_json["message"] == "Gate opened"
+# Test MQTT error handling
+@patch('mqtt_handler.create_mqtt_client')
+def test_mqtt_error_handling(mock_create_client):
+    """Test MQTT error handling and retry logic."""
+    from mqtt_handler import send_garage_command
+    
+    # Setup the mock to fail connection
+    mock_client = MagicMock()
+    mock_client.is_connected.return_value = False
+    mock_create_client.return_value = (mock_client, None)
+    
+    # Test with connection timeout
+    with patch('mqtt_handler.MAX_RETRIES', 1):  # Limit retries for faster test
+        with patch('mqtt_handler.CONNECT_TIMEOUT', 0.1):  # Short timeout
+            success, error = send_garage_command('open')
+            assert success is False
+            assert "timed out" in error.lower()
 
-# Test token-based functionality for closing the gate
-def test_close_gate(client):
-    """Test the gate closing functionality using a valid token."""
-    valid_token = 'ValidToken123'
-    response = client.post('/close-gate', json={'token': valid_token})
-    assert response.status_code == 200
-    response_json = json.loads(response.data)
-    assert response_json["message"] == "Gate closed"
+# Test rate limiting
+@patch('rate_limiter.limiter')
+def test_rate_limiting(mock_limiter):
+    """Test rate limiting configuration."""
+    from rate_limiter import configure_limiter, limit_webhook_endpoint
+    
+    # Create mock app
+    mock_app = MagicMock()
+    mock_app.view_functions = {"webhook": MagicMock()}
+    
+    # Test with rate limiting enabled
+    with patch('rate_limiter.RATE_LIMIT_ENABLED', True):
+        configure_limiter(mock_app)
+        limit_webhook_endpoint(mock_app)
+        
+        # Verify limiter was initialized and limit was applied
+        assert mock_limiter.init_app.called
+        assert mock_limiter.limit.called

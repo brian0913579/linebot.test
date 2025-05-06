@@ -26,3 +26,8 @@ Flask-Limiter==3.12
 sortedcontainers==2.4.0
 requests==2.32.3
 PyYAML==6.0.2
+
+# Testing dependencies
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
