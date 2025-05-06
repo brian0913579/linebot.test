@@ -1,15 +1,15 @@
 import ssl
 import time
-import logging
 import traceback
 from paho.mqtt import client as mqtt
 from config_module import (
     MQTT_BROKER, MQTT_PORT, MQTT_USERNAME, 
     MQTT_PASSWORD, MQTT_CAFILE, MQTT_TOPIC
 )
+from logger_config import get_logger
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # MQTT client connection constants
 MAX_RETRIES = 3

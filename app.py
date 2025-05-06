@@ -1,12 +1,12 @@
-import logging
 import os
-from logging.config import dictConfig
+import logging
 from flask import Flask, jsonify, send_from_directory
 from werkzeug.exceptions import HTTPException
 from rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
 import importlib.util
 
 from config_module import PORT, CACHE_ENABLED
+import logger_config
 
 # Initialize Flask application
 app = Flask(__name__, static_folder='static')
@@ -43,35 +43,7 @@ app = register_swagger_ui(app)
 from line_webhook import webhook_handler, verify_location_handler
 
 # Set up logging
-dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'default': {
-            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'app.log',
-            'maxBytes': 10 * 1024 * 1024,  # 10 MB
-            'backupCount': 3,
-            'formatter': 'default',
-        },
-    },
-    'loggers': {
-        '': {
-            'level': 'INFO',
-            'handlers': ['console', 'file'],
-        },
-    }
-})
+logger = logger_config.setup_logging()
 
 # Root endpoint for documentation
 @app.route("/", methods=["GET"])

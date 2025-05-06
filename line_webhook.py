@@ -1,4 +1,3 @@
-import logging
 import hashlib
 import hmac
 import base64
@@ -7,6 +6,7 @@ import secrets as py_secrets
 from math import radians, sin, cos, sqrt, atan2
 import importlib.util
 from flask import request, abort, jsonify
+from logger_config import get_logger
 
 from linebot.v3 import WebhookHandler
 from linebot.v3.messaging import (
@@ -58,7 +58,7 @@ if not caching_available:
     def get_action_token(token): return (None, None, None)
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # In-memory store of one-time verification tokens: token -> (user_id, expiry_timestamp)
 # Used as fallback when Redis is unavailable

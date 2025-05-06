@@ -6,10 +6,10 @@ It handles user authorization data and token caching to improve performance
 and allow for distributed deployments.
 """
 
-import logging
 import json
 import time
 import importlib.util
+from logger_config import get_logger
 
 # Check if Redis is installed
 redis_installed = importlib.util.find_spec("redis") is not None
@@ -43,7 +43,7 @@ from config_module import (
 )
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Check if Redis and Flask-Caching are available
 if redis_installed and flask_caching_installed:

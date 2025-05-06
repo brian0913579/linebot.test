@@ -6,14 +6,14 @@ endpoints from abuse and potential DoS attacks. It uses Flask-Limiter to
 enforce request rate limits based on IP address, user ID, or other identifiers.
 """
 
-import logging
 from flask import request, jsonify
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from config_module import RATE_LIMIT_ENABLED, MAX_REQUESTS_PER_MINUTE
+from logger_config import get_logger
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Initialize rate limiter
 limiter = Limiter(

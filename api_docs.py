@@ -7,6 +7,10 @@ It uses flask-swagger-ui to serve the documentation and apispec to generate the 
 
 import importlib.util
 from flask import Blueprint, jsonify
+from logger_config import get_logger
+
+# Configure logger
+logger = get_logger(__name__)
 
 # Check if necessary modules are available
 swagger_ui_installed = importlib.util.find_spec("flask_swagger_ui") is not None
@@ -91,6 +95,7 @@ if swagger_ui_installed and apispec_installed:
         """Register Swagger UI with Flask app"""
         app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
         app.register_blueprint(api_docs_blueprint, url_prefix='/api')
+        logger.info("Swagger UI registered at %s", SWAGGER_URL)
         return app
 
     def document_api(view_function, endpoint, methods, location='path', **kwargs):

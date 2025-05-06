@@ -5,7 +5,6 @@ This module provides middleware functions for Flask application,
 including signature validation for LINE webhook requests.
 """
 
-import logging
 import hashlib
 import hmac
 import base64
@@ -14,9 +13,10 @@ import time
 from flask import request, abort, current_app
 
 from config_module import LINE_CHANNEL_SECRET
+from logger_config import get_logger
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 def validate_line_signature(f):
     """
