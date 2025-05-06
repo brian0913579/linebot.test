@@ -3,8 +3,12 @@
 set -e
 
 # Define paths
-VENV_DIR="./venv"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV_DIR="$PROJECT_ROOT/venv"
 ACTIVATE_PATH="$VENV_DIR/bin/activate"
+
+# Make sure all scripts are executable
+chmod +x "$PROJECT_ROOT/scripts/"*.sh
 
 # Check if virtual environment exists, if not create it
 if [ ! -f "$ACTIVATE_PATH" ]; then
