@@ -28,6 +28,48 @@ LOG_LEVELS = {
     'CRITICAL': logging.CRITICAL
 }
 
+# Custom log filter to only show important messages
+class ImportantLogFilter(logging.Filter):
+    """Filter that only shows important log messages for the console."""
+    
+    def __init__(self):
+        super().__init__()
+        # Messages to filter out
+        self.filtered_patterns = [
+            "externally-managed-environment",
+            "pip install",
+            "WSGI app",
+            "Python module",
+            "wget https",
+        ]
+        
+        # Important modules to always show logs from
+        self.important_modules = [
+            "line_webhook",
+            "mqtt_handler",
+            "__main__",
+        ]
+    
+    def filter(self, record):
+        # Always show logs from important modules
+        if any(record.name.startswith(module) for module in self.important_modules):
+            return True
+            
+        # Always show logs related to user interactions and MQTT
+        if "User" in record.getMessage() or "MQTT" in record.getMessage() or "garage" in record.getMessage().lower():
+            return True
+            
+        # Filter out unimportant messages
+        if any(pattern in record.getMessage() for pattern in self.filtered_patterns):
+            return False
+            
+        # Always show higher severity logs
+        if record.levelno >= logging.WARNING:
+            return True
+            
+        # For other modules, only show INFO logs if they're important
+        return record.levelno >= logging.INFO and not record.name.startswith(("pip", "urllib3", "gunicorn", "werkzeug"))
+
 # Default log configuration
 DEFAULT_LOG_CONFIG = {
     'version': 1,
@@ -39,12 +81,21 @@ DEFAULT_LOG_CONFIG = {
         'detailed': {
             'format': '%(asctime)s %(name)s [%(filename)s:%(lineno)d] %(levelname)s: %(message)s'
         },
+        'simple': {
+            'format': '%(message)s'
+        },
+    },
+    'filters': {
+        'important_only': {
+            '()': 'logger_config.ImportantLogFilter',
+        },
     },
     'handlers': {
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'default',
+            'formatter': 'simple',
+            'filters': ['important_only'],
         },
         'file': {
             'level': 'INFO',
@@ -78,6 +129,11 @@ DEFAULT_LOG_CONFIG = {
             'handlers': ['console', 'file', 'error_file'],
             'propagate': False,
         },
+        # Silence noisy libraries
+        'pip': {'level': 'WARNING', 'handlers': ['file']},
+        'pip._vendor': {'level': 'WARNING', 'handlers': ['file']},
+        'urllib3': {'level': 'WARNING', 'handlers': ['file']},
+        'werkzeug': {'level': 'WARNING', 'propagate': False, 'handlers': ['file']},
     }
 }
 
