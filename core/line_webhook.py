@@ -27,35 +27,52 @@ from core.mqtt_handler import send_garage_command
 from core.token_manager import generate_token, clean_expired_tokens, TOKENS
 from core.models import get_allowed_users
 
-# Check if Redis and Flask-Caching are available
-redis_installed = importlib.util.find_spec("redis") is not None
-flask_caching_installed = importlib.util.find_spec("flask_caching") is not None
+# Disable Redis caching globally
+caching_available = False
+CACHE_ENABLED = False
 
-# Only import cache_manager if Redis and Flask-Caching are installed
-if redis_installed and flask_caching_installed and CACHE_ENABLED:
-    try:
-        from middleware.cache_manager import (
-            cache, store_verify_token, get_verify_token, 
-            authorize_user, is_user_authorized, 
-            store_action_token, get_action_token
-        )
-        caching_available = True
-    except ImportError:
-        caching_available = False
-else:
-    caching_available = False
+# Define cache-related functions (using in-memory storage)
+def store_verify_token(token, user_id): 
+    logger.info(f"Storing verification token in memory: {token[:8]}...")
+    VERIFY_TOKENS[token] = (user_id, time.time() + VERIFY_TTL)
+    return True
 
-# Override CACHE_ENABLED based on actual availability
-CACHE_ENABLED = CACHE_ENABLED and caching_available
+def get_verify_token(token):
+    record = VERIFY_TOKENS.get(token)
+    logger.info(f"Looking up token in memory: {token[:8] if token else 'None'}... Found: {record is not None}")
+    
+    if not record:
+        return None, None
+    
+    user_id, expiry = record
+    # Remove token so it cannot be reused
+    VERIFY_TOKENS.pop(token, None)
+    logger.info(f"Found and removed token for user_id: {user_id}")
+    
+    return user_id, expiry
 
-# Define empty functions if caching is not available
-if not caching_available:
-    def store_verify_token(token, user_id): return True
-    def get_verify_token(token): return (None, None)
-    def authorize_user(user_id): return True
-    def is_user_authorized(user_id): return False
-    def store_action_token(token, user_id, action): return True
-    def get_action_token(token): return (None, None, None)
+def authorize_user(user_id):
+    authorized_users[user_id] = time.time() + LOCATION_TTL
+    logger.info(f"Authorized user {user_id} for {LOCATION_TTL} seconds")
+    return True
+
+def is_user_authorized(user_id):
+    expiry = authorized_users.get(user_id)
+    is_valid = expiry and expiry >= time.time()
+    
+    # Remove expired entry if present
+    if expiry and expiry < time.time():
+        authorized_users.pop(user_id, None)
+        
+    return is_valid
+
+def store_action_token(token, user_id, action):
+    # This will be handled by token_manager.py
+    return True
+
+def get_action_token(token):
+    # This will be handled directly in the postback handler
+    return None, None, None
 
 # Configure logger
 logger = get_logger(__name__)
@@ -135,21 +152,8 @@ def verify_location_handler():
     
     logger.info(f"Received location verification request for token: {token[:8] if token else 'None'}...")
     
-    # Try to get token from Redis first, then fallback to in-memory
-    if CACHE_ENABLED:
-        user_id, expiry = get_verify_token(token)
-        logger.info(f"Redis token lookup result: user_id={user_id}, expiry={'valid' if expiry and time.time() <= expiry else 'expired or none'}")
-    else:
-        record = VERIFY_TOKENS.get(token)
-        logger.info(f"In-memory token lookup result: record_exists={record is not None}")
-        
-        if not record:
-            user_id, expiry = None, None
-        else:
-            user_id, expiry = record
-            # Remove token so it cannot be reused
-            VERIFY_TOKENS.pop(token, None)
-            logger.info(f"Found and removed token from in-memory store for user: {user_id}")
+    # Get and validate token (using our in-memory function)
+    user_id, expiry = get_verify_token(token)
     
     # Debug check all tokens in memory
     logger.info(f"Current tokens in memory: {len(VERIFY_TOKENS)}")
@@ -222,33 +226,15 @@ def handle_text(event):
             )
 
         # Location verification check with expiry handling
-        is_authorized = False
-        
-        # Check Redis first if enabled, then fallback to in-memory
-        if CACHE_ENABLED:
-            is_authorized = is_user_authorized(user_id)
-        else:
-            expiry = authorized_users.get(user_id)
-            is_authorized = expiry and expiry >= time.time()
-            
-            # Remove expired entry if present
-            if expiry and expiry < time.time():
-                authorized_users.pop(user_id, None)
+        is_authorized = is_user_authorized(user_id)
         
         # If not authorized, require verification
         if not is_authorized:
             # Generate one-time token for verification
             verify_token = py_secrets.token_urlsafe(24)
             
-            # Store token in Redis if enabled, otherwise in memory
-            if CACHE_ENABLED:
-                if not store_verify_token(verify_token, user_id):
-                    # Redis storage failed, use in-memory fallback
-                    logger.info(f"Storing verification token in memory: {verify_token[:8]}...")
-                    VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
-            else:
-                VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
-                logger.info(f"Stored verification token in memory: {verify_token[:8]}...")
+            # Store token in memory
+            store_verify_token(verify_token, user_id)
                 
             verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
             reply = TemplateMessage(
@@ -306,28 +292,14 @@ def handle_postback(event):
     user_id = event.source.user_id
     
     # Check if user is authorized
-    is_authorized = False
-    
-    # Check Redis first if enabled, then fallback to in-memory
-    if CACHE_ENABLED:
-        is_authorized = is_user_authorized(user_id)
-    else:
-        expiry = authorized_users.get(user_id)
-        is_authorized = expiry and expiry >= time.time()
+    is_authorized = is_user_authorized(user_id)
     
     if not is_authorized:
         # User hasn't passed verify step yet
         verify_token = py_secrets.token_urlsafe(24)
         
-        # Store token in Redis if enabled, otherwise in memory
-        if CACHE_ENABLED:
-            if not store_verify_token(verify_token, user_id):
-                # Redis storage failed, use in-memory fallback
-                logger.info(f"Storing verification token in memory: {verify_token[:8]}...")
-                VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
-        else:
-            VERIFY_TOKENS[verify_token] = (user_id, time.time() + VERIFY_TTL)
-            logger.info(f"Stored verification token in memory: {verify_token[:8]}...")
+        # Store token in memory
+        store_verify_token(verify_token, user_id)
             
         verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
         reply = TemplateMessage(
@@ -346,18 +318,16 @@ def handle_postback(event):
 
         token = event.postback.data
         
-        # Try to get token from Redis first, then fallback to in-memory
-        if CACHE_ENABLED:
-            user_id, action, expiry = get_action_token(token) or (None, None, None)
-            valid_token = bool(user_id and action and expiry)
+        # Get token from in-memory TOKENS
+        record = TOKENS.get(token)  # Get the token data from TOKENS
+        if not record or len(record) != 3:
+            valid_token = False
+            logger.warning(f"Invalid token in postback: {token[:8]}...")
         else:
-            record = TOKENS.get(token)  # Get the token data from TOKENS
-            if not record or len(record) != 3:
-                valid_token = False
-            else:
-                user_id, action, expiry = record
-                TOKENS.pop(token, None)  # Remove token to prevent reuse
-                valid_token = True
+            user_id, action, expiry = record
+            TOKENS.pop(token, None)  # Remove token to prevent reuse
+            logger.info(f"Found and used token for action: {action}")
+            valid_token = True
 
         if not valid_token:
             reply = TextMessage(text="❌ 無效操作")
