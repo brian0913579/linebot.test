@@ -1,191 +1,65 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>位置驗證</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            justify-content: center;
-            align-items: center;
-        }
-        .container {
-            max-width: 500px;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h1 {
-            color: #0d6efd;
-            margin-bottom: 20px;
-        }
-        .btn-primary {
-            background-color: #06c755;
-            border-color: #06c755;
-            font-weight: bold;
-            padding: 10px 20px;
-            margin-top: 20px;
-        }
-        .btn-primary:hover {
-            background-color: #059b43;
-            border-color: #059b43;
-        }
-        .status {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .loading {
-            background-color: #cce5ff;
-            color: #004085;
-        }
-        .hidden {
-            display: none;
-        }
-        .spinner-border {
-            width: 1.5rem;
-            height: 1.5rem;
-            margin-right: 10px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>位置驗證</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    h2 { margin-bottom: 1rem; }
+    #msg { margin-top: 1rem; color: #555; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>車庫位置驗證</h1>
-        <p class="lead">
-            請確認您在停車場附近並允許位置權限，以便驗證您的位置。
-        </p>
-        
-        <button id="verifyLocation" class="btn btn-primary btn-lg">
-            <i class="bi bi-geo-alt"></i> 驗證我的位置
-        </button>
-        
-        <div id="status" class="status hidden"></div>
-    </div>
+  <h2>正在驗證您的位置…</h2>
+  <p id="msg">請稍候，系統會啟動定位</p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const verifyBtn = document.getElementById('verifyLocation');
-            const statusElement = document.getElementById('status');
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            
-            if (!token) {
-                showStatus('error', '無效的驗證連結。請重新嘗試。');
-                verifyBtn.disabled = true;
-                return;
-            }
-            
-            verifyBtn.addEventListener('click', function() {
-                verifyLocation(token);
-            });
-            
-            function verifyLocation(token) {
-                // Show loading status
-                showStatus('loading', '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 正在驗證位置...');
-                verifyBtn.disabled = true;
-                
-                // Request location permission
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        function(position) {
-                            // Got location, send to server
-                            sendLocationToServer(position, token);
-                        },
-                        function(error) {
-                            // Error getting location
-                            console.error('Error getting location:', error);
-                            
-                            let errorMessage = '無法獲取位置';
-                            switch(error.code) {
-                                case error.PERMISSION_DENIED:
-                                    errorMessage = '位置權限被拒絕。請允許位置訪問並再試一次。';
-                                    break;
-                                case error.POSITION_UNAVAILABLE:
-                                    errorMessage = '位置資訊不可用。請確保您的位置服務已開啟。';
-                                    break;
-                                case error.TIMEOUT:
-                                    errorMessage = '獲取位置超時。請再試一次。';
-                                    break;
-                            }
-                            
-                            showStatus('error', errorMessage);
-                            verifyBtn.disabled = false;
-                        },
-                        {
-                            enableHighAccuracy: true,
-                            timeout: 10000,
-                            maximumAge: 0
-                        }
-                    );
-                } else {
-                    showStatus('error', '您的瀏覽器不支援位置服務。請使用支援 GPS 的設備。');
-                    verifyBtn.disabled = false;
-                }
-            }
-            
-            function sendLocationToServer(position, token) {
-                const locationData = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                    acc: position.coords.accuracy
-                };
-                
-                fetch(`/api/verify-location?token=${token}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(locationData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        showStatus('success', '✅ 位置驗證成功！您可以返回 LINE 應用程式繼續操作。');
-                        
-                        // Try to close this window after a short delay (mobile browsers)
-                        setTimeout(() => {
-                            if (window.opener) {
-                                window.close();
-                            }
-                        }, 3000);
-                    } else {
-                        showStatus('error', `❌ ${data.message || '驗證失敗，請確保您在停車場附近。'}`);
-                        verifyBtn.disabled = false;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showStatus('error', '❌ 驗證過程中發生錯誤，請再試一次。');
-                    verifyBtn.disabled = false;
-                });
-            }
-            
-            function showStatus(type, message) {
-                statusElement.textContent = '';
-                statusElement.className = `status ${type}`;
-                statusElement.innerHTML = message;
-                statusElement.classList.remove('hidden');
-            }
-        });
-    </script>
+  <script>
+    // 1) 解析一次性驗證 token
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (!token) {
+      document.body.innerHTML = '<h1>❌ 缺少驗證 token，請從 LINE 點擊驗證連結。</h1>';
+      throw new Error('Missing token');
+    }
+
+    // 2) 啟動高精度定位
+    navigator.geolocation.getCurrentPosition(
+      async pos => {
+        const { latitude: lat, longitude: lng, accuracy: acc } = pos.coords;
+        document.getElementById('msg').textContent =
+          `座標：${lat.toFixed(5)}, ${lng.toFixed(5)}，誤差約 ${Math.round(acc)} 公尺`;
+
+        // 3) 把一次性驗證 token 加到查驗 URL 裡
+        const verifyUrl = `/api/verify-location?token=${encodeURIComponent(token)}`;
+
+        try {
+          const resp = await fetch(verifyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat, lng, acc })
+          });
+          const result = await resp.json();
+
+          if (result.ok) {
+            document.body.innerHTML = '<h2>✅ 驗證通過，請回到 LINE 操作</h2>';
+            // 自動關閉或返回 LINE（部份瀏覽器/環境可能無法關閉 window）
+            setTimeout(() => {
+              window.close();
+              window.history.back();
+            }, 2000);
+          } else {
+            document.body.innerHTML = `<h2>❌ ${result.message}</h2>`;
+          }
+        } catch (err) {
+          document.body.innerHTML = '<h2>❌ 伺服器錯誤，請稍後再試</h2>';
+        }
+      },
+      err => {
+        alert('無法取得定位，請確認已允許定位權限');
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  </script>
 </body>
 </html>
