@@ -14,3 +14,7 @@ venv/
 
 # ignore application log
 app.log
+error.log
+tests/app.log
+tests/__pycache__/
+tests/error.log
