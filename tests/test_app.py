@@ -47,7 +47,7 @@ def test_verify_signature(line_channel_secret):
     test_body = '{"test": "data"}'
     correct_signature = create_test_signature(test_body, line_channel_secret)
     
-    with patch('line_webhook.LINE_CHANNEL_SECRET', line_channel_secret):
+    with patch('core.line_webhook.LINE_CHANNEL_SECRET', line_channel_secret):
         assert verify_signature(correct_signature, test_body) == True
         assert verify_signature("wrong_signature", test_body) == False
 
@@ -79,7 +79,7 @@ def test_verify_location_endpoint_invalid_token(client):
     assert json.loads(response.data)['ok'] == False
 
 # Test location verification with valid token but invalid location
-@patch('line_webhook.VERIFY_TOKENS')
+@patch('core.line_webhook.VERIFY_TOKENS')
 def test_verify_location_endpoint_invalid_location(mock_tokens, client):
     """Test location verification with valid token but location outside range."""
     # Setup mock token
@@ -139,7 +139,7 @@ def mock_mqtt_client():
         yield instance
 
 # Test MQTT handler
-@patch('mqtt_handler.create_mqtt_client')
+@patch('core.mqtt_handler.create_mqtt_client')
 def test_mqtt_handler(mock_create_client, mock_mqtt_client):
     """Test the MQTT handler for sending garage commands."""
     from core.mqtt_handler import send_garage_command
@@ -160,7 +160,7 @@ def test_mqtt_handler(mock_create_client, mock_mqtt_client):
     mock_mqtt_client.publish.assert_called_with('garage/command', 'down', qos=1)
 
 # Test MQTT error handling
-@patch('mqtt_handler.create_mqtt_client')
+@patch('core.mqtt_handler.create_mqtt_client')
 def test_mqtt_error_handling(mock_create_client):
     """Test MQTT error handling and retry logic."""
     from core.mqtt_handler import send_garage_command
@@ -178,7 +178,7 @@ def test_mqtt_error_handling(mock_create_client):
             assert "timed out" in error.lower()
 
 # Test rate limiting
-@patch('rate_limiter.limiter')
+@patch('middleware.rate_limiter.limiter')
 def test_rate_limiting(mock_limiter):
     """Test rate limiting configuration."""
     from middleware.rate_limiter import configure_limiter, limit_webhook_endpoint
@@ -188,7 +188,7 @@ def test_rate_limiting(mock_limiter):
     mock_app.view_functions = {"webhook": MagicMock()}
     
     # Test with rate limiting enabled
-    with patch('rate_limiter.RATE_LIMIT_ENABLED', True):
+    with patch('middleware.rate_limiter.RATE_LIMIT_ENABLED', True):
         configure_limiter(mock_app)
         limit_webhook_endpoint(mock_app)
         

@@ -2266,3 +2266,221 @@ TimeoutError: Connection timed out after 5s
 2025-05-08 04:38:47,849 middleware.middleware INFO     Middleware applied successfully
 2025-05-08 04:38:47,918 docs.api_docs INFO     Swagger UI registered at /api/docs
 2025-05-08 04:38:48,710 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:03,091 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:03,092 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:39:03,093 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:39:03,093 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:39:03,162 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:39:04,057 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:26,546 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:26,547 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:39:26,548 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:39:26,548 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:39:26,636 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:39:27,406 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:29,556 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:29,558 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:39:29,559 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:39:29,559 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:39:29,667 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:39:30,514 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:40:28,860 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:40:28,864 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:40:28,866 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:40:28,867 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:40:29,453 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:40:34,060 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:34,295 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:34,296 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:41:34,297 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:41:34,297 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:41:34,377 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:41:35,278 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:42,141 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:42,143 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:41:42,143 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:41:42,144 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:41:42,232 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:41:43,033 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:08,476 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:08,477 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:42:08,477 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:42:08,478 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:42:08,581 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:42:09,509 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:13,072 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:13,074 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:42:13,074 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:42:13,074 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:42:13,153 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:42:14,278 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:43:44,872 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:43:44,874 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:43:44,874 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:43:44,875 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:43:45,091 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:43:47,198 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:44:05,163 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:44:05,164 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:44:05,165 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:44:05,165 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:44:05,277 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:44:06,318 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:44:06,468 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 04:44:06,468 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 04:44:06,468 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 04:44:06,468 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 04:44:07,281 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 04:44:07,286 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 04:44:07,291 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 04:45:21,263 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:45:21,539 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 04:45:21,544 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 04:45:21,550 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 04:45:25,931 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:45:26,359 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 04:45:26,368 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 04:45:26,379 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 07:52:52,551 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:52:52,567 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 07:52:52,567 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 07:52:52,575 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 07:52:54,866 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 07:53:11,096 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:53:43,601 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:33,967 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:33,969 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 07:55:33,969 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 07:55:33,970 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 07:55:34,169 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 07:55:34,705 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:34,712 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 07:55:34,714 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 07:55:34,716 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 07:55:35,045 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 07:55:36,016 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:36,310 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 07:55:36,310 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 07:55:36,310 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 07:55:36,311 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 07:55:36,655 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:42,921 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:42,923 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:00:42,923 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:00:42,923 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:00:43,032 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:00:43,932 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:49,721 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:49,723 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:00:49,723 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:00:49,723 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:00:49,833 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:00:51,025 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:51,171 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 08:00:51,171 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 08:00:51,172 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:00:51,172 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 08:00:51,175 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:00:51,175 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:00:51,176 core.line_webhook INFO     Found and removed token for user_id: test_user_123
+2025-05-08 08:00:51,176 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:00:51,330 middleware.rate_limiter INFO     Rate limiting enabled: 30 requests per minute
+2025-05-08 08:00:51,331 middleware.rate_limiter INFO     Applied rate limit to webhook endpoint: 30 requests per minute
+2025-05-08 08:02:40,433 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:40,434 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:02:40,434 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:02:40,434 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:02:40,548 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:02:41,671 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:43,225 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:43,226 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:02:43,226 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:02:43,227 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:02:43,324 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:02:44,621 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:44,632 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:02:44,633 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:02:44,633 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:02:44,636 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:02:44,636 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:02:44,637 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:02:44,803 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:02:44,803 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:02:44,804 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:02:44,804 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:03:36,800 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:36,801 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:03:36,802 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:03:36,802 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:03:36,932 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:03:37,603 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:37,605 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:03:37,605 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:03:37,606 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:03:37,794 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:03:38,762 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:38,780 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:38,780 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:38,781 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:38,785 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:38,785 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:38,786 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:39,074 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:03:39,074 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:03:39,075 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:03:39,075 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:03:39,273 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:45,055 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:45,056 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:03:45,057 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:03:45,057 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:03:45,160 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:03:46,169 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:46,181 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:46,181 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:46,181 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:46,184 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:46,185 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:46,185 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:46,345 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:03:46,345 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:03:46,346 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:03:46,346 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:05:33,831 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:33,832 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:05:33,832 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:05:33,833 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:05:33,971 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:05:36,134 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:36,155 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:36,156 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:36,156 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:36,160 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:36,160 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:36,160 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:36,328 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:05:36,328 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:05:36,329 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:05:36,329 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:05:51,955 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:51,956 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:05:51,956 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:05:51,957 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:05:52,074 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:05:53,191 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:53,335 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:53,337 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:05:53,337 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:05:53,338 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:05:53,504 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:05:54,707 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:54,727 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:54,727 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:54,728 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:54,738 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:54,738 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:54,739 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:54,984 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:05:54,984 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:05:54,985 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:05:54,985 core.line_webhook INFO     Current tokens in memory: 0

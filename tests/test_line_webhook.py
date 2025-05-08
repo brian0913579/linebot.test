@@ -17,18 +17,18 @@ def client():
 
 @pytest.fixture
 def mock_line_bot_api():
-    with patch('line_webhook.line_bot_api') as mock_api:
+    with patch('core.line_webhook.line_bot_api') as mock_api:
         yield mock_api
 
 @pytest.fixture
 def mock_handler():
-    with patch('line_webhook.handler') as mock_h:
+    with patch('core.line_webhook.handler') as mock_h:
         yield mock_h
 
 # Test webhook handler with invalid signature
 def test_webhook_handler_invalid_signature(client):
     """Test webhook handler rejects invalid signatures."""
-    with patch('line_webhook.verify_signature', return_value=False):
+    with patch('core.line_webhook.verify_signature', return_value=False):
         response = client.post('/webhook', 
                               headers={'X-Line-Signature': 'invalid_signature'},
                               data='{}')
@@ -37,7 +37,7 @@ def test_webhook_handler_invalid_signature(client):
 # Test webhook handler with valid signature
 def test_webhook_handler_valid_signature(client, mock_handler):
     """Test webhook handler accepts valid signatures."""
-    with patch('line_webhook.verify_signature', return_value=True):
+    with patch('core.line_webhook.verify_signature', return_value=True):
         response = client.post('/webhook', 
                               headers={'X-Line-Signature': 'valid_signature'},
                               data='{}')
@@ -45,7 +45,7 @@ def test_webhook_handler_valid_signature(client, mock_handler):
         assert mock_handler.handle.called
 
 # Test text message handling for "開關門" command from allowed user
-@patch('line_webhook.get_allowed_users')
+@patch('core.line_webhook.get_allowed_users')
 def test_handle_text_allowed_user(mock_get_allowed_users, mock_line_bot_api):
     """Test handling the '開關門' command from an allowed user."""
     # Setup mock user data
@@ -53,7 +53,7 @@ def test_handle_text_allowed_user(mock_get_allowed_users, mock_line_bot_api):
     mock_get_allowed_users.return_value = {allowed_user_id: "Test User"}
     
     # Setup authorized user
-    with patch('line_webhook.authorized_users', {allowed_user_id: time.time() + 3600}):
+    with patch('core.line_webhook.authorized_users', {allowed_user_id: time.time() + 3600}):
         # Create mock event
         event = MagicMock(spec=MessageEvent)
         event.source.user_id = allowed_user_id
@@ -67,7 +67,7 @@ def test_handle_text_allowed_user(mock_get_allowed_users, mock_line_bot_api):
         mock_line_bot_api.reply_message.assert_called()
 
 # Test text message handling for non-allowed user
-@patch('line_webhook.get_allowed_users')
+@patch('core.line_webhook.get_allowed_users')
 def test_handle_text_non_allowed_user(mock_get_allowed_users, mock_line_bot_api):
     """Test handling command from a non-allowed user."""
     # Setup mock user data
@@ -91,8 +91,8 @@ def test_handle_text_non_allowed_user(mock_get_allowed_users, mock_line_bot_api)
     assert "未註冊" in str(args) or "尚未註冊" in str(args)
 
 # Test location verification with valid token and location
-@patch('line_webhook.VERIFY_TOKENS')
-@patch('line_webhook.generate_token')
+@patch('core.line_webhook.VERIFY_TOKENS')
+@patch('core.line_webhook.generate_token')
 def test_verify_location_valid(mock_generate_token, mock_verify_tokens, client, mock_line_bot_api):
     """Test location verification with valid token and location."""
     # Setup mocks
