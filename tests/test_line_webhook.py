@@ -72,7 +72,8 @@ def test_handle_text_allowed_user(mock_line_bot_api, mock_get_allowed_users):
         source = Source(type="user", user_id=allowed_user_id)
         message = TextMessageContent(
             id="message123",
-            text="開關門"
+            text="開關門",
+            quoteToken="quote_token_123"
         )
         event = MessageEvent(
             type="message",
@@ -92,11 +93,13 @@ def test_handle_text_allowed_user(mock_line_bot_api, mock_get_allowed_users):
         mock_line_bot_api.reply_message.assert_called_once()
         args = mock_line_bot_api.reply_message.call_args[0]
         assert args[0] == "reply123"
-        assert isinstance(args[1], TextMessage)
-        assert args[1].text == "門已開啟"
+        assert len(args[1]) == 1  # Ensure only one message is sent
+        assert isinstance(args[1][0], TextMessage)
+        assert args[1][0].text == "門已開啟"
 
 # Test text message handling for non-allowed user
 @patch('core.line_webhook.get_allowed_users')
+@patch('core.line_webhook.line_bot_api')
 def test_handle_text_non_allowed_user(mock_get_allowed_users, mock_line_bot_api):
     """Test handling command from a non-allowed user."""
     # Setup mock user data

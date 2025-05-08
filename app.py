@@ -1,5 +1,6 @@
 import os
 import logging
+import math  # Add this import
 from flask import Flask, jsonify, send_from_directory, request
 from werkzeug.exceptions import HTTPException
 from middleware.rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
@@ -10,6 +11,23 @@ from utils import setup_logging, get_logger
 
 # Initialize Flask application
 app = Flask(__name__, static_folder='static')
+
+def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """
+    Calculate the great circle distance between two points on the earth (specified in decimal degrees).
+    """
+    # Convert decimal degrees to radians
+    lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+
+    # Haversine formula
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = math.sin(dlat / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
+    c = 2 * math.asin(math.sqrt(a))
+
+    # Radius of Earth in kilometers
+    r = 6371
+    return c * r
 
 # Configure rate limiting
 configure_limiter(app)
