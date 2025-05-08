@@ -1,6 +1,7 @@
 import ssl
 import time
 import traceback
+import logging
 from paho.mqtt import client as mqtt
 from config.config_module import (
     MQTT_BROKER, MQTT_PORT, MQTT_USERNAME, 
@@ -37,31 +38,22 @@ def create_mqtt_client():
     return client, ssl_context
 
 def on_connect(client, userdata, flags, rc):
-    """Callback for when the client receives a CONNACK response from the server"""
-    rc_codes = {
-        0: "Connection successful",
-        1: "Connection refused - incorrect protocol version",
-        2: "Connection refused - invalid client identifier",
-        3: "Connection refused - server unavailable",
-        4: "Connection refused - bad username or password",
-        5: "Connection refused - not authorized"
-    }
+    """Callback when connection is established to MQTT broker."""
     if rc == 0:
-        logger.info("Connected to MQTT broker successfully")
+        logging.info("Connected to MQTT broker successfully")
+    elif rc == 4:
+        logging.error("Failed to connect to MQTT broker: bad username or password")
     else:
-        error_message = rc_codes.get(rc, f"Unknown error code: {rc}")
-        logger.error(f"Failed to connect to MQTT broker: {error_message}")
+        logging.error(f"Failed to connect to MQTT broker: {mqtt.connack_string(rc)}")
 
 def on_publish(client, userdata, mid):
     """Callback for when a message is published"""
     logger.debug(f"Message {mid} published successfully")
 
 def on_disconnect(client, userdata, rc):
-    """Callback for when the client disconnects from the server"""
+    """Callback when disconnected from MQTT broker."""
     if rc != 0:
-        logger.warning(f"Unexpected disconnection from MQTT broker, code: {rc}")
-    else:
-        logger.debug("Disconnected from MQTT broker successfully")
+        logging.warning("Unexpected disconnection from MQTT broker")
 
 def send_garage_command(action):
     """

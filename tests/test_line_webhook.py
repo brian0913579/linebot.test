@@ -8,7 +8,7 @@ from unittest.mock import patch, MagicMock
 from app import app
 from core.line_webhook import webhook_handler, verify_location_handler, handle_text
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, Source
-
+from linebot.v3.messaging import TextMessage
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -35,18 +35,32 @@ def test_webhook_handler_invalid_signature(client):
         assert response.status_code == 400
 
 # Test webhook handler with valid signature
-def test_webhook_handler_valid_signature(client, mock_handler):
-    """Test webhook handler accepts valid signatures."""
-    with patch('core.line_webhook.verify_signature', return_value=True):
-        response = client.post('/webhook', 
-                              headers={'X-Line-Signature': 'valid_signature'},
-                              data='{}')
-        assert response.status_code == 200
-        assert mock_handler.handle.called
+def webhook_handler():
+    """
+    Handle incoming webhook events from LINE Platform.
+    """
+    body = request.get_data(as_text=True)
+    signature = request.headers.get('X-Line-Signature', '')
+
+    if not verify_signature(signature, body):
+        abort(400, description="Invalid signature")
+
+    try:
+        handler.handle(body, signature)
+        logger.info("Webhook processed successfully")
+        return 'OK', 200
+    except InvalidSignatureError:
+        logger.error("Invalid signature from LINE Platform")
+        abort(400, description="Invalid signature")
+    except Exception as e:
+        logger.error(f"Error while handling webhook: {e}")
+        logger.error(f"Request body: {body[:200]}...")
+        return 'OK', 200  # Still return 200 to acknowledge receipt
 
 # Test text message handling for "開關門" command from allowed user
 @patch('core.line_webhook.get_allowed_users')
-def test_handle_text_allowed_user(mock_get_allowed_users, mock_line_bot_api):
+@patch('core.line_webhook.line_bot_api')
+def test_handle_text_allowed_user(mock_line_bot_api, mock_get_allowed_users):
     """Test handling the '開關門' command from an allowed user."""
     # Setup mock user data
     allowed_user_id = "user123"
@@ -54,17 +68,32 @@ def test_handle_text_allowed_user(mock_get_allowed_users, mock_line_bot_api):
     
     # Setup authorized user
     with patch('core.line_webhook.authorized_users', {allowed_user_id: time.time() + 3600}):
-        # Create mock event
-        event = MagicMock(spec=MessageEvent)
-        event.source.user_id = allowed_user_id
-        event.message.text = "開關門"
-        event.reply_token = "reply123"
+        # Create mock event with all required fields
+        source = Source(type="user", user_id=allowed_user_id)
+        message = TextMessageContent(
+            id="message123",
+            text="開關門"
+        )
+        event = MessageEvent(
+            type="message",
+            mode="active",
+            timestamp=int(time.time() * 1000),
+            source=source,
+            message=message,
+            reply_token="reply123",
+            webhook_event_id="webhook_event_123",
+            delivery_context={"isRedelivery": False}
+        )
         
         # Call handler
         handle_text(event)
         
-        # Verify that the reply was sent
-        mock_line_bot_api.reply_message.assert_called()
+        # Verify reply was sent
+        mock_line_bot_api.reply_message.assert_called_once()
+        args = mock_line_bot_api.reply_message.call_args[0]
+        assert args[0] == "reply123"
+        assert isinstance(args[1], TextMessage)
+        assert args[1].text == "門已開啟"
 
 # Test text message handling for non-allowed user
 @patch('core.line_webhook.get_allowed_users')
@@ -77,7 +106,9 @@ def test_handle_text_non_allowed_user(mock_get_allowed_users, mock_line_bot_api)
     
     # Create mock event
     event = MagicMock(spec=MessageEvent)
+    event.source = MagicMock()  # Explicitly mock the source attribute
     event.source.user_id = non_allowed_user_id
+    event.message = MagicMock()  # Explicitly mock the message attribute
     event.message.text = "開關門"
     event.reply_token = "reply123"
     

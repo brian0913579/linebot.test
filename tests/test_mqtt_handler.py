@@ -151,6 +151,8 @@ def test_on_connect_success(caplog):
     
     # Verify successful connection was logged
     assert any("Connected to MQTT broker successfully" in record.message for record in caplog.records)
+    # Verify no errors or warnings were logged
+    assert not any(record.levelname in ["ERROR", "WARNING"] for record in caplog.records)
 
 def test_on_connect_failure(caplog):
     """Test on_connect callback with connection failure."""
