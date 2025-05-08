@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>位置驗證</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    h2 { margin-bottom: 1rem; }
+    #msg { margin-top: 1rem; color: #555; }
+  </style>
+</head>
+<body>
+  <h2>正在驗證您的位置…</h2>
+  <p id="msg">請稍候，系統會啟動定位</p>
+
+  <script>
+    // 1) 解析一次性驗證 token
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (!token) {
+      document.body.innerHTML = '<h1>❌ 缺少驗證 token，請從 LINE 點擊驗證連結。</h1>';
+      throw new Error('Missing token');
+    }
+
+    // 2) 啟動高精度定位
+    navigator.geolocation.getCurrentPosition(
+      async pos => {
+        const { latitude: lat, longitude: lng, accuracy: acc } = pos.coords;
+        document.getElementById('msg').textContent =
+          `座標：${lat.toFixed(5)}, ${lng.toFixed(5)}，誤差約 ${Math.round(acc)} 公尺`;
+
+        // 3) 把一次性驗證 token 加到查驗 URL 裡
+        const verifyUrl = `/api/verify-location?token=${encodeURIComponent(token)}`;
+
+        try {
+          const resp = await fetch(verifyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat, lng, acc })
+          });
+          const result = await resp.json();
+
+          if (result.ok) {
+            document.body.innerHTML = '<h2>✅ 驗證通過，請回到 LINE 操作</h2>';
+            // 自動關閉或返回 LINE（部份瀏覽器/環境可能無法關閉 window）
+            setTimeout(() => {
+              window.close();
+              window.history.back();
+            }, 2000);
+          } else {
+            document.body.innerHTML = `<h2>❌ ${result.message}</h2>`;
+          }
+        } catch (err) {
+          document.body.innerHTML = '<h2>❌ 伺服器錯誤，請稍後再試</h2>';
+        }
+      },
+      err => {
+        alert('無法取得定位，請確認已允許定位權限');
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  </script>
+</body>
+</html>

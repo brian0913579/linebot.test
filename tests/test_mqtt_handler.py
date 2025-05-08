@@ -1,7 +1,7 @@
 import pytest
 import time
 from unittest.mock import patch, MagicMock, call
-from mqtt_handler import (
+from core.mqtt_handler import (
     create_mqtt_client, 
     send_garage_command, 
     on_connect, 
