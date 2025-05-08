@@ -1,6 +1,8 @@
+
+# Add parent directory to Python path so the root 'utils' module can be found
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'utils')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 """
 API Documentation Module
