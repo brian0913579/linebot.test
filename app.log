@@ -2194,3 +2194,69 @@ TimeoutError: Connection timed out after 5s
 2025-05-07 23:08:35,441 core.line_webhook INFO     Current tokens in memory: 21
 2025-05-07 23:08:39,512 utils.logger_config ERROR    404 Not Found: /favicon.ico
 2025-05-07 23:21:23,455 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-08 04:28:20,624 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:28:20,635 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:28:20,643 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:28:20,652 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:28:20,786 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:28:20,786 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:28:20,788 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:30:15,217 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:30:15,218 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:30:15,218 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:30:15,218 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:30:15,232 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:30:15,232 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:30:15,232 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:36,239 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:31:36,241 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:36,241 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:36,241 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:36,255 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:36,255 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:36,255 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:48,914 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:31:48,915 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:48,916 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:48,916 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:48,977 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:48,983 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:48,983 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:32:13,813 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:32:13,815 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:32:13,818 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:32:13,818 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:32:13,865 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:32:13,869 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:32:13,870 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:33:47,697 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:33:47,699 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:33:47,699 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:33:47,699 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:33:47,720 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:33:47,720 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:33:47,720 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:36:37,611 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:36:37,612 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:36:37,613 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:36:37,613 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:36:37,690 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:36:38,504 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:36:59,057 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:36:59,059 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:36:59,059 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:36:59,060 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:36:59,148 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:37:00,092 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:06,616 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:06,618 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:37:06,618 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:37:06,618 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:37:06,688 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:37:07,479 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:17,974 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:17,976 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:37:17,976 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:37:17,976 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:37:18,046 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:37:18,819 utils.logger_config INFO     Logging configured with level: INFO

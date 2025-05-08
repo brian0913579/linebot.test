@@ -6,10 +6,10 @@ import hashlib
 import time
 from unittest.mock import patch, MagicMock
 from app import app
-from models import get_allowed_users
-from line_webhook import verify_signature, haversine, VERIFY_TOKENS, authorized_users
-from token_manager import TOKENS, generate_token, clean_expired_tokens
-from config_module import PARK_LAT, PARK_LNG, MAX_DIST_KM
+from core.models import get_allowed_users
+from core.line_webhook import verify_signature, haversine, VERIFY_TOKENS, authorized_users
+from core.token_manager import TOKENS, generate_token, clean_expired_tokens
+from config.config_module import PARK_LAT, PARK_LNG, MAX_DIST_KM
 
 # Setup a test client
 @pytest.fixture

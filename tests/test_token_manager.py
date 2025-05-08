@@ -1,7 +1,7 @@
 import pytest
 import time
 from unittest.mock import patch
-from token_manager import generate_token, clean_expired_tokens, TOKENS
+from core.token_manager import generate_token, clean_expired_tokens, TOKENS
 
 @pytest.fixture
 def clear_tokens():

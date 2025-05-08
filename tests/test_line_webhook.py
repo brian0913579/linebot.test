@@ -6,7 +6,7 @@ import hashlib
 import time
 from unittest.mock import patch, MagicMock
 from app import app
-from line_webhook import webhook_handler, verify_location_handler, handle_text
+from core.line_webhook import webhook_handler, verify_location_handler, handle_text
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, Source
 
 @pytest.fixture
