@@ -1,37 +1,16 @@
 # Claude settings
 **/.claude/settings.local.json
-
-# Python bytecode
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+__pycache__/
+*.pyc
+__pycache__/
+*.pyc
+# ignore vent directory
+vent/
 
-# Virtual environments
-env/
+# ignore Python virtual environment
 venv/
-ENV/
 
-# Distribution / packaging
-dist/
-build/
-*.egg-info/
-
-# Test cache
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Log files
-*.log
-
-# Environment variables
-.env
-
-# Editor files
-.vscode/
-.idea/
-*.swp
-*~
-
-# OS specific
-.DS_Store
+# ignore application log
+app.log

@@ -1333,113 +1333,30 @@ Reason: Bad Request
 HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '41025e7e-de02-4912-99c6-a3b1102f1e57', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:03:30 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:03:30 GMT', 'Connection': 'close'})
 HTTP response body: {"message":"Invalid reply token"}
 
-2025-05-06 16:18:54,587 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:18:54,588 middleware.rate_limiter INFO     Rate limiting is disabled
-2025-05-06 16:18:54,629 middleware.cache_manager ERROR    Failed to connect to Redis: Error 111 connecting to localhost:6379. Connection refused.
-2025-05-06 16:18:54,629 middleware.cache_manager WARNING  Falling back to local in-memory cache
-2025-05-06 16:18:54,631 app          INFO     Redis caching enabled
-2025-05-06 16:18:54,633 middleware.middleware INFO     Middleware applied successfully
-2025-05-06 16:20:11,045 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:20:11,047 middleware.rate_limiter INFO     Rate limiting is disabled
-2025-05-06 16:20:11,084 middleware.cache_manager ERROR    Failed to connect to Redis: Error 111 connecting to localhost:6379. Connection refused.
-2025-05-06 16:20:11,085 middleware.cache_manager WARNING  Falling back to local in-memory cache
-2025-05-06 16:20:11,087 app          WARNING  Redis connection failed, using in-memory cache fallback
-2025-05-06 16:20:11,087 middleware.middleware INFO     Middleware applied successfully
-2025-05-06 16:20:11,306 docs.api_docs INFO     Swagger UI registered at /api/docs
-2025-05-06 16:20:12,494 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:22:51,314 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:22:51,315 middleware.rate_limiter INFO     Rate limiting is disabled
-2025-05-06 16:22:51,346 middleware.cache_manager ERROR    Failed to connect to Redis: Error 111 connecting to localhost:6379. Connection refused.
-2025-05-06 16:22:51,347 middleware.cache_manager WARNING  Falling back to local in-memory cache
-2025-05-06 16:22:51,348 app          WARNING  Redis connection failed, using in-memory cache fallback
-2025-05-06 16:22:51,348 middleware.middleware INFO     Middleware applied successfully
-2025-05-06 16:22:51,451 docs.api_docs INFO     Swagger UI registered at /api/docs
-2025-05-06 16:22:52,380 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:23:35,395 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 16:23:35,645 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:23:47,814 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 16:23:47,987 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:23:49,168 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
-2025-05-06 16:23:49,215 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
-2025-05-06 16:23:49,216 utils.logger_config ERROR    404 Not Found: /favicon.ico
-2025-05-06 16:27:17,701 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:27:17,702 middleware.rate_limiter INFO     Rate limiting is disabled
-2025-05-06 16:27:17,730 middleware.cache_manager ERROR    Failed to connect to Redis: Error 111 connecting to localhost:6379. Connection refused.
-2025-05-06 16:27:17,731 middleware.cache_manager WARNING  Falling back to local in-memory cache
-2025-05-06 16:27:17,732 app          WARNING  Redis connection failed, using in-memory cache fallback
-2025-05-06 16:27:17,732 middleware.middleware INFO     Middleware applied successfully
-2025-05-06 16:27:17,822 docs.api_docs INFO     Swagger UI registered at /api/docs
-2025-05-06 16:27:18,586 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:27:24,371 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
-2025-05-06 16:27:24,395 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
-2025-05-06 16:27:24,401 utils.logger_config ERROR    404 Not Found: /favicon.ico
-2025-05-06 16:27:25,314 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 16:27:25,532 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:27:32,494 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 16:27:32,630 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:27:32,729 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
-2025-05-06 16:27:32,757 utils.logger_config ERROR    404 Not Found: /favicon.ico
-2025-05-06 16:27:32,758 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
-2025-05-06 16:32:42,379 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:32:42,380 middleware.rate_limiter INFO     Rate limiting is disabled
-2025-05-06 16:32:42,410 middleware.cache_manager ERROR    Failed to connect to Redis: Error 111 connecting to localhost:6379. Connection refused.
-2025-05-06 16:32:42,410 middleware.cache_manager WARNING  Falling back to local in-memory cache
-2025-05-06 16:32:42,412 app          WARNING  Redis connection failed, using in-memory cache fallback
-2025-05-06 16:32:42,412 middleware.middleware INFO     Middleware applied successfully
-2025-05-06 16:32:42,524 docs.api_docs INFO     Swagger UI registered at /api/docs
-2025-05-06 16:32:43,342 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:32:48,808 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 16:32:48,809 middleware.cache_manager WARNING  Redis unavailable for storing verify token, using in-memory fallback
-2025-05-06 16:32:48,809 core.line_webhook INFO     Storing verification token in memory: Bn_SsNLy...
-2025-05-06 16:32:49,036 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:32:50,760 core.line_webhook INFO     Received location verification request for token: Bn_SsNLy...
-2025-05-06 16:32:50,760 middleware.cache_manager WARNING  Redis unavailable for token lookup, returning None
-2025-05-06 16:32:50,761 core.line_webhook INFO     Redis token lookup result: user_id=None, expiry=expired or none
-2025-05-06 16:32:50,761 core.line_webhook INFO     Current tokens in memory: 1
-2025-05-06 16:32:50,761 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
-2025-05-06 16:35:12,668 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:35:12,669 middleware.rate_limiter INFO     Rate limiting is disabled
-2025-05-06 16:35:12,670 app          INFO     Caching disabled or Flask-Caching not installed
-2025-05-06 16:35:12,670 middleware.middleware INFO     Middleware applied successfully
-2025-05-06 16:35:12,795 docs.api_docs INFO     Swagger UI registered at /api/docs
-2025-05-06 16:35:13,729 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-06 16:35:15,522 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 16:35:15,523 core.line_webhook INFO     Storing verification token in memory: 0LtuyVEk...
-2025-05-06 16:35:15,738 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:35:17,960 core.line_webhook INFO     Received location verification request for token: 0LtuyVEk...
-2025-05-06 16:35:17,961 core.line_webhook INFO     Looking up token in memory: 0LtuyVEk... Found: True
-2025-05-06 16:35:17,961 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
-2025-05-06 16:35:17,961 core.line_webhook INFO     Current tokens in memory: 0
-2025-05-06 16:35:21,962 core.line_webhook INFO     Found and used token for action: open
-2025-05-06 16:35:24,233 core.mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 16:35:24,273 core.mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 16:35:25,433 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:35:25,435 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
-2025-05-06 16:35:25,436 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
-2025-05-06 16:35:25,437 utils.logger_config ERROR    404 Not Found: /favicon.ico
-2025-05-06 16:35:25,438 utils.logger_config ERROR    404 Not Found: /favicon.ico
-2025-05-06 16:35:27,575 core.line_webhook INFO     Found and used token for action: close
-2025-05-06 16:35:27,636 core.mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 16:35:27,679 core.mqtt_handler INFO     Garage command 'close' sent successfully
-2025-05-06 16:35:28,855 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:35:55,238 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 16:35:55,239 core.line_webhook INFO     Storing verification token in memory: fKeYkamR...
-2025-05-06 16:35:55,376 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:36:05,870 core.line_webhook INFO     Received location verification request for token: fKeYkamR...
-2025-05-06 16:36:05,870 core.line_webhook INFO     Looking up token in memory: fKeYkamR... Found: True
-2025-05-06 16:36:05,870 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
-2025-05-06 16:36:05,870 core.line_webhook INFO     Current tokens in memory: 0
-2025-05-06 16:36:09,364 core.line_webhook INFO     Found and used token for action: close
-2025-05-06 16:36:09,416 core.mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 16:36:09,467 core.mqtt_handler INFO     Garage command 'close' sent successfully
-2025-05-06 16:36:10,630 core.line_webhook INFO     Webhook processed successfully
-2025-05-06 16:36:10,632 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
-2025-05-06 16:36:10,633 utils.logger_config ERROR    404 Not Found: /favicon.ico
-2025-05-06 16:36:10,633 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
-2025-05-06 16:36:24,088 core.line_webhook INFO     Storing verification token in memory: 95-xdmoy...
-2025-05-06 16:36:24,219 core.line_webhook ERROR    Error while handling webhook: (400)
+2025-05-06 15:08:39,286 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:08:45,541 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:08:45,574 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:08:48,980 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:08:49,027 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:08:59,928 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:08:59,964 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:09:29,421 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:09:29,466 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:13:58,504 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 15:13:58,788 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:12,996 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:14:13,035 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:14:14,169 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:21,566 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:28,460 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:14:28,507 mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 15:14:30,201 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:14:33,652 mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 15:14:33,699 mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 15:14:34,825 line_webhook INFO     Webhook processed successfully
+2025-05-06 15:15:12,966 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
 Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '98b46a79-b864-4174-a61d-4f4d2e119975', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 16:36:24 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 16:36:24 GMT', 'Connection': 'close'})
+HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'bfd366ca-6ac8-4087-858f-4015754380a2', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:15:12 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:15:12 GMT', 'Connection': 'close'})
 HTTP response body: {"message":"Invalid reply token"}
 
 2025-05-06 16:36:24,220 core.line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"E1v91M1LBw87WrByMoomTQ"},"webhookEventId":"01JTK77BZ1F0BNY57FA5XN1R1E","deliveryContext":{"isRedeliv...
