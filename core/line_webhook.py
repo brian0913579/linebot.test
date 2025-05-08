@@ -237,7 +237,17 @@ def handle_text(event):
             )
 
         # User is registered and verified -> show open/close buttons
-        template = build_open_close_template(user_id)
+        open_token, close_token = generate_token(user_id)
+        template = TemplateMessage(
+            alt_text='開關門選單',
+            template=ButtonsTemplate(
+                text='請選擇動作',
+                actions=[
+                    PostbackAction(label='開門', data=open_token),
+                    PostbackAction(label='關門', data=close_token)
+                ]
+            )
+        )
         return line_bot_api.reply_message(
             ReplyMessageRequest(reply_token=event.reply_token, messages=[template])
         )
