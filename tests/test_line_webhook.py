@@ -8,7 +8,12 @@ from unittest.mock import patch, MagicMock
 from app import app
 from core.line_webhook import webhook_handler, verify_location_handler, handle_text
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, Source
-from linebot.v3.messaging import TextMessage
+from linebot.v3.messaging import (
+    TextMessage,
+    TemplateMessage,
+    ButtonsTemplate,
+    PostbackAction
+)
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -68,7 +73,7 @@ def test_handle_text_allowed_user(mock_line_bot_api, mock_get_allowed_users):
     
     # Setup authorized user
     with patch('core.line_webhook.authorized_users', {allowed_user_id: time.time() + 3600}):
-        # Create mock event with all required fields
+        # Create mock event
         source = Source(type="user", user_id=allowed_user_id)
         message = TextMessageContent(
             id="message123",
@@ -92,15 +97,21 @@ def test_handle_text_allowed_user(mock_line_bot_api, mock_get_allowed_users):
         # Verify reply was sent
         mock_line_bot_api.reply_message.assert_called_once()
         args = mock_line_bot_api.reply_message.call_args[0]
-        assert args[0] == "reply123"
+        assert args[0].reply_token == "reply123"
         assert len(args[1]) == 1  # Ensure only one message is sent
-        assert isinstance(args[1][0], TextMessage)
-        assert args[1][0].text == "門已開啟"
-
+        
+        # Check that we got a TemplateMessage with ButtonsTemplate
+        message = args[1][0]
+        assert isinstance(message, TemplateMessage)
+        assert message.alt_text == '開關門選單'
+        assert isinstance(message.template, ButtonsTemplate)
+        assert len(message.template.actions) == 2
+        assert message.template.actions[0].label == '開門'
+        assert message.template.actions[1].label == '關門'
 # Test text message handling for non-allowed user
 @patch('core.line_webhook.get_allowed_users')
 @patch('core.line_webhook.line_bot_api')
-def test_handle_text_non_allowed_user(mock_get_allowed_users, mock_line_bot_api):
+def test_handle_text_non_allowed_user(mock_line_bot_api, mock_get_allowed_users):
     """Test handling command from a non-allowed user."""
     # Setup mock user data
     allowed_user_id = "user123"

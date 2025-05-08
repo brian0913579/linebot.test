@@ -27,10 +27,6 @@ from core.mqtt_handler import send_garage_command
 from core.token_manager import generate_token, clean_expired_tokens, TOKENS
 from core.models import get_allowed_users
 
-# Disable Redis caching globally
-caching_available = False
-CACHE_ENABLED = False
-
 # Define cache-related functions (using in-memory storage)
 def store_verify_token(token, user_id): 
     logger.info(f"Storing verification token in memory: {token[:8]}...")
@@ -66,14 +62,6 @@ def is_user_authorized(user_id):
         
     return is_valid
 
-def store_action_token(token, user_id, action):
-    # This will be handled by token_manager.py
-    return True
-
-def get_action_token(token):
-    # This will be handled directly in the postback handler
-    return None, None, None
-
 # Configure logger
 logger = get_logger(__name__)
 
@@ -100,6 +88,20 @@ def haversine(lat1, lon1, lat2, lon2):
     a = sin(dlat/2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon/2)**2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     return R * c
+
+def build_open_close_template(user_id):
+    open_token, close_token = generate_token(user_id)
+    if CACHE_ENABLED:
+        store_action_token(open_token, user_id, 'open')
+        store_action_token(close_token, user_id, 'close')
+    buttons = ButtonsTemplate(
+        text='請選擇操作',
+        actions=[
+            PostbackAction(label='開門', data=open_token),
+            PostbackAction(label='關門', data=close_token)
+        ]
+    )
+    return TemplateMessage(alt_text='開關門選單', template=buttons)
 
 # Verify signature function
 def verify_signature(signature, body):
@@ -181,21 +183,7 @@ def verify_location_handler():
             authorized_users[user_id] = time.time() + LOCATION_TTL
             
         # Immediately push the open/close buttons to the user
-        open_token, close_token = generate_token(user_id)
-        
-        # If Redis cache is enabled, also store tokens there
-        if CACHE_ENABLED:
-            store_action_token(open_token, user_id, 'open')
-            store_action_token(close_token, user_id, 'close')
-            
-        buttons = ButtonsTemplate(
-            text='請選擇操作',
-            actions=[
-                PostbackAction(label='開門', data=open_token),
-                PostbackAction(label='關門', data=close_token)
-            ]
-        )
-        template = TemplateMessage(alt_text='開關門選單', template=buttons)
+        template = build_open_close_template(user_id)
         line_bot_api.push_message(PushMessageRequest(
             to=user_id,
             messages=[template]
@@ -249,24 +237,9 @@ def handle_text(event):
             )
 
         # User is registered and verified -> show open/close buttons
-        # Generate a unique pair of tokens for open and close
-        open_token, close_token = generate_token(user_id)
-        
-        # If Redis cache is enabled, also store tokens there
-        if CACHE_ENABLED:
-            store_action_token(open_token, user_id, 'open')
-            store_action_token(close_token, user_id, 'close')
-            
-        buttons = ButtonsTemplate(
-            text='請選擇操作',
-            actions=[
-                PostbackAction(label='開門', data=open_token),
-                PostbackAction(label='關門', data=close_token)
-            ]
-        )
-        reply = TemplateMessage(alt_text='開關門選單', template=buttons)
+        template = build_open_close_template(user_id)
         return line_bot_api.reply_message(
-            ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            ReplyMessageRequest(reply_token=event.reply_token, messages=[template])
         )
 
     except Exception as e:
