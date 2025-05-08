@@ -1,0 +1,1 @@
+2025-05-08 08:08:38,448 core.mqtt_handler [mqtt_handler.py:53] ERROR: Failed to connect to MQTT broker: Connection refused - bad username or password
