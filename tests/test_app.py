@@ -126,7 +126,7 @@ def test_token_generation_and_cleanup():
 # Mock MQTT client for testing
 @pytest.fixture
 def mock_mqtt_client():
-    with patch('mqtt_handler.mqtt.Client') as mock_client:
+    with patch('core.mqtt_handler.mqtt.Client') as mock_client:
         # Setup the mock client to simulate successful connection
         instance = mock_client.return_value
         instance.is_connected.return_value = True
@@ -171,8 +171,8 @@ def test_mqtt_error_handling(mock_create_client):
     mock_create_client.return_value = (mock_client, None)
     
     # Test with connection timeout
-    with patch('mqtt_handler.MAX_RETRIES', 1):  # Limit retries for faster test
-        with patch('mqtt_handler.CONNECT_TIMEOUT', 0.1):  # Short timeout
+    with patch('core.mqtt_handler.MAX_RETRIES', 1):  # Limit retries for faster test
+        with patch('core.mqtt_handler.CONNECT_TIMEOUT', 0.1):  # Short timeout
             success, error = send_garage_command('open')
             assert success is False
             assert "timed out" in error.lower()

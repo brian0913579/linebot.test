@@ -2655,3 +2655,9 @@ HTTP response body: {"message":"Invalid reply token"}
 2025-05-08 08:24:53,903 middleware.middleware INFO     Middleware applied successfully
 2025-05-08 08:24:54,015 docs.api_docs INFO     Swagger UI registered at /api/docs
 2025-05-08 08:24:55,236 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:26:25,635 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:26:25,638 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:26:25,639 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:26:25,639 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:26:25,772 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:26:26,718 utils.logger_config INFO     Logging configured with level: INFO
