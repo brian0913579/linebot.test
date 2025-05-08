@@ -2649,3 +2649,9 @@ HTTP response body: {"message":"Invalid reply token"}
 2025-05-08 07:18:30,087 core.mqtt_handler INFO     Garage command 'open' sent successfully
 2025-05-08 07:18:31,234 core.line_webhook INFO     Webhook processed successfully
 >>>>>>> Stashed changes
+2025-05-08 08:24:53,901 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:24:53,902 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:24:53,902 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:24:53,903 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:24:54,015 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:24:55,236 utils.logger_config INFO     Logging configured with level: INFO

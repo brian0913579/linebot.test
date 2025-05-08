@@ -15,7 +15,7 @@ from core.mqtt_handler import (
 # Fixture for mocking the MQTT client
 @pytest.fixture
 def mock_mqtt():
-    with patch('mqtt_handler.mqtt.Client') as mock_client:
+    with patch('core.mqtt_handler.mqtt.Client') as mock_client:
         # Create a mock instance
         instance = mock_client.return_value
         
@@ -34,7 +34,7 @@ def mock_mqtt():
 # Fixture for mocking SSL context
 @pytest.fixture
 def mock_ssl():
-    with patch('mqtt_handler.ssl.create_default_context') as mock_ssl:
+    with patch('core.mqtt_handler.ssl.create_default_context') as mock_ssl:
         ssl_context = MagicMock()
         mock_ssl.return_value = ssl_context
         yield ssl_context
@@ -42,8 +42,8 @@ def mock_ssl():
 # Test client creation
 def test_create_mqtt_client(mock_mqtt, mock_ssl):
     """Test MQTT client creation and configuration."""
-    with patch('mqtt_handler.MQTT_USERNAME', 'test_user'):
-        with patch('mqtt_handler.MQTT_PASSWORD', 'test_pass'):
+    with patch('core.mqtt_handler.MQTT_USERNAME', 'test_user'):
+        with patch('core.mqtt_handler.MQTT_PASSWORD', 'test_pass'):
             client, ssl_ctx = create_mqtt_client()
             
             # Verify the client was created
@@ -64,14 +64,14 @@ def test_create_mqtt_client(mock_mqtt, mock_ssl):
             assert mock_mqtt.on_disconnect == on_disconnect
 
 # Test successful command sending
-@patch('mqtt_handler.create_mqtt_client')
+@patch('core.mqtt_handler.create_mqtt_client')
 def test_send_garage_command_success(mock_create_client, mock_mqtt):
     """Test successful sending of garage command."""
     # Setup the mock
     mock_create_client.return_value = (mock_mqtt, None)
     
     # Test open command
-    with patch('mqtt_handler.MQTT_TOPIC', 'test/topic'):
+    with patch('core.mqtt_handler.MQTT_TOPIC', 'test/topic'):
         success, error = send_garage_command('open')
         
         # Verify connection was established
@@ -90,7 +90,7 @@ def test_send_garage_command_success(mock_create_client, mock_mqtt):
         assert error is None
 
 # Test connection failure
-@patch('mqtt_handler.create_mqtt_client')
+@patch('core.mqtt_handler.create_mqtt_client')
 def test_send_garage_command_connection_failure(mock_create_client):
     """Test handling of connection failure."""
     # Create a mock client that will fail to connect
@@ -99,9 +99,9 @@ def test_send_garage_command_connection_failure(mock_create_client):
     mock_create_client.return_value = (mock_client, None)
     
     # Patch retry settings for faster test
-    with patch('mqtt_handler.MAX_RETRIES', 2):
-        with patch('mqtt_handler.RETRY_DELAY', 0.01):
-            with patch('mqtt_handler.CONNECT_TIMEOUT', 0.1):
+    with patch('core.mqtt_handler.MAX_RETRIES', 2):
+        with patch('core.mqtt_handler.RETRY_DELAY', 0.01):
+            with patch('core.mqtt_handler.CONNECT_TIMEOUT', 0.1):
                 # Test command
                 success, error = send_garage_command('close')
                 
@@ -114,7 +114,7 @@ def test_send_garage_command_connection_failure(mock_create_client):
                 assert "timed out" in error.lower() or "failed" in error.lower()
 
 # Test publish failure
-@patch('mqtt_handler.create_mqtt_client')
+@patch('core.mqtt_handler.create_mqtt_client')
 def test_send_garage_command_publish_failure(mock_create_client, mock_mqtt):
     """Test handling of publish failure."""
     # Setup the mock with publish failure
@@ -126,8 +126,8 @@ def test_send_garage_command_publish_failure(mock_create_client, mock_mqtt):
     mock_mqtt.publish.return_value = publish_result
     
     # Patch retry settings for faster test
-    with patch('mqtt_handler.MAX_RETRIES', 2):
-        with patch('mqtt_handler.RETRY_DELAY', 0.01):
+    with patch('core.mqtt_handler.MAX_RETRIES', 2):
+        with patch('core.mqtt_handler.RETRY_DELAY', 0.01):
             # Test command
             success, error = send_garage_command('open')
             
