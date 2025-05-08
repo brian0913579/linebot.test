@@ -2260,3 +2260,9 @@ TimeoutError: Connection timed out after 5s
 2025-05-08 04:37:17,976 middleware.middleware INFO     Middleware applied successfully
 2025-05-08 04:37:18,046 docs.api_docs INFO     Swagger UI registered at /api/docs
 2025-05-08 04:37:18,819 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:38:47,847 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:38:47,848 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:38:47,849 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:38:47,849 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:38:47,918 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:38:48,710 utils.logger_config INFO     Logging configured with level: INFO

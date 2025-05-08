@@ -142,7 +142,7 @@ def mock_mqtt_client():
 @patch('mqtt_handler.create_mqtt_client')
 def test_mqtt_handler(mock_create_client, mock_mqtt_client):
     """Test the MQTT handler for sending garage commands."""
-    from mqtt_handler import send_garage_command
+    from core.mqtt_handler import send_garage_command
     
     # Setup the mock
     mock_create_client.return_value = (mock_mqtt_client, None)
@@ -163,7 +163,7 @@ def test_mqtt_handler(mock_create_client, mock_mqtt_client):
 @patch('mqtt_handler.create_mqtt_client')
 def test_mqtt_error_handling(mock_create_client):
     """Test MQTT error handling and retry logic."""
-    from mqtt_handler import send_garage_command
+    from core.mqtt_handler import send_garage_command
     
     # Setup the mock to fail connection
     mock_client = MagicMock()
@@ -181,7 +181,7 @@ def test_mqtt_error_handling(mock_create_client):
 @patch('rate_limiter.limiter')
 def test_rate_limiting(mock_limiter):
     """Test rate limiting configuration."""
-    from rate_limiter import configure_limiter, limit_webhook_endpoint
+    from middleware.rate_limiter import configure_limiter, limit_webhook_endpoint
     
     # Create mock app
     mock_app = MagicMock()
