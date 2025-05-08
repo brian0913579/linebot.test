@@ -11,3 +11,80 @@
 2025-05-08 08:08:38,445 core.mqtt_handler INFO     Connected to MQTT broker successfully
 2025-05-08 08:08:38,448 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
 2025-05-08 08:08:38,451 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 08:21:41,986 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:21:41,987 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:21:41,987 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:21:41,987 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:21:42,068 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:21:43,065 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:21:43,221 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 08:21:43,221 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 08:21:43,221 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:21:43,221 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 08:21:43,223 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:21:43,223 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:21:43,224 core.line_webhook INFO     Found and removed token for user_id: test_user_123
+2025-05-08 08:21:43,224 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:21:43,338 middleware.rate_limiter INFO     Rate limiting enabled: 30 requests per minute
+2025-05-08 08:21:43,339 middleware.rate_limiter INFO     Applied rate limit to webhook endpoint: 30 requests per minute
+2025-05-08 08:21:43,341 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:21:43,341 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:21:43,341 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:21:43,343 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:21:43,343 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:21:43,344 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:21:43,473 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:21:43,473 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:21:43,473 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:21:43,474 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:21:43,724 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 08:21:43,727 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 08:21:43,730 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 08:25:24,255 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:25:24,258 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:25:24,258 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:25:24,259 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:25:24,338 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:25:25,136 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:25:25,278 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 08:25:25,279 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 08:25:25,279 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:25:25,279 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 08:25:25,281 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:25:25,281 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:25:25,281 core.line_webhook INFO     Found and removed token for user_id: test_user_123
+2025-05-08 08:25:25,281 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:25:25,372 middleware.rate_limiter INFO     Rate limiting enabled: 30 requests per minute
+2025-05-08 08:25:25,373 middleware.rate_limiter INFO     Applied rate limit to webhook endpoint: 30 requests per minute
+2025-05-08 08:25:25,375 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:25:25,375 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:25:25,375 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:25:25,377 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:25:25,377 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:25:25,377 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:25:25,501 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:25:25,501 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:25:25,502 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:25:25,502 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:25:25,508 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-08 08:25:25,612 core.mqtt_handler WARNING  Attempt 1/2 failed: Connection timed out after 0.1s
+2025-05-08 08:25:25,612 core.mqtt_handler INFO     Retrying in 0.01 seconds...
+2025-05-08 08:25:25,723 core.mqtt_handler WARNING  Attempt 2/2 failed: Connection timed out after 0.1s
+2025-05-08 08:25:25,723 core.mqtt_handler ERROR    Failed to send MQTT command after 2 attempts: Connection timed out after 0.1s
+2025-05-08 08:25:25,724 core.mqtt_handler ERROR    Traceback (most recent call last):
+  File "/home/cool_brian1206cool/linebot.test/core/mqtt_handler.py", line 96, in send_garage_command
+    raise TimeoutError(f"Connection timed out after {CONNECT_TIMEOUT}s")
+TimeoutError: Connection timed out after 0.1s
+
+2025-05-08 08:25:25,728 core.mqtt_handler WARNING  Attempt 1/2 failed: Failed to publish message within timeout period
+2025-05-08 08:25:25,728 core.mqtt_handler INFO     Retrying in 0.01 seconds...
+2025-05-08 08:25:25,739 core.mqtt_handler WARNING  Attempt 2/2 failed: Failed to publish message within timeout period
+2025-05-08 08:25:25,739 core.mqtt_handler ERROR    Failed to send MQTT command after 2 attempts: Failed to publish message within timeout period
+2025-05-08 08:25:25,739 core.mqtt_handler ERROR    Traceback (most recent call last):
+  File "/home/cool_brian1206cool/linebot.test/core/mqtt_handler.py", line 106, in send_garage_command
+    raise Exception("Failed to publish message within timeout period")
+Exception: Failed to publish message within timeout period
+
+2025-05-08 08:25:25,741 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 08:25:25,746 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 08:25:25,749 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
