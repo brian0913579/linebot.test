@@ -1549,3 +1549,20 @@ HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'applic
 HTTP response body: {"message":"Invalid reply token"}
 
 2025-05-06 15:40:55,023 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"N_a9gf5xIC740DruB6S0EA"},"webhookEventId":"01JTK41RT1JGCA0A5XC52ZMXQW","deliveryContext":{"isRedeliv...
+2025-05-08 05:41:06,097 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 05:41:06,100 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 05:41:06,101 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 05:41:06,104 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 05:41:06,262 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 05:41:07,461 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 05:43:04,981 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-08 05:43:04,987 core.line_webhook INFO     Storing verification token in memory: WEYkN3vN...
+2025-05-08 05:43:05,292 core.line_webhook INFO     Webhook processed successfully
+2025-05-08 05:43:07,373 core.line_webhook INFO     Received location verification request for token: WEYkN3vN...
+2025-05-08 05:43:07,373 core.line_webhook INFO     Looking up token in memory: WEYkN3vN... Found: True
+2025-05-08 05:43:07,374 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-08 05:43:07,374 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 05:43:11,375 core.line_webhook INFO     Found and used token for action: open
+2025-05-08 05:43:11,684 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 05:43:11,781 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-08 05:43:12,897 core.line_webhook INFO     Webhook processed successfully
