@@ -1,0 +1,13 @@
+2025-05-08 08:08:35,692 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:08:35,693 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:08:35,694 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:08:35,695 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:08:35,862 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:08:37,282 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:08:37,435 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 08:08:37,435 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 08:08:37,435 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:08:37,435 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 08:08:38,445 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 08:08:38,448 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 08:08:38,451 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
