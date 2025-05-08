@@ -1359,210 +1359,1045 @@ Reason: Bad Request
 HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'bfd366ca-6ac8-4087-858f-4015754380a2', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:15:12 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:15:12 GMT', 'Connection': 'close'})
 HTTP response body: {"message":"Invalid reply token"}
 
-2025-05-06 15:15:12,966 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-2025-05-06 15:16:13,348 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'ef71f348-1ea8-42e8-9a39-edbf560e3940', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:16:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:16:13 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
+2025-05-06 16:36:24,220 core.line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"E1v91M1LBw87WrByMoomTQ"},"webhookEventId":"01JTK77BZ1F0BNY57FA5XN1R1E","deliveryContext":{"isRedeliv...
+2025-05-06 16:36:46,987 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 16:36:46,987 core.line_webhook INFO     Storing verification token in memory: NsvWbO2f...
+2025-05-06 16:36:47,223 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:36:55,894 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 16:36:55,894 core.line_webhook INFO     Storing verification token in memory: Usz1wgRC...
+2025-05-06 16:36:56,028 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:36:59,052 core.line_webhook INFO     Received location verification request for token: Usz1wgRC...
+2025-05-06 16:36:59,052 core.line_webhook INFO     Looking up token in memory: Usz1wgRC... Found: True
+2025-05-06 16:36:59,052 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 16:36:59,053 core.line_webhook INFO     Current tokens in memory: 2
+2025-05-06 16:37:01,938 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 16:37:02,200 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:37:02,242 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 16:37:03,380 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:37:03,381 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 16:37:03,382 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 16:37:03,383 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 16:37:05,850 core.line_webhook INFO     Found and used token for action: close
+2025-05-06 16:37:05,904 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:37:05,953 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 16:37:07,076 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:37:10,567 core.line_webhook INFO     Storing verification token in memory: axNQPQdT...
+2025-05-06 16:37:10,686 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:37:18,248 core.line_webhook INFO     Received location verification request for token: axNQPQdT...
+2025-05-06 16:37:18,248 core.line_webhook INFO     Looking up token in memory: axNQPQdT... Found: True
+2025-05-06 16:37:18,249 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 16:37:18,249 core.line_webhook INFO     Current tokens in memory: 2
+2025-05-06 16:37:21,356 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 16:37:21,412 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:37:21,460 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 16:37:22,586 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:37:22,587 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 16:37:22,588 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 16:37:22,589 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 16:37:26,738 core.line_webhook INFO     Found and used token for action: close
+2025-05-06 16:37:26,792 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:37:26,841 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 16:37:27,961 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:37:57,024 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-06 16:37:57,026 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-06 16:37:57,026 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-06 16:37:57,027 middleware.middleware INFO     Middleware applied successfully
+2025-05-06 16:37:57,199 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-06 16:37:58,152 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-06 16:38:02,788 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 16:38:02,789 core.line_webhook INFO     Storing verification token in memory: 7_kNBlVl...
+2025-05-06 16:38:03,075 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:06,156 core.line_webhook INFO     Received location verification request for token: 7_kNBlVl...
+2025-05-06 16:38:06,156 core.line_webhook INFO     Looking up token in memory: 7_kNBlVl... Found: True
+2025-05-06 16:38:06,157 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 16:38:06,157 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-06 16:38:09,031 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 16:38:10,296 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:38:10,337 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 16:38:11,524 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:11,525 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 16:38:11,526 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 16:38:11,527 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 16:38:26,500 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:34,577 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:43,808 core.line_webhook INFO     Storing verification token in memory: sPOQ5Rzy...
+2025-05-06 16:38:43,953 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:48,051 core.line_webhook INFO     Storing verification token in memory: AD3cIMUS...
+2025-05-06 16:38:48,198 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:49,986 core.line_webhook INFO     Storing verification token in memory: FJXOZmgd...
+2025-05-06 16:38:50,127 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:52,287 core.line_webhook INFO     Storing verification token in memory: KfbSMBxG...
+2025-05-06 16:38:52,436 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:54,174 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 16:38:54,175 core.line_webhook INFO     Storing verification token in memory: dxO_777g...
+2025-05-06 16:38:54,303 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:38:57,980 core.line_webhook INFO     Received location verification request for token: dxO_777g...
+2025-05-06 16:38:57,980 core.line_webhook INFO     Looking up token in memory: dxO_777g... Found: True
+2025-05-06 16:38:57,980 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 16:38:57,980 core.line_webhook INFO     Current tokens in memory: 4
+2025-05-06 16:39:00,720 core.line_webhook INFO     Found and used token for action: close
+2025-05-06 16:39:00,780 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:39:00,823 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 16:39:01,946 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:39:01,947 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 16:39:01,948 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 16:39:01,949 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 16:39:02,010 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 16:39:02,064 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:39:02,113 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 16:39:03,258 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:41:38,495 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 16:41:38,496 core.line_webhook INFO     Storing verification token in memory: 6lkpnOTJ...
+2025-05-06 16:41:38,643 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:41:40,440 core.line_webhook INFO     Received location verification request for token: 6lkpnOTJ...
+2025-05-06 16:41:40,440 core.line_webhook INFO     Looking up token in memory: 6lkpnOTJ... Found: True
+2025-05-06 16:41:40,441 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 16:41:40,441 core.line_webhook INFO     Current tokens in memory: 4
+2025-05-06 16:41:43,523 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 16:41:48,532 core.mqtt_handler WARNING  Attempt 1/3 failed: Connection timed out after 5s
+2025-05-06 16:41:48,532 core.mqtt_handler INFO     Retrying in 0.5 seconds...
+2025-05-06 16:41:54,042 core.mqtt_handler WARNING  Attempt 2/3 failed: Connection timed out after 5s
+2025-05-06 16:41:54,042 core.mqtt_handler INFO     Retrying in 0.5 seconds...
+2025-05-06 16:41:59,552 core.mqtt_handler WARNING  Attempt 3/3 failed: Connection timed out after 5s
+2025-05-06 16:41:59,552 core.mqtt_handler ERROR    Failed to send MQTT command after 3 attempts: Connection timed out after 5s
+2025-05-06 16:41:59,554 core.mqtt_handler ERROR    Traceback (most recent call last):
+  File "/home/cool_brian1206cool/linebot.test/core/mqtt_handler.py", line 96, in send_garage_command
+    raise TimeoutError(f"Connection timed out after {CONNECT_TIMEOUT}s")
+TimeoutError: Connection timed out after 5s
 
-2025-05-06 15:16:13,348 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-2025-05-06 15:17:13,742 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1e1bb2d9-64b4-48fa-a0eb-35659a44bcbd', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:17:13 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:17:13 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:17:13,742 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-2025-05-06 15:18:14,147 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '9ca7a479-10fc-4f46-9218-166a73f81b5c', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:18:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:18:14 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:18:14,148 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-2025-05-06 15:20:02,170 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:20:02,431 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:20:10,304 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:20:10,343 mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 15:20:11,487 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:20:14,633 line_webhook ERROR    Unexpected error during postback handling: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '06a01548-2dbf-4f81-bae9-f7c0bc97f918', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:20:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:20:14 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:20:14,866 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'aee7879f-065b-412d-a89b-d813fca2166a', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:20:14 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:20:14 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:20:14,866 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-2025-05-06 15:20:18,002 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:21:11,267 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e94d2eeb-6f40-4523-b198-fbc7f2e5672d', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:21:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:21:11 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:21:11,267 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-2025-05-06 15:21:15,295 line_webhook ERROR    Unexpected error occurred while handling the webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '5a330b84-6059-495a-a3eb-1bcad7850ab3', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:21:15 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:21:15 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:21:15,295 middleware   ERROR    Error validating signature: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
-2025-05-06 15:22:11,735 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'd81f514e-c985-4513-b582-48b3823a82c8', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:22:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:22:11 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:22:11,737 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"gowh3eIxhwc9-bAMd9YMvQ"},"webhookEventId":"01JTK2XMVWHS185YWTDFQ01HD6","deliveryContext":{"isRedeliv...
-2025-05-06 15:22:15,770 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '4c83ee4a-56bd-4abe-a18f-3cb5d3da6cb0', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:22:15 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:22:15 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:22:15,770 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"FX_pGXkgY5IsWbhkCshj2w"},"webhookEventId":"01JTK2JPXB4W64XQ3EE648GQN2","deliveryContext":{"isRedeliv...
-2025-05-06 15:22:23,426 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:22:23,624 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:22:32,388 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:22:32,397 mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 15:22:33,533 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:22:36,156 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:22:36,358 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:22:36,863 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:23:32,338 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '860bbd6a-0b1a-4ab6-af89-ec4527640a80', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:23:32 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:23:32 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:23:32,339 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"0tGGKhWHd3UodmGXRXFaKg"},"webhookEventId":"01JTK31YHYNBTWPVEKB3XBB03G","deliveryContext":{"isRedeliv...
-2025-05-06 15:27:49,628 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:27:49,840 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:01,206 mqtt_handler WARNING  Attempt 1/3 failed: Connection timed out after 5s
-2025-05-06 15:28:01,207 mqtt_handler INFO     Retrying in 0.5 seconds...
-2025-05-06 15:28:06,719 mqtt_handler WARNING  Attempt 2/3 failed: Connection timed out after 5s
-2025-05-06 15:28:06,719 mqtt_handler INFO     Retrying in 0.5 seconds...
-2025-05-06 15:28:10,620 mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 16
-2025-05-06 15:28:10,680 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:28:10,683 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:28:10,731 mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 15:28:11,864 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:12,002 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:12,603 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:12,723 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:13,180 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:15,888 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:28:16,292 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:28:16,420 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:21,248 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:28:21,290 mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 15:28:22,420 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:24,173 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:28:24,219 mqtt_handler INFO     Garage command 'close' sent successfully
-2025-05-06 15:28:25,346 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:27,815 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:28:27,940 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:28:58,452 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '0117dea9-aab6-4a50-b4fc-0795052fc275', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:28:58 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:28:58 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:28:58,452 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3BWY4EJ0V6KZMGJ9CD09D","deliveryContext":{"isRedeliv...
-2025-05-06 15:29:02,063 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '944129f0-8ce6-415c-bd01-c2e1139bb58a', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:02 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:02 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:29:02,064 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C0CSA6609W572RCGJ1E7","deliveryContext":{"isRedeliv...
-2025-05-06 15:29:04,033 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'e083e8cc-fd8c-4cc2-9cc7-28d6a6c15b05', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:04 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:04 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:29:04,034 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C0GMHHG8CRDGMZ74YNVY","deliveryContext":{"isRedeliv...
-2025-05-06 15:29:04,299 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '1f99d3ec-2002-421b-8341-c0a5c575f385', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:04 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:04 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:29:04,300 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C0SF1R10QRQXYA2PFGJQ","deliveryContext":{"isRedeliv...
-2025-05-06 15:29:09,255 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '9e46afad-71de-40b6-8619-cefcb0eb6d11', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:09 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:09 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:29:09,255 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C7J10N08312PP2K903V8","deliveryContext":{"isRedeliv...
-2025-05-06 15:29:11,340 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '602a0607-a221-4f91-b00b-7ec5b72f1eaa', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:11 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:29:11,341 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C7P95GBQ1HM60BQK24A7","deliveryContext":{"isRedeliv...
-2025-05-06 15:29:11,580 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': '344af722-ad86-4d11-9e30-764c1c9b8f10', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:29:11 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:29:11 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:29:11,581 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"IAXr3uALkgqAnvYdESaz6w"},"webhookEventId":"01JTK3C86B6R7861BQ6AACQQ5N","deliveryContext":{"isRedeliv...
-2025-05-06 15:35:24,312 logger_config INFO     Logging configured with level: INFO
-2025-05-06 15:35:24,313 rate_limiter INFO     Rate limiting is disabled
-2025-05-06 15:35:24,313 app          INFO     Caching disabled or Flask-Caching not installed
-2025-05-06 15:35:24,315 middleware   INFO     Middleware applied successfully
-2025-05-06 15:35:25,149 logger_config INFO     Logging configured with level: INFO
-2025-05-06 15:35:37,177 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:35:37,391 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:35:56,532 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:35:56,571 mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 15:35:57,711 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:36:06,050 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:36:11,628 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:36:11,677 mqtt_handler INFO     Garage command 'close' sent successfully
-2025-05-06 15:36:12,804 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:36:54,505 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'f1832b27-234c-4910-a52d-aa0926cc2244', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:36:54 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:36:54 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:36:54,505 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"_Rr0d4rUU6CQZ_K0f_qSVw"},"webhookEventId":"01JTK3TDY7ZQWHASN79ZR3B3C8","deliveryContext":{"isRedeliv...
-2025-05-06 15:39:32,550 logger_config INFO     Logging configured with level: INFO
-2025-05-06 15:39:32,552 rate_limiter INFO     Rate limiting is disabled
-2025-05-06 15:39:32,552 app          INFO     Caching disabled or Flask-Caching not installed
-2025-05-06 15:39:32,553 middleware   INFO     Middleware applied successfully
-2025-05-06 15:39:33,374 logger_config INFO     Logging configured with level: INFO
-2025-05-06 15:39:44,309 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:39:44,586 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:39:54,088 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:39:54,129 mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 15:39:55,259 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:39:58,376 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:39:58,423 mqtt_handler INFO     Garage command 'close' sent successfully
-2025-05-06 15:39:59,543 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:40:04,626 line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-06 15:40:04,736 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:40:13,404 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:40:13,452 mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-06 15:40:14,579 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:40:15,192 mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-06 15:40:15,239 mqtt_handler INFO     Garage command 'close' sent successfully
-2025-05-06 15:40:16,392 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:40:19,273 line_webhook INFO     Webhook processed successfully
-2025-05-06 15:40:55,023 line_webhook ERROR    Error while handling webhook: (400)
-Reason: Bad Request
-HTTP response headers: HTTPHeaderDict({'Server': 'legy', 'Content-Type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-line-request-id': 'de1a003d-4641-4585-84ac-2e149da92455', 'x-xss-protection': '1; mode=block', 'Content-Length': '33', 'Expires': 'Tue, 06 May 2025 15:40:55 GMT', 'Cache-Control': 'max-age=0, no-cache, no-store', 'Pragma': 'no-cache', 'Date': 'Tue, 06 May 2025 15:40:55 GMT', 'Connection': 'close'})
-HTTP response body: {"message":"Invalid reply token"}
-
-2025-05-06 15:40:55,023 line_webhook ERROR    Request body: {"destination":"Ub49eb2345438ed166808be10ef5cfce0","events":[{"type":"postback","postback":{"data":"N_a9gf5xIC740DruB6S0EA"},"webhookEventId":"01JTK41RT1JGCA0A5XC52ZMXQW","deliveryContext":{"isRedeliv...
-2025-05-08 05:41:06,097 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-08 05:41:06,100 middleware.rate_limiter INFO     Rate limiting is disabled
-2025-05-08 05:41:06,101 app          INFO     Caching disabled or Flask-Caching not installed
-2025-05-08 05:41:06,104 middleware.middleware INFO     Middleware applied successfully
-2025-05-08 05:41:06,262 docs.api_docs INFO     Swagger UI registered at /api/docs
-2025-05-08 05:41:07,461 utils.logger_config INFO     Logging configured with level: INFO
-2025-05-08 05:43:04,981 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
-2025-05-08 05:43:04,987 core.line_webhook INFO     Storing verification token in memory: WEYkN3vN...
-2025-05-08 05:43:05,292 core.line_webhook INFO     Webhook processed successfully
-2025-05-08 05:43:07,373 core.line_webhook INFO     Received location verification request for token: WEYkN3vN...
-2025-05-08 05:43:07,373 core.line_webhook INFO     Looking up token in memory: WEYkN3vN... Found: True
-2025-05-08 05:43:07,374 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
-2025-05-08 05:43:07,374 core.line_webhook INFO     Current tokens in memory: 0
-2025-05-08 05:43:11,375 core.line_webhook INFO     Found and used token for action: open
-2025-05-08 05:43:11,684 core.mqtt_handler INFO     Connected to MQTT broker successfully
-2025-05-08 05:43:11,781 core.mqtt_handler INFO     Garage command 'open' sent successfully
-2025-05-08 05:43:12,897 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:41:59,555 core.line_webhook ERROR    Failed to send garage command: Failed to send MQTT command after 3 attempts: Connection timed out after 5s
+2025-05-06 16:41:59,709 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:41:59,710 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 16:41:59,711 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 16:41:59,712 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 16:41:59,713 core.line_webhook INFO     Storing verification token in memory: j_XmHF_W...
+2025-05-06 16:41:59,842 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:41:59,844 core.line_webhook INFO     Storing verification token in memory: zRIEkqQA...
+2025-05-06 16:41:59,969 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:41:59,971 core.line_webhook INFO     Storing verification token in memory: 1hgNKl07...
+2025-05-06 16:42:00,098 core.line_webhook INFO     Storing verification token in memory: sWD6yA1L...
+2025-05-06 16:42:00,243 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:42:00,245 core.line_webhook INFO     Storing verification token in memory: JwCDDayq...
+2025-05-06 16:42:00,375 core.line_webhook INFO     Storing verification token in memory: EvCHLP1B...
+2025-05-06 16:42:00,476 core.line_webhook INFO     Storing verification token in memory: d1GdpxBc...
+2025-05-06 16:42:00,570 core.line_webhook INFO     Storing verification token in memory: 8k2KXQid...
+2025-05-06 16:42:00,712 core.line_webhook INFO     Storing verification token in memory: DOxhh96p...
+2025-05-06 16:42:00,837 core.line_webhook INFO     Storing verification token in memory: tI45Uavm...
+2025-05-06 16:42:00,986 core.line_webhook INFO     Storing verification token in memory: scdxDrsM...
+2025-05-06 16:42:01,008 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:42:01,008 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:42:01,012 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:42:01,127 core.line_webhook INFO     Storing verification token in memory: tu5CiKLT...
+2025-05-06 16:42:01,253 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:42:01,254 core.line_webhook INFO     Storing verification token in memory: pyTyc2sf...
+2025-05-06 16:42:01,385 core.line_webhook INFO     Storing verification token in memory: irZGd5oq...
+2025-05-06 16:42:01,522 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 16:42:01,522 core.line_webhook INFO     Storing verification token in memory: 6DjP7n1i...
+2025-05-06 16:42:01,645 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:42:11,528 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 16:42:11,529 core.line_webhook INFO     Storing verification token in memory: cx7Uw4Co...
+2025-05-06 16:42:11,650 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:42:17,304 core.line_webhook INFO     Received location verification request for token: cx7Uw4Co...
+2025-05-06 16:42:17,305 core.line_webhook INFO     Looking up token in memory: cx7Uw4Co... Found: True
+2025-05-06 16:42:17,305 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 16:42:17,305 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 16:42:20,458 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 16:42:20,516 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 16:42:20,561 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 16:42:21,684 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 16:42:21,686 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 16:42:21,686 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 16:42:21,687 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 17:09:29,591 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 17:31:04,141 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 17:31:04,144 core.line_webhook INFO     Storing verification token in memory: 4F02G2Z_...
+2025-05-06 17:31:04,360 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 17:31:07,655 core.line_webhook INFO     Received location verification request for token: 4F02G2Z_...
+2025-05-06 17:31:07,655 core.line_webhook INFO     Looking up token in memory: 4F02G2Z_... Found: True
+2025-05-06 17:31:07,655 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 17:31:07,655 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 17:31:10,979 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 17:31:11,248 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 17:31:11,283 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 17:31:12,428 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 17:31:15,888 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 17:31:15,910 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 17:31:15,911 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 17:48:02,848 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 18:00:17,944 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 18:00:17,945 core.line_webhook INFO     Storing verification token in memory: RMuPyA29...
+2025-05-06 18:00:18,145 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 18:00:20,018 core.line_webhook INFO     Received location verification request for token: RMuPyA29...
+2025-05-06 18:00:20,018 core.line_webhook INFO     Looking up token in memory: RMuPyA29... Found: True
+2025-05-06 18:00:20,018 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 18:00:20,018 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 18:00:24,050 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 18:00:24,308 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 18:00:24,353 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 18:00:25,486 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 18:00:28,505 core.line_webhook INFO     Received location verification request for token: RMuPyA29...
+2025-05-06 18:00:28,505 core.line_webhook INFO     Looking up token in memory: RMuPyA29... Found: False
+2025-05-06 18:00:28,506 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 18:00:28,506 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-06 18:00:30,953 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 18:00:30,954 core.line_webhook INFO     Storing verification token in memory: K21G5Rrk...
+2025-05-06 18:00:31,100 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 18:00:32,338 core.line_webhook INFO     Received location verification request for token: K21G5Rrk...
+2025-05-06 18:00:32,339 core.line_webhook INFO     Looking up token in memory: K21G5Rrk... Found: True
+2025-05-06 18:00:32,339 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 18:00:32,339 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 18:00:37,522 core.line_webhook INFO     Found and used token for action: close
+2025-05-06 18:00:37,576 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 18:00:37,625 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 18:00:38,749 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 18:01:45,133 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 18:01:45,134 core.line_webhook INFO     Storing verification token in memory: xn6G5Ao8...
+2025-05-06 18:01:45,277 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 18:01:47,666 core.line_webhook INFO     Received location verification request for token: xn6G5Ao8...
+2025-05-06 18:01:47,667 core.line_webhook INFO     Looking up token in memory: xn6G5Ao8... Found: True
+2025-05-06 18:01:47,667 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 18:01:47,667 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 18:01:53,991 core.line_webhook INFO     Found and used token for action: close
+2025-05-06 18:01:54,252 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 18:01:54,294 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 18:01:55,426 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 18:11:28,766 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 18:11:28,787 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 18:11:28,795 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 18:25:21,811 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 18:38:39,524 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 18:48:54,404 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 18:48:54,646 utils.logger_config ERROR    404 Not Found: /phpinfo
+2025-05-06 18:48:54,889 utils.logger_config ERROR    404 Not Found: /phpinfo.php
+2025-05-06 18:48:55,132 utils.logger_config ERROR    404 Not Found: /portal/.env
+2025-05-06 18:48:55,374 utils.logger_config ERROR    404 Not Found: /env/.env
+2025-05-06 18:48:55,616 utils.logger_config ERROR    404 Not Found: /api/.env
+2025-05-06 18:48:55,860 utils.logger_config ERROR    404 Not Found: /app/.env
+2025-05-06 18:48:56,103 utils.logger_config ERROR    404 Not Found: /dev/.env
+2025-05-06 18:48:56,351 utils.logger_config ERROR    404 Not Found: /new/.env
+2025-05-06 18:48:56,593 utils.logger_config ERROR    404 Not Found: /new/.env.local
+2025-05-06 18:48:56,836 utils.logger_config ERROR    404 Not Found: /new/.env.production
+2025-05-06 18:48:57,078 utils.logger_config ERROR    404 Not Found: /new/.env.staging
+2025-05-06 18:48:57,320 utils.logger_config ERROR    404 Not Found: /_phpinfo.php
+2025-05-06 18:48:57,563 utils.logger_config ERROR    404 Not Found: /_profiler/phpinfo
+2025-05-06 18:48:57,805 utils.logger_config ERROR    404 Not Found: /_profiler/phpinfo/info.php
+2025-05-06 18:48:58,047 utils.logger_config ERROR    404 Not Found: /_profiler/phpinfo/phpinfo.php
+2025-05-06 18:48:58,289 utils.logger_config ERROR    404 Not Found: /wp-config
+2025-05-06 18:48:58,531 utils.logger_config ERROR    404 Not Found: /aws-secret.yaml
+2025-05-06 18:48:58,774 utils.logger_config ERROR    404 Not Found: /awstats/.env
+2025-05-06 18:48:59,016 utils.logger_config ERROR    404 Not Found: /conf/.env
+2025-05-06 18:48:59,258 utils.logger_config ERROR    404 Not Found: /cron/.env
+2025-05-06 18:48:59,501 utils.logger_config ERROR    404 Not Found: /www/.env
+2025-05-06 18:48:59,743 utils.logger_config ERROR    404 Not Found: /docker/.env
+2025-05-06 18:48:59,985 utils.logger_config ERROR    404 Not Found: /docker/app/.env
+2025-05-06 18:49:00,228 utils.logger_config ERROR    404 Not Found: /env.backup
+2025-05-06 18:49:00,470 utils.logger_config ERROR    404 Not Found: /xampp/phpinfo.php
+2025-05-06 18:49:00,712 utils.logger_config ERROR    404 Not Found: /lara/info.php
+2025-05-06 18:49:00,955 utils.logger_config ERROR    404 Not Found: /lara/phpinfo.php
+2025-05-06 18:49:01,197 utils.logger_config ERROR    404 Not Found: /laravel/info.php
+2025-05-06 18:49:01,439 utils.logger_config ERROR    404 Not Found: /.vscode/.env
+2025-05-06 18:49:01,682 utils.logger_config ERROR    404 Not Found: /js/.env
+2025-05-06 18:49:01,924 utils.logger_config ERROR    404 Not Found: /laravel/.env
+2025-05-06 18:49:02,166 utils.logger_config ERROR    404 Not Found: /laravel/core/.env
+2025-05-06 18:49:02,408 utils.logger_config ERROR    404 Not Found: /mail/.env
+2025-05-06 18:49:02,651 utils.logger_config ERROR    404 Not Found: /mailer/.env
+2025-05-06 18:49:02,893 utils.logger_config ERROR    404 Not Found: /nginx/.env
+2025-05-06 18:49:03,135 utils.logger_config ERROR    404 Not Found: /public/.env
+2025-05-06 18:49:03,378 utils.logger_config ERROR    404 Not Found: /site/.env
+2025-05-06 18:49:03,620 utils.logger_config ERROR    404 Not Found: /xampp/.env
+2025-05-06 18:49:03,862 utils.logger_config ERROR    404 Not Found: /.docker/laravel/app/.env
+2025-05-06 18:49:04,108 utils.logger_config ERROR    404 Not Found: /laravel/.env.local
+2025-05-06 18:49:04,352 utils.logger_config ERROR    404 Not Found: /laravel/.env.production
+2025-05-06 18:49:04,597 utils.logger_config ERROR    404 Not Found: /laravel/.env.staging
+2025-05-06 18:49:04,839 utils.logger_config ERROR    404 Not Found: /laravel/core/.env.local
+2025-05-06 18:49:05,081 utils.logger_config ERROR    404 Not Found: /laravel/core/.env.production
+2025-05-06 18:49:05,324 utils.logger_config ERROR    404 Not Found: /laravel/core/.env.staging
+2025-05-06 18:49:05,567 utils.logger_config ERROR    404 Not Found: /main/.env
+2025-05-06 18:49:05,809 utils.logger_config ERROR    404 Not Found: /node_modules/.env
+2025-05-06 19:03:01,355 core.line_webhook INFO     Received location verification request for token: RMuPyA29...
+2025-05-06 19:03:01,356 core.line_webhook INFO     Looking up token in memory: RMuPyA29... Found: False
+2025-05-06 19:03:01,356 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 19:03:01,356 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-06 19:03:02,391 core.line_webhook INFO     Received location verification request for token: Bn_SsNLy...
+2025-05-06 19:03:02,391 core.line_webhook INFO     Looking up token in memory: Bn_SsNLy... Found: False
+2025-05-06 19:03:02,391 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 19:03:02,391 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-06 19:03:03,236 core.line_webhook INFO     Received location verification request for token: EIeHMWlI...
+2025-05-06 19:03:03,236 core.line_webhook INFO     Looking up token in memory: EIeHMWlI... Found: False
+2025-05-06 19:03:03,236 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 19:03:03,236 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-06 19:03:03,632 core.line_webhook INFO     Received location verification request for token: R7pDuXuU...
+2025-05-06 19:03:03,632 core.line_webhook INFO     Looking up token in memory: R7pDuXuU... Found: False
+2025-05-06 19:03:03,632 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 19:03:03,632 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-06 19:06:01,371 utils.logger_config ERROR    404 Not Found: /sdk
+2025-05-06 19:06:01,384 utils.logger_config ERROR    404 Not Found: /odinhttpcall1746558360
+2025-05-06 19:06:02,335 utils.logger_config ERROR    404 Not Found: /evox/about
+2025-05-06 19:06:02,381 utils.logger_config ERROR    404 Not Found: /HNAP1
+2025-05-06 19:06:06,516 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 19:07:12,827 utils.logger_config ERROR    404 Not Found: /api
+2025-05-06 19:09:26,530 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 19:09:26,535 core.line_webhook INFO     Storing verification token in memory: 8tAy1qXd...
+2025-05-06 19:09:26,769 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 19:09:28,349 core.line_webhook INFO     Received location verification request for token: 8tAy1qXd...
+2025-05-06 19:09:28,349 core.line_webhook INFO     Looking up token in memory: 8tAy1qXd... Found: True
+2025-05-06 19:09:28,349 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 19:09:28,350 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 19:09:34,227 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 19:09:34,492 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 19:09:34,532 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 19:09:35,667 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 19:09:37,600 core.line_webhook INFO     Found and used token for action: close
+2025-05-06 19:09:37,652 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 19:09:37,703 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 19:09:38,818 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 19:09:41,417 core.line_webhook INFO     Storing verification token in memory: A79joXCU...
+2025-05-06 19:09:41,559 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 19:09:43,100 core.line_webhook INFO     Received location verification request for token: A79joXCU...
+2025-05-06 19:09:43,101 core.line_webhook INFO     Looking up token in memory: A79joXCU... Found: True
+2025-05-06 19:09:43,101 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 19:09:43,101 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 19:09:46,553 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 19:09:46,608 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 19:09:46,656 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 19:09:47,779 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 19:10:21,578 utils.logger_config ERROR    404 Not Found: /aaa9
+2025-05-06 19:10:22,848 utils.logger_config ERROR    404 Not Found: /aab9
+2025-05-06 19:33:27,817 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 19:37:12,550 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 19:43:46,548 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 19:58:57,306 utils.logger_config ERROR    404 Not Found: /cgi-bin/luci/;stok=/locale
+2025-05-06 20:37:30,874 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-06 21:00:43,698 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 21:05:35,073 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 21:05:36,486 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 21:12:09,003 utils.logger_config ERROR    404 Not Found: /hello.world
+2025-05-06 21:12:10,483 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:11,568 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-06 21:12:12,473 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:13,380 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/Util/PHP/eval-stdin.php
+2025-05-06 21:12:14,251 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/LICENSE/eval-stdin.php
+2025-05-06 21:12:14,987 utils.logger_config ERROR    404 Not Found: /vendor/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:15,675 utils.logger_config ERROR    404 Not Found: /phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:16,285 utils.logger_config ERROR    404 Not Found: /phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-06 21:12:16,811 utils.logger_config ERROR    404 Not Found: /phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:17,292 utils.logger_config ERROR    404 Not Found: /phpunit/Util/PHP/eval-stdin.php
+2025-05-06 21:12:18,111 utils.logger_config ERROR    404 Not Found: /lib/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:18,835 utils.logger_config ERROR    404 Not Found: /lib/phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-06 21:12:19,568 utils.logger_config ERROR    404 Not Found: /lib/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:20,229 utils.logger_config ERROR    404 Not Found: /lib/phpunit/Util/PHP/eval-stdin.php
+2025-05-06 21:12:20,982 utils.logger_config ERROR    404 Not Found: /lib/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:22,166 utils.logger_config ERROR    404 Not Found: /laravel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:23,438 utils.logger_config ERROR    404 Not Found: /www/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:24,420 utils.logger_config ERROR    404 Not Found: /ws/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:25,801 utils.logger_config ERROR    404 Not Found: /yii/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:27,008 utils.logger_config ERROR    404 Not Found: /zend/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:27,997 utils.logger_config ERROR    404 Not Found: /ws/ec/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:28,614 utils.logger_config ERROR    404 Not Found: /V2/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:29,479 utils.logger_config ERROR    404 Not Found: /tests/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:30,039 utils.logger_config ERROR    404 Not Found: /test/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:30,858 utils.logger_config ERROR    404 Not Found: /testing/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:31,632 utils.logger_config ERROR    404 Not Found: /api/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:32,214 utils.logger_config ERROR    404 Not Found: /demo/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:32,793 utils.logger_config ERROR    404 Not Found: /cms/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:33,479 utils.logger_config ERROR    404 Not Found: /crm/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:34,301 utils.logger_config ERROR    404 Not Found: /admin/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:34,924 utils.logger_config ERROR    404 Not Found: /backup/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:35,684 utils.logger_config ERROR    404 Not Found: /blog/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:36,270 utils.logger_config ERROR    404 Not Found: /workspace/drupal/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:37,402 utils.logger_config ERROR    404 Not Found: /panel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:38,826 utils.logger_config ERROR    404 Not Found: /public/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:39,929 utils.logger_config ERROR    404 Not Found: /apps/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:41,015 utils.logger_config ERROR    404 Not Found: /app/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-06 21:12:42,463 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-06 21:12:43,999 utils.logger_config ERROR    404 Not Found: /public/index.php
+2025-05-06 21:12:44,820 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-06 21:12:45,616 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-06 21:12:46,364 utils.logger_config ERROR    404 Not Found: /containers/json
+2025-05-06 21:21:49,465 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 21:23:04,336 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 21:34:29,443 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 21:34:29,676 utils.logger_config ERROR    404 Not Found: /favicon.png
+2025-05-06 21:40:22,589 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 21:40:22,595 core.line_webhook INFO     Storing verification token in memory: owOqCDjT...
+2025-05-06 21:40:23,384 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 21:40:26,110 core.line_webhook INFO     Received location verification request for token: owOqCDjT...
+2025-05-06 21:40:26,110 core.line_webhook INFO     Looking up token in memory: owOqCDjT... Found: True
+2025-05-06 21:40:26,111 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 21:40:26,111 core.line_webhook INFO     Current tokens in memory: 19
+2025-05-06 21:40:29,826 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 21:40:30,132 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 21:40:30,170 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 21:40:31,302 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 21:40:33,777 core.line_webhook INFO     Found and used token for action: close
+2025-05-06 21:40:33,832 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 21:40:33,880 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-06 21:40:35,125 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 21:40:37,883 core.line_webhook INFO     Storing verification token in memory: ck1AmrUI...
+2025-05-06 21:40:38,007 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 21:40:54,108 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 21:40:54,134 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 21:40:54,135 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 21:53:19,862 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 22:01:50,413 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-06 23:38:29,997 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-06 23:38:30,007 core.line_webhook INFO     Storing verification token in memory: z5OtimDx...
+2025-05-06 23:38:30,312 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 23:38:31,761 core.line_webhook INFO     Received location verification request for token: z5OtimDx...
+2025-05-06 23:38:31,761 core.line_webhook INFO     Looking up token in memory: z5OtimDx... Found: True
+2025-05-06 23:38:31,761 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-06 23:38:31,762 core.line_webhook INFO     Current tokens in memory: 20
+2025-05-06 23:38:35,865 core.line_webhook INFO     Found and used token for action: open
+2025-05-06 23:38:37,124 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-06 23:38:37,174 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-06 23:38:38,325 core.line_webhook INFO     Webhook processed successfully
+2025-05-06 23:38:53,427 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-06 23:38:53,454 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-06 23:38:53,457 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-06 23:40:47,882 utils.logger_config ERROR    404 Not Found: /aaa9
+2025-05-06 23:40:49,120 utils.logger_config ERROR    404 Not Found: /aab9
+2025-05-06 23:45:17,777 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 00:15:53,682 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-07 00:33:30,701 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 00:50:50,085 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 00:58:23,755 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 01:03:51,136 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 01:26:30,624 utils.logger_config ERROR    404 Not Found: /webui/
+2025-05-07 01:36:25,952 utils.logger_config ERROR    404 Not Found: /geoserver/web/
+2025-05-07 01:38:28,551 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-07 01:55:13,431 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 02:08:58,543 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 02:08:59,442 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-07 02:39:31,414 utils.logger_config ERROR    404 Not Found: /showLogin.cc
+2025-05-07 02:53:00,232 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 02:53:41,994 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 02:56:17,354 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 03:03:15,987 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 04:06:51,478 utils.logger_config ERROR    404 Not Found: /core/.git/config
+2025-05-07 04:06:52,101 utils.logger_config ERROR    404 Not Found: /.env.preprod
+2025-05-07 04:06:52,732 utils.logger_config ERROR    404 Not Found: /.env.prod
+2025-05-07 04:06:53,355 utils.logger_config ERROR    404 Not Found: /.env.secret
+2025-05-07 04:06:53,982 utils.logger_config ERROR    404 Not Found: /files/.git/config
+2025-05-07 04:06:54,598 utils.logger_config ERROR    404 Not Found: /public/.git/config
+2025-05-07 04:06:55,223 utils.logger_config ERROR    404 Not Found: /.aws/credentials
+2025-05-07 04:06:55,854 utils.logger_config ERROR    404 Not Found: /config.json
+2025-05-07 04:06:56,481 utils.logger_config ERROR    404 Not Found: /prod/.env
+2025-05-07 04:06:57,100 utils.logger_config ERROR    404 Not Found: /app/.git/config
+2025-05-07 04:06:57,724 utils.logger_config ERROR    404 Not Found: /assets../.git/config
+2025-05-07 04:06:58,345 utils.logger_config ERROR    404 Not Found: /cms/.git/config
+2025-05-07 04:06:58,967 utils.logger_config ERROR    404 Not Found: /media/.git/config
+2025-05-07 04:06:59,605 utils.logger_config ERROR    404 Not Found: /.env.bak
+2025-05-07 04:07:00,252 utils.logger_config ERROR    404 Not Found: /.env_sample
+2025-05-07 04:07:00,901 utils.logger_config ERROR    404 Not Found: /backup/.git/config
+2025-05-07 04:07:01,522 utils.logger_config ERROR    404 Not Found: /.env.test
+2025-05-07 04:07:02,152 utils.logger_config ERROR    404 Not Found: /src/.git/config
+2025-05-07 04:07:02,782 utils.logger_config ERROR    404 Not Found: /.env.dev
+2025-05-07 04:07:03,421 utils.logger_config ERROR    404 Not Found: /.env.production
+2025-05-07 04:07:04,051 utils.logger_config ERROR    404 Not Found: /.env.production.local
+2025-05-07 04:07:04,674 utils.logger_config ERROR    404 Not Found: /.env.save
+2025-05-07 04:07:05,287 utils.logger_config ERROR    404 Not Found: /www/.git/config
+2025-05-07 04:07:05,891 utils.logger_config ERROR    404 Not Found: /.env.ci
+2025-05-07 04:07:06,520 utils.logger_config ERROR    404 Not Found: /.env.stage
+2025-05-07 04:07:07,135 utils.logger_config ERROR    404 Not Found: /.env.testing
+2025-05-07 04:07:07,749 utils.logger_config ERROR    404 Not Found: /data/.git/config
+2025-05-07 04:07:08,390 utils.logger_config ERROR    404 Not Found: /server/.git/config
+2025-05-07 04:07:09,006 utils.logger_config ERROR    404 Not Found: /.env.config
+2025-05-07 04:07:09,627 utils.logger_config ERROR    404 Not Found: /config/.git/config
+2025-05-07 04:07:10,268 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 04:07:10,905 utils.logger_config ERROR    404 Not Found: /settings/.env
+2025-05-07 04:07:11,523 utils.logger_config ERROR    404 Not Found: /.env.template
+2025-05-07 04:07:12,152 utils.logger_config ERROR    404 Not Found: /media../.git/config
+2025-05-07 04:07:12,785 utils.logger_config ERROR    404 Not Found: /static../.git/config
+2025-05-07 04:07:13,414 utils.logger_config ERROR    404 Not Found: /.env.dev.local
+2025-05-07 04:07:14,032 utils.logger_config ERROR    404 Not Found: /docker-compose.prod.yml
+2025-05-07 04:07:14,677 utils.logger_config ERROR    404 Not Found: /.env.live
+2025-05-07 04:07:15,303 utils.logger_config ERROR    404 Not Found: /config/.env
+2025-05-07 04:07:15,928 utils.logger_config ERROR    404 Not Found: /.env.default
+2025-05-07 04:07:16,542 utils.logger_config ERROR    404 Not Found: /api/.env
+2025-05-07 04:07:17,157 utils.logger_config ERROR    404 Not Found: /configuration/.env
+2025-05-07 04:07:17,783 utils.logger_config ERROR    404 Not Found: /dev/.git/config
+2025-05-07 04:07:18,421 utils.logger_config ERROR    404 Not Found: /project/.git/config
+2025-05-07 04:07:19,038 utils.logger_config ERROR    404 Not Found: /api/.git/config
+2025-05-07 04:07:19,667 utils.logger_config ERROR    404 Not Found: /.env.backup
+2025-05-07 04:07:20,300 utils.logger_config ERROR    404 Not Found: /build/.env
+2025-05-07 04:07:20,919 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-07 04:07:21,542 utils.logger_config ERROR    404 Not Found: /.env.development.local
+2025-05-07 04:07:22,159 utils.logger_config ERROR    404 Not Found: /.env.dist
+2025-05-07 04:07:22,792 utils.logger_config ERROR    404 Not Found: /.env.local
+2025-05-07 04:07:23,418 utils.logger_config ERROR    404 Not Found: /.env.sandbox
+2025-05-07 04:07:24,068 utils.logger_config ERROR    404 Not Found: /.env.staging.local
+2025-05-07 04:07:24,689 utils.logger_config ERROR    404 Not Found: /.env.uat
+2025-05-07 04:07:25,317 utils.logger_config ERROR    404 Not Found: /admin/.git/config
+2025-05-07 04:30:23,078 utils.logger_config ERROR    404 Not Found: /v2/_catalog
+2025-05-07 04:30:23,081 utils.logger_config ERROR    404 Not Found: /query
+2025-05-07 04:30:23,086 utils.logger_config ERROR    404 Not Found: /cgi-bin/authLogin.cgi
+2025-05-07 04:30:23,100 utils.logger_config ERROR    404 Not Found: /solr/admin/info/system
+2025-05-07 04:30:24,255 utils.logger_config ERROR    404 Not Found: /solr/admin/cores
+2025-05-07 04:31:11,356 utils.logger_config ERROR    404 Not Found: /dns-query
+2025-05-07 04:31:11,603 utils.logger_config ERROR    404 Not Found: /dns-query
+2025-05-07 04:31:11,851 utils.logger_config ERROR    404 Not Found: /dns-query
+2025-05-07 04:31:12,101 utils.logger_config ERROR    404 Not Found: /dns-query
+2025-05-07 04:31:12,349 utils.logger_config ERROR    404 Not Found: /dns-query
+2025-05-07 04:31:12,596 utils.logger_config ERROR    404 Not Found: /dns-query
+2025-05-07 04:31:12,844 utils.logger_config ERROR    404 Not Found: /query
+2025-05-07 04:31:13,091 utils.logger_config ERROR    404 Not Found: /query
+2025-05-07 04:31:13,338 utils.logger_config ERROR    404 Not Found: /query
+2025-05-07 04:31:13,585 utils.logger_config ERROR    404 Not Found: /query
+2025-05-07 04:31:13,850 utils.logger_config ERROR    404 Not Found: /query
+2025-05-07 04:31:14,097 utils.logger_config ERROR    404 Not Found: /query
+2025-05-07 04:31:14,345 utils.logger_config ERROR    404 Not Found: /resolve
+2025-05-07 04:31:14,592 utils.logger_config ERROR    404 Not Found: /resolve
+2025-05-07 04:31:14,839 utils.logger_config ERROR    404 Not Found: /resolve
+2025-05-07 04:31:15,088 utils.logger_config ERROR    404 Not Found: /resolve
+2025-05-07 04:31:15,335 utils.logger_config ERROR    404 Not Found: /resolve
+2025-05-07 04:31:15,583 utils.logger_config ERROR    404 Not Found: /resolve
+2025-05-07 04:32:42,690 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 04:37:40,036 utils.logger_config ERROR    404 Not Found: /.git/index
+2025-05-07 05:14:31,893 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 05:15:03,273 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 05:16:00,434 utils.logger_config ERROR    404 Not Found: /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application
+2025-05-07 05:24:57,296 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 06:15:52,467 utils.logger_config ERROR    404 Not Found: /ReportServer
+2025-05-07 07:32:24,490 utils.logger_config ERROR    404 Not Found: /cgi-bin/luci/;stok=/locale
+2025-05-07 08:10:40,906 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 09:28:57,025 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 09:49:03,454 utils.logger_config ERROR    404 Not Found: /login
+2025-05-07 09:58:46,279 utils.logger_config ERROR    404 Not Found: /remote/logincheck
+2025-05-07 10:08:00,958 utils.logger_config ERROR    404 Not Found: /developmentserver/metadatauploader
+2025-05-07 11:41:45,444 utils.logger_config ERROR    404 Not Found: /.git/index
+2025-05-07 12:40:25,738 utils.logger_config ERROR    404 Not Found: /.git/HEAD
+2025-05-07 12:42:11,717 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 12:42:19,955 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 12:48:00,752 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 13:34:07,706 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 13:36:49,568 utils.logger_config ERROR    404 Not Found: /robots.txt
+2025-05-07 13:37:10,044 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 13:50:57,713 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 13:50:58,977 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-07 14:20:00,568 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 14:45:41,724 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 14:46:24,059 utils.logger_config ERROR    404 Not Found: /hello.world
+2025-05-07 14:46:24,866 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:26,212 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 14:46:27,080 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:28,609 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 14:46:29,419 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/LICENSE/eval-stdin.php
+2025-05-07 14:46:30,802 utils.logger_config ERROR    404 Not Found: /vendor/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:31,856 utils.logger_config ERROR    404 Not Found: /phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:33,127 utils.logger_config ERROR    404 Not Found: /phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 14:46:34,105 utils.logger_config ERROR    404 Not Found: /phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:35,332 utils.logger_config ERROR    404 Not Found: /phpunit/Util/PHP/eval-stdin.php
+2025-05-07 14:46:36,623 utils.logger_config ERROR    404 Not Found: /lib/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:37,464 utils.logger_config ERROR    404 Not Found: /lib/phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 14:46:38,666 utils.logger_config ERROR    404 Not Found: /lib/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:39,781 utils.logger_config ERROR    404 Not Found: /lib/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 14:46:41,078 utils.logger_config ERROR    404 Not Found: /lib/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:42,053 utils.logger_config ERROR    404 Not Found: /laravel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:43,447 utils.logger_config ERROR    404 Not Found: /www/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:44,539 utils.logger_config ERROR    404 Not Found: /ws/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:45,521 utils.logger_config ERROR    404 Not Found: /yii/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:46,539 utils.logger_config ERROR    404 Not Found: /zend/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:47,839 utils.logger_config ERROR    404 Not Found: /ws/ec/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:48,915 utils.logger_config ERROR    404 Not Found: /V2/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:50,090 utils.logger_config ERROR    404 Not Found: /tests/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:51,315 utils.logger_config ERROR    404 Not Found: /test/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:52,142 utils.logger_config ERROR    404 Not Found: /testing/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:53,390 utils.logger_config ERROR    404 Not Found: /api/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:54,489 utils.logger_config ERROR    404 Not Found: /demo/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:55,763 utils.logger_config ERROR    404 Not Found: /cms/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:56,810 utils.logger_config ERROR    404 Not Found: /crm/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:58,032 utils.logger_config ERROR    404 Not Found: /admin/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:46:59,026 utils.logger_config ERROR    404 Not Found: /backup/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:47:00,188 utils.logger_config ERROR    404 Not Found: /blog/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:47:01,800 utils.logger_config ERROR    404 Not Found: /workspace/drupal/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:47:02,729 utils.logger_config ERROR    404 Not Found: /panel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:47:03,879 utils.logger_config ERROR    404 Not Found: /public/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:47:04,833 utils.logger_config ERROR    404 Not Found: /apps/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:47:05,827 utils.logger_config ERROR    404 Not Found: /app/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 14:47:07,452 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-07 14:47:08,496 utils.logger_config ERROR    404 Not Found: /public/index.php
+2025-05-07 14:47:09,714 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-07 14:47:10,762 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-07 14:47:11,894 utils.logger_config ERROR    404 Not Found: /containers/json
+2025-05-07 14:58:16,180 utils.logger_config ERROR    404 Not Found: /login
+2025-05-07 15:32:25,044 utils.logger_config ERROR    404 Not Found: /showLogin.cc
+2025-05-07 15:55:57,404 core.line_webhook INFO     User Uea6813ef8ec77e7446090621ebcf472a sent a text message: 開關門
+2025-05-07 15:55:57,414 core.line_webhook INFO     Storing verification token in memory: -3ZCvBE4...
+2025-05-07 15:55:57,691 core.line_webhook INFO     Webhook processed successfully
+2025-05-07 15:56:00,816 core.line_webhook INFO     Received location verification request for token: -3ZCvBE4...
+2025-05-07 15:56:00,816 core.line_webhook INFO     Looking up token in memory: -3ZCvBE4... Found: True
+2025-05-07 15:56:00,816 core.line_webhook INFO     Found and removed token for user_id: Uea6813ef8ec77e7446090621ebcf472a
+2025-05-07 15:56:00,817 core.line_webhook INFO     Current tokens in memory: 20
+2025-05-07 15:56:04,336 core.line_webhook INFO     Found and used token for action: open
+2025-05-07 15:56:04,600 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-07 15:56:04,642 core.mqtt_handler INFO     Garage command 'open' sent successfully
+2025-05-07 15:56:05,769 core.line_webhook INFO     Webhook processed successfully
+2025-05-07 15:56:08,963 core.line_webhook INFO     Found and used token for action: close
+2025-05-07 15:56:09,016 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-07 15:56:09,066 core.mqtt_handler INFO     Garage command 'close' sent successfully
+2025-05-07 15:56:10,214 core.line_webhook INFO     Webhook processed successfully
+2025-05-07 15:56:54,367 utils.logger_config ERROR    404 Not Found: /apple-touch-icon-precomposed.png
+2025-05-07 15:56:54,398 utils.logger_config ERROR    404 Not Found: /apple-touch-icon.png
+2025-05-07 15:56:54,402 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 16:14:38,284 utils.logger_config ERROR    404 Not Found: /owa/auth/logon.aspx
+2025-05-07 16:24:02,957 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 16:57:16,896 core.line_webhook INFO     User U82a11186c98448e8c2f8f9ee9145ffdc sent a text message: 開關門
+2025-05-07 16:57:16,897 core.line_webhook INFO     Storing verification token in memory: eoMYkD8y...
+2025-05-07 16:57:17,101 core.line_webhook INFO     Webhook processed successfully
+2025-05-07 16:57:18,631 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 16:57:22,978 core.line_webhook INFO     Received location verification request for token: eoMYkD8y...
+2025-05-07 16:57:22,978 core.line_webhook INFO     Looking up token in memory: eoMYkD8y... Found: True
+2025-05-07 16:57:22,978 core.line_webhook INFO     Found and removed token for user_id: U82a11186c98448e8c2f8f9ee9145ffdc
+2025-05-07 16:57:22,978 core.line_webhook INFO     Current tokens in memory: 20
+2025-05-07 16:57:39,884 core.line_webhook INFO     User U82a11186c98448e8c2f8f9ee9145ffdc sent a text message: 嗨
+2025-05-07 16:57:39,884 core.line_webhook INFO     Webhook processed successfully
+2025-05-07 16:57:49,222 core.line_webhook INFO     User U82a11186c98448e8c2f8f9ee9145ffdc sent a text message: 開關門
+2025-05-07 16:57:49,223 core.line_webhook INFO     Storing verification token in memory: Q7EBQRps...
+2025-05-07 16:57:49,352 core.line_webhook INFO     Webhook processed successfully
+2025-05-07 17:12:15,869 utils.logger_config ERROR    404 Not Found: /version
+2025-05-07 17:58:17,428 utils.logger_config ERROR    404 Not Found: /actuator/gateway/routes
+2025-05-07 18:12:07,338 utils.logger_config ERROR    404 Not Found: /RDWeb/Pages/
+2025-05-07 19:07:39,948 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 19:57:53,153 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 21:29:17,278 utils.logger_config ERROR    404 Not Found: /js/lkk_ch.js
+2025-05-07 21:29:17,527 utils.logger_config ERROR    404 Not Found: /js/twint_ch.js
+2025-05-07 22:17:51,956 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 22:20:29,152 utils.logger_config ERROR    404 Not Found: /env
+2025-05-07 22:20:29,413 utils.logger_config ERROR    404 Not Found: /mappings.json
+2025-05-07 22:20:29,666 utils.logger_config ERROR    404 Not Found: /info
+2025-05-07 22:20:29,919 utils.logger_config ERROR    404 Not Found: /application.properties
+2025-05-07 22:20:30,188 utils.logger_config ERROR    404 Not Found: /env.js
+2025-05-07 22:20:30,451 utils.logger_config ERROR    404 Not Found: /env.development.js
+2025-05-07 22:20:30,637 utils.logger_config ERROR    404 Not Found: /env.production.js
+2025-05-07 22:20:30,778 utils.logger_config ERROR    404 Not Found: /env.dev.js
+2025-05-07 22:20:30,925 utils.logger_config ERROR    404 Not Found: /env.prod.js
+2025-05-07 22:20:31,034 utils.logger_config ERROR    404 Not Found: /message-api/actuator/
+2025-05-07 22:20:31,135 utils.logger_config ERROR    404 Not Found: /message-api/actuator/env
+2025-05-07 22:20:31,238 utils.logger_config ERROR    404 Not Found: /env.json
+2025-05-07 22:20:31,350 utils.logger_config ERROR    404 Not Found: /js/config.js
+2025-05-07 22:20:31,460 utils.logger_config ERROR    404 Not Found: /js/base.js
+2025-05-07 22:20:31,583 utils.logger_config ERROR    404 Not Found: /js/lib/config.js
+2025-05-07 22:20:31,689 utils.logger_config ERROR    404 Not Found: /js/configuration.js
+2025-05-07 22:20:31,796 utils.logger_config ERROR    404 Not Found: /scripts/services.js
+2025-05-07 22:20:31,895 utils.logger_config ERROR    404 Not Found: /js/messages_manager.js
+2025-05-07 22:20:31,997 utils.logger_config ERROR    404 Not Found: /bundle.5.1.1.js
+2025-05-07 22:20:32,093 utils.logger_config ERROR    404 Not Found: /js/bundle.js
+2025-05-07 22:20:32,194 utils.logger_config ERROR    404 Not Found: /reports.js
+2025-05-07 22:20:32,297 utils.logger_config ERROR    404 Not Found: /actuator/
+2025-05-07 22:20:32,392 utils.logger_config ERROR    404 Not Found: /actuator/mappings
+2025-05-07 22:20:32,499 utils.logger_config ERROR    404 Not Found: /actuator/env
+2025-05-07 22:20:32,596 utils.logger_config ERROR    404 Not Found: /actuator/;/env
+2025-05-07 22:20:32,693 utils.logger_config ERROR    404 Not Found: /api/actuator/
+2025-05-07 22:20:32,790 utils.logger_config ERROR    404 Not Found: /api/actuator/env
+2025-05-07 22:20:32,893 utils.logger_config ERROR    404 Not Found: /api/actuator/;/env
+2025-05-07 22:20:32,992 utils.logger_config ERROR    404 Not Found: /management/
+2025-05-07 22:20:33,089 utils.logger_config ERROR    404 Not Found: /management/mappings
+2025-05-07 22:20:33,188 utils.logger_config ERROR    404 Not Found: /management/env
+2025-05-07 22:20:33,287 utils.logger_config ERROR    404 Not Found: /management/;/env
+2025-05-07 22:20:33,390 utils.logger_config ERROR    404 Not Found: /dev/actuator/
+2025-05-07 22:20:33,486 utils.logger_config ERROR    404 Not Found: /dev/actuator/env
+2025-05-07 22:20:33,583 utils.logger_config ERROR    404 Not Found: /app/actuator/
+2025-05-07 22:20:33,702 utils.logger_config ERROR    404 Not Found: /app/actuator/env
+2025-05-07 22:33:24,270 utils.logger_config ERROR    404 Not Found: /hello.world
+2025-05-07 22:33:24,333 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,394 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,455 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,518 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,571 utils.logger_config ERROR    404 Not Found: /vendor/phpunit/phpunit/LICENSE/eval-stdin.php
+2025-05-07 22:33:24,632 utils.logger_config ERROR    404 Not Found: /vendor/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,696 utils.logger_config ERROR    404 Not Found: /phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,758 utils.logger_config ERROR    404 Not Found: /phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,821 utils.logger_config ERROR    404 Not Found: /phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,879 utils.logger_config ERROR    404 Not Found: /phpunit/Util/PHP/eval-stdin.php
+2025-05-07 22:33:24,943 utils.logger_config ERROR    404 Not Found: /lib/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,005 utils.logger_config ERROR    404 Not Found: /lib/phpunit/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,067 utils.logger_config ERROR    404 Not Found: /lib/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,128 utils.logger_config ERROR    404 Not Found: /lib/phpunit/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,182 utils.logger_config ERROR    404 Not Found: /lib/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,242 utils.logger_config ERROR    404 Not Found: /laravel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,299 utils.logger_config ERROR    404 Not Found: /www/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,353 utils.logger_config ERROR    404 Not Found: /ws/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,418 utils.logger_config ERROR    404 Not Found: /yii/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,475 utils.logger_config ERROR    404 Not Found: /zend/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,550 utils.logger_config ERROR    404 Not Found: /ws/ec/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,602 utils.logger_config ERROR    404 Not Found: /V2/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,666 utils.logger_config ERROR    404 Not Found: /tests/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,731 utils.logger_config ERROR    404 Not Found: /test/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,793 utils.logger_config ERROR    404 Not Found: /testing/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:25,851 utils.logger_config ERROR    404 Not Found: /api/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:26,463 utils.logger_config ERROR    404 Not Found: /demo/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:26,520 utils.logger_config ERROR    404 Not Found: /cms/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:26,840 utils.logger_config ERROR    404 Not Found: /crm/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:26,903 utils.logger_config ERROR    404 Not Found: /admin/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:26,970 utils.logger_config ERROR    404 Not Found: /backup/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:27,032 utils.logger_config ERROR    404 Not Found: /blog/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:27,098 utils.logger_config ERROR    404 Not Found: /workspace/drupal/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:27,160 utils.logger_config ERROR    404 Not Found: /panel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:27,228 utils.logger_config ERROR    404 Not Found: /public/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:27,296 utils.logger_config ERROR    404 Not Found: /apps/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:27,359 utils.logger_config ERROR    404 Not Found: /app/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+2025-05-07 22:33:27,421 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-07 22:33:27,484 utils.logger_config ERROR    404 Not Found: /public/index.php
+2025-05-07 22:33:27,560 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-07 22:33:27,622 utils.logger_config ERROR    404 Not Found: /index.php
+2025-05-07 22:33:27,682 utils.logger_config ERROR    404 Not Found: /containers/json
+2025-05-07 22:49:22,538 utils.logger_config ERROR    404 Not Found: /.env.testing
+2025-05-07 22:49:23,155 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-07 22:49:23,784 utils.logger_config ERROR    404 Not Found: /.env.ci
+2025-05-07 22:49:24,415 utils.logger_config ERROR    404 Not Found: /.env.template
+2025-05-07 22:49:25,026 utils.logger_config ERROR    404 Not Found: /config/.git/config
+2025-05-07 22:49:25,634 utils.logger_config ERROR    404 Not Found: /admin/.git/config
+2025-05-07 22:49:26,237 utils.logger_config ERROR    404 Not Found: /.env.dev
+2025-05-07 22:49:26,850 utils.logger_config ERROR    404 Not Found: /.env.prod.local
+2025-05-07 22:49:27,454 utils.logger_config ERROR    404 Not Found: /.env_sample
+2025-05-07 22:49:28,062 utils.logger_config ERROR    404 Not Found: /config/.env
+2025-05-07 22:49:28,687 utils.logger_config ERROR    404 Not Found: /.env.test
+2025-05-07 22:49:29,317 utils.logger_config ERROR    404 Not Found: /.env.default
+2025-05-07 22:49:29,934 utils.logger_config ERROR    404 Not Found: /settings/.env
+2025-05-07 22:49:30,549 utils.logger_config ERROR    404 Not Found: /www/.git/config
+2025-05-07 22:49:31,154 utils.logger_config ERROR    404 Not Found: /.env.development.local
+2025-05-07 22:49:31,761 utils.logger_config ERROR    404 Not Found: /.env.production
+2025-05-07 22:49:32,385 utils.logger_config ERROR    404 Not Found: /.env.uat
+2025-05-07 22:49:32,988 utils.logger_config ERROR    404 Not Found: /cms/.git/config
+2025-05-07 22:49:33,600 utils.logger_config ERROR    404 Not Found: /.env.bak
+2025-05-07 22:49:34,203 utils.logger_config ERROR    404 Not Found: /.env.live
+2025-05-07 22:49:34,815 utils.logger_config ERROR    404 Not Found: /.env.preprod
+2025-05-07 22:49:37,855 utils.logger_config ERROR    404 Not Found: /.env.save
+2025-05-07 22:49:38,471 utils.logger_config ERROR    404 Not Found: /media../.git/config
+2025-05-07 22:49:39,086 utils.logger_config ERROR    404 Not Found: /docker-compose.prod.yml
+2025-05-07 22:49:39,696 utils.logger_config ERROR    404 Not Found: /.env.sandbox
+2025-05-07 22:49:40,309 utils.logger_config ERROR    404 Not Found: /.env.secret
+2025-05-07 22:49:41,971 utils.logger_config ERROR    404 Not Found: /data/.git/config
+2025-05-07 22:49:42,595 utils.logger_config ERROR    404 Not Found: /.aws/credentials
+2025-05-07 22:49:43,201 utils.logger_config ERROR    404 Not Found: /src/.git/config
+2025-05-07 22:49:43,814 utils.logger_config ERROR    404 Not Found: /.env.dist
+2025-05-07 22:49:44,423 utils.logger_config ERROR    404 Not Found: /core/.git/config
+2025-05-07 22:49:45,041 utils.logger_config ERROR    404 Not Found: /.env.production.local
+2025-05-07 22:49:45,648 utils.logger_config ERROR    404 Not Found: /build/.env
+2025-05-07 22:49:46,261 utils.logger_config ERROR    404 Not Found: /app/.git/config
+2025-05-07 22:49:46,885 utils.logger_config ERROR    404 Not Found: /server/.git/config
+2025-05-07 22:49:47,508 utils.logger_config ERROR    404 Not Found: /static../.git/config
+2025-05-07 22:49:48,113 utils.logger_config ERROR    404 Not Found: /.env.testing.local
+2025-05-07 22:49:48,718 utils.logger_config ERROR    404 Not Found: /.env.backup
+2025-05-07 22:49:49,338 utils.logger_config ERROR    404 Not Found: /.env.config
+2025-05-07 22:49:49,965 utils.logger_config ERROR    404 Not Found: /.env.dev.local
+2025-05-07 22:49:50,597 utils.logger_config ERROR    404 Not Found: /.env.local
+2025-05-07 22:49:51,221 utils.logger_config ERROR    404 Not Found: /.envrc
+2025-05-07 22:49:51,822 utils.logger_config ERROR    404 Not Found: /.env.qa
+2025-05-07 22:49:52,436 utils.logger_config ERROR    404 Not Found: /prod/.env
+2025-05-07 22:49:53,047 utils.logger_config ERROR    404 Not Found: /assets../.git/config
+2025-05-07 22:49:53,669 utils.logger_config ERROR    404 Not Found: /backup/.git/config
+2025-05-07 22:49:54,293 utils.logger_config ERROR    404 Not Found: /public/.git/config
+2025-05-07 22:49:54,918 utils.logger_config ERROR    404 Not Found: /.env.prod
+2025-05-07 22:49:55,536 utils.logger_config ERROR    404 Not Found: /.env.stage
+2025-05-07 22:49:56,162 utils.logger_config ERROR    404 Not Found: /.env.staging.local
+2025-05-07 22:49:56,784 utils.logger_config ERROR    404 Not Found: /dev/.git/config
+2025-05-07 22:49:57,390 utils.logger_config ERROR    404 Not Found: /project/.git/config
+2025-05-07 22:49:58,003 utils.logger_config ERROR    404 Not Found: /media/.git/config
+2025-05-07 22:49:58,616 utils.logger_config ERROR    404 Not Found: /api/.env
+2025-05-07 22:49:59,235 utils.logger_config ERROR    404 Not Found: /configuration/.env
+2025-05-07 22:49:59,855 utils.logger_config ERROR    404 Not Found: /files/.git/config
+2025-05-07 22:50:00,461 utils.logger_config ERROR    404 Not Found: /api/.git/config
+2025-05-07 22:50:01,088 utils.logger_config ERROR    404 Not Found: /config.json
+2025-05-07 22:50:01,705 utils.logger_config ERROR    404 Not Found: /.env
+2025-05-07 22:57:40,034 utils.logger_config ERROR    404 Not Found: /actuator/gateway/routes
+2025-05-07 23:08:31,061 core.line_webhook INFO     User U82a11186c98448e8c2f8f9ee9145ffdc sent a text message: 開關門
+2025-05-07 23:08:31,070 core.line_webhook INFO     Storing verification token in memory: V358uZkI...
+2025-05-07 23:08:31,331 core.line_webhook INFO     Webhook processed successfully
+2025-05-07 23:08:32,791 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 23:08:35,440 core.line_webhook INFO     Received location verification request for token: V358uZkI...
+2025-05-07 23:08:35,441 core.line_webhook INFO     Looking up token in memory: V358uZkI... Found: True
+2025-05-07 23:08:35,441 core.line_webhook INFO     Found and removed token for user_id: U82a11186c98448e8c2f8f9ee9145ffdc
+2025-05-07 23:08:35,441 core.line_webhook INFO     Current tokens in memory: 21
+2025-05-07 23:08:39,512 utils.logger_config ERROR    404 Not Found: /favicon.ico
+2025-05-07 23:21:23,455 utils.logger_config ERROR    404 Not Found: /.git/config
+2025-05-08 04:28:20,624 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:28:20,635 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:28:20,643 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:28:20,652 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:28:20,786 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:28:20,786 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:28:20,788 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:30:15,217 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:30:15,218 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:30:15,218 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:30:15,218 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:30:15,232 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:30:15,232 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:30:15,232 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:36,239 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:31:36,241 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:36,241 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:36,241 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:36,255 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:36,255 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:36,255 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:48,914 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:31:48,915 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:48,916 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:48,916 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:31:48,977 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:31:48,983 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:31:48,983 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:32:13,813 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:32:13,815 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:32:13,818 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:32:13,818 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:32:13,865 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:32:13,869 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:32:13,870 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:33:47,697 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:33:47,699 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:33:47,699 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:33:47,699 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:33:47,720 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:33:47,720 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:33:47,720 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:36:37,611 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:36:37,612 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:36:37,613 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:36:37,613 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:36:37,690 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:36:38,504 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:36:59,057 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:36:59,059 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:36:59,059 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:36:59,060 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:36:59,148 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:37:00,092 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:06,616 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:06,618 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:37:06,618 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:37:06,618 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:37:06,688 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:37:07,479 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:17,974 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:37:17,976 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:37:17,976 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:37:17,976 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:37:18,046 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:37:18,819 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:38:47,847 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:38:47,848 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:38:47,849 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:38:47,849 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:38:47,918 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:38:48,710 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:03,091 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:03,092 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:39:03,093 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:39:03,093 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:39:03,162 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:39:04,057 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:26,546 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:26,547 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:39:26,548 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:39:26,548 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:39:26,636 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:39:27,406 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:29,556 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:39:29,558 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:39:29,559 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:39:29,559 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:39:29,667 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:39:30,514 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:40:28,860 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:40:28,864 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:40:28,866 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:40:28,867 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:40:29,453 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:40:34,060 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:34,295 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:34,296 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:41:34,297 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:41:34,297 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:41:34,377 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:41:35,278 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:42,141 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:41:42,143 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:41:42,143 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:41:42,144 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:41:42,232 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:41:43,033 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:08,476 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:08,477 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:42:08,477 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:42:08,478 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:42:08,581 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:42:09,509 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:13,072 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:42:13,074 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:42:13,074 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:42:13,074 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:42:13,153 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:42:14,278 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:43:44,872 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:43:44,874 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:43:44,874 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:43:44,875 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:43:45,091 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:43:47,198 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:44:05,163 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:44:05,164 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 04:44:05,165 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 04:44:05,165 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 04:44:05,277 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 04:44:06,318 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:44:06,468 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 04:44:06,468 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 04:44:06,468 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 04:44:06,468 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 04:44:07,281 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 04:44:07,286 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 04:44:07,291 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 04:45:21,263 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:45:21,539 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 04:45:21,544 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 04:45:21,550 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 04:45:25,931 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 04:45:26,359 core.mqtt_handler INFO     Connected to MQTT broker successfully
+2025-05-08 04:45:26,368 core.mqtt_handler ERROR    Failed to connect to MQTT broker: Connection refused - bad username or password
+2025-05-08 04:45:26,379 core.mqtt_handler WARNING  Unexpected disconnection from MQTT broker, code: 1
+2025-05-08 07:52:52,551 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:52:52,567 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 07:52:52,567 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 07:52:52,575 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 07:52:54,866 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 07:53:11,096 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:53:43,601 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:33,967 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:33,969 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 07:55:33,969 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 07:55:33,970 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 07:55:34,169 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 07:55:34,705 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:34,712 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 07:55:34,714 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 07:55:34,716 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 07:55:35,045 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 07:55:36,016 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 07:55:36,310 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 07:55:36,310 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 07:55:36,310 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 07:55:36,311 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 07:55:36,655 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:42,921 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:42,923 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:00:42,923 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:00:42,923 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:00:43,032 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:00:43,932 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:49,721 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:49,723 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:00:49,723 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:00:49,723 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:00:49,833 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:00:51,025 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:00:51,171 core.line_webhook INFO     Received location verification request for token: invalid_...
+2025-05-08 08:00:51,171 core.line_webhook INFO     Looking up token in memory: invalid_... Found: False
+2025-05-08 08:00:51,172 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:00:51,172 core.line_webhook WARNING  Invalid token: token_provided=True, user_id_found=False
+2025-05-08 08:00:51,175 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:00:51,175 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:00:51,176 core.line_webhook INFO     Found and removed token for user_id: test_user_123
+2025-05-08 08:00:51,176 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:00:51,330 middleware.rate_limiter INFO     Rate limiting enabled: 30 requests per minute
+2025-05-08 08:00:51,331 middleware.rate_limiter INFO     Applied rate limit to webhook endpoint: 30 requests per minute
+2025-05-08 08:02:40,433 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:40,434 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:02:40,434 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:02:40,434 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:02:40,548 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:02:41,671 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:43,225 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:43,226 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:02:43,226 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:02:43,227 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:02:43,324 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:02:44,621 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:02:44,632 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:02:44,633 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:02:44,633 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:02:44,636 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:02:44,636 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:02:44,637 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:02:44,803 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:02:44,803 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:02:44,804 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:02:44,804 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:03:36,800 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:36,801 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:03:36,802 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:03:36,802 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:03:36,932 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:03:37,603 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:37,605 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:03:37,605 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:03:37,606 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:03:37,794 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:03:38,762 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:38,780 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:38,780 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:38,781 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:38,785 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:38,785 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:38,786 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:39,074 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:03:39,074 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:03:39,075 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:03:39,075 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:03:39,273 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:45,055 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:45,056 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:03:45,057 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:03:45,057 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:03:45,160 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:03:46,169 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:03:46,181 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:46,181 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:46,181 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:46,184 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:03:46,185 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:03:46,185 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:03:46,345 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:03:46,345 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:03:46,346 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:03:46,346 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:05:33,831 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:33,832 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:05:33,832 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:05:33,833 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:05:33,971 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:05:36,134 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:36,155 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:36,156 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:36,156 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:36,160 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:36,160 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:36,160 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:36,328 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:05:36,328 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:05:36,329 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:05:36,329 core.line_webhook INFO     Current tokens in memory: 0
+2025-05-08 08:05:51,955 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:51,956 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:05:51,956 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:05:51,957 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:05:52,074 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:05:53,191 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:53,335 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:53,337 middleware.rate_limiter INFO     Rate limiting is disabled
+2025-05-08 08:05:53,337 app          INFO     Caching disabled or Flask-Caching not installed
+2025-05-08 08:05:53,338 middleware.middleware INFO     Middleware applied successfully
+2025-05-08 08:05:53,504 docs.api_docs INFO     Swagger UI registered at /api/docs
+2025-05-08 08:05:54,707 utils.logger_config INFO     Logging configured with level: INFO
+2025-05-08 08:05:54,727 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:54,727 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:54,728 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:54,738 middleware.middleware ERROR    Invalid LINE webhook signature
+2025-05-08 08:05:54,738 middleware.middleware ERROR    Error validating signature: 400 Bad Request: Invalid signature
+2025-05-08 08:05:54,739 utils.logger_config ERROR    400 Bad Request: 400 Bad Request: Signature validation error
+2025-05-08 08:05:54,984 core.line_webhook INFO     Received location verification request for token: valid_te...
+2025-05-08 08:05:54,984 core.line_webhook INFO     Looking up token in memory: valid_te... Found: True
+2025-05-08 08:05:54,985 core.line_webhook INFO     Found and removed token for user_id: test_user_789
+2025-05-08 08:05:54,985 core.line_webhook INFO     Current tokens in memory: 0
