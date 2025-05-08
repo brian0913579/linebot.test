@@ -8,3 +8,9 @@ __pycache__/
 *.pyc
 # ignore vent directory
 vent/
+
+# ignore Python virtual environment
+venv/
+
+# ignore application log
+app.log
