@@ -146,6 +146,77 @@ Body: {
 }</code></pre>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Verification Page</span>
+                    <span class="method-badge get-badge">GET</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Page: <span class="endpoint">/verify-location?token=&#123;token&#125;</span></h5>
+                    <p class="card-text">Static HTML page that captures browser geolocation and submits to <code>/api/verify-location</code>.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Location Verification API</span>
+                    <span class="method-badge post-badge">POST</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Endpoint: <span class="endpoint">/api/verify-location</span></h5>
+                    <p class="card-text">Verifies if a user is within the allowed distance of the garage.</p>
+                    <h6>Request Body:</h6>
+                    <pre><code>{
+  "lat": 24.79155,
+  "lng": 120.99442,
+  "acc": 10,   // optional accuracy in meters
+  "token": "one-time-token"
+}</code></pre>
+                    <h6>Response:</h6>
+                    <pre><code>{
+  "ok": true | false,
+  "message": "description on failure"
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>MQTT Test</span>
+                    <span class="method-badge get-badge">GET</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Endpoint: <span class="endpoint">/mqtt-test</span></h5>
+                    <p class="card-text">Tests connectivity with the MQTT broker and returns success or failure.</p>
+                    <h6>Response:</h6>
+                    <pre><code>{
+  "status": "success" | "failure",
+  "message": "MQTT broker is reachable." | "MQTT connection failed: ... "
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>OpenAPI Spec</span>
+                    <span class="method-badge get-badge">GET</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Endpoint: <span class="endpoint">/api/spec</span></h5>
+                    <p class="card-text">Returns the raw OpenAPI JSON specification for the API.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Interactive API Docs</span>
+                    <span class="method-badge get-badge">GET</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Endpoint: <span class="endpoint">/api/docs</span></h5>
+                    <p class="card-text">Swagger UI for interactively exploring and testing the API.</p>
+                </div>
+            </div>
         </div>
         
         <div class="docs-link text-center">
