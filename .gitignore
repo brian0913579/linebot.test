@@ -11,3 +11,5 @@ app.log
 error.log
 tests/app.log
 tests/error.log
+
+.DS_Store
