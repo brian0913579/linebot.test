@@ -50,3 +50,7 @@ env_variables:
 handlers:
   - url: /static
     static_dir: static
+
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', 'app.yaml', '--quiet']

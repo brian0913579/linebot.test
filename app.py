@@ -133,6 +133,18 @@ document_api(
     tags=['LINE Webhook']
 )
 
+@app.route("/mqtt-test")
+def mqtt_test():
+    import paho.mqtt.client as mqtt
+    client = mqtt.Client()
+    client.tls_set(ca_certs=os.environ['MQTT_CAFILE'])
+    client.username_pw_set(os.environ['MQTT_USERNAME'],
+                           os.environ['MQTT_PASSWORD'])
+    client.connect(os.environ['MQTT_URL'].split("://")[1].split(":")[0],
+                   int(os.environ['MQTT_URL'].split(":")[-1]))
+    client.disconnect()
+    return "MQTT OK", 200
+
 # Serve the verification page
 @app.route('/verify-location', methods=['GET'])
 def verify_location_page():
