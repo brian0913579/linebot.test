@@ -158,7 +158,7 @@ def mqtt_test():
     mqtt_port = int(os.environ.get("MQTT_PORT"))
     mqtt_username = os.environ.get("MQTT_USERNAME")
     mqtt_password = os.environ.get("MQTT_PASSWORD")
-    mqtt_cafile = os.environ.get("MQTT_CAFILE")
+    mqtt_cafile = os.environ.get("MQTT_CAFILE", "ca.crt")
 
     # Set up TLS and credentials if necessary
     client.tls_set(ca_certs=mqtt_cafile)
