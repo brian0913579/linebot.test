@@ -159,10 +159,10 @@ def mqtt_test():
     mqtt_username = os.environ.get("MQTT_USERNAME", "piuser")
     mqtt_password = os.environ.get("MQTT_PASSWORD", "yourpassword")
     mqtt_cafile = os.environ.get("MQTT_CAFILE", "ca.crt")
-    client.tls_insecure_set(True)
 
     # Set up TLS and credentials if necessary
     client.tls_set(ca_certs=mqtt_cafile)
+    client.tls_insecure_set(True)  # Allow self-signed certificates
     client.username_pw_set(mqtt_username, mqtt_password)
 
     try:
