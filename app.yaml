@@ -43,6 +43,9 @@ env_variables:
   # (Only used if SECRETS_BACKEND=gcp)
   GOOGLE_CLOUD_PROJECT: "linebot-458714"
 
+  # Logging dir
+  LOG_DIR: "/tmp"
+
 # Serve anything under /static directly
 handlers:
   - url: /static
