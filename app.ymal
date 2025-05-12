@@ -1,0 +1,49 @@
+runtime: python39
+
+# Tell App Engine how to start your app:
+entrypoint: gunicorn -b :$PORT app:app
+
+# If you need more memory/CPU you can bump this to F2 or higher
+instance_class: F1
+
+env_variables:
+  # LINE Bot credentials
+  LINE_CHANNEL_ACCESS_TOKEN: "UvO6wZrUxzd3v2eJGZUcMJlz6IUGfUGBeL+GfM5X3rzgtULDXjHaD4yprwOQRuDHo/cpiPfIaUAnV8sMsO4UnhNetrUZxLpC9SK8fIR4hSSe2afi9wfuc+/droYOvbjv6xTsgclkdXm2cb2FON5g0wdB04t89/1O/w1cDnyilFU="
+  LINE_CHANNEL_SECRET:      "2eeb33ec876a3a3ad7cba129de6d3207"
+
+  # MQTT Broker Settings
+  MQTT_BROKER:   "bri4nting.duckdns.org"
+  MQTT_PORT:     "8883"
+  MQTT_USERNAME: "piuser"
+  MQTT_PASSWORD: "cool.com"
+  MQTT_TOPIC:    "garage/command"
+
+  # Location geofence parameters
+  PARK_LAT:      "24.79155"
+  PARK_LNG:      "120.99442"
+  MAX_DIST_KM:   "0.5"
+
+  # Timeouts & token TTLs (in seconds)
+  VERIFY_TTL:    "300"
+  LOCATION_TTL:  "10"
+
+  # HTTP port (must match gunicorn bind)
+  PORT:          "8080"
+
+  # Base URL for the verify-page link
+  VERIFY_URL_BASE: "https://linebot-458714.appspot.com/static/verify.html"
+
+  # Security / Rate limiting
+  RATE_LIMIT_ENABLED:     "false"
+  MAX_REQUESTS_PER_MINUTE:"30"
+
+  # Secrets backend choice
+  SECRETS_BACKEND: "env"
+
+  # (Only used if SECRETS_BACKEND=gcp)
+  GOOGLE_CLOUD_PROJECT: "linebot-458714"
+
+# Serve anything under /static directly
+handlers:
+  - url: /static
+    static_dir: static
