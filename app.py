@@ -162,7 +162,7 @@ def mqtt_test():
 
     # Set up TLS and credentials if necessary
     client.tls_set(ca_certs=mqtt_cafile)
-    client.tls_insecure_set(True)  # Allow self-signed certificates
+    #client.tls_insecure_set(True)  # Allow self-signed certificates
     client.username_pw_set(mqtt_username, mqtt_password)
 
     try:
