@@ -17,11 +17,11 @@ LINE_CHANNEL_ACCESS_TOKEN = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
 LINE_CHANNEL_SECRET = get_secret("LINE_CHANNEL_SECRET")
 
 # MQTT Broker Configuration
-MQTT_BROKER = get_secret('MQTT_BROKER', default='bri4nting.duckdns.org')
+MQTT_BROKER = get_secret('MQTT_BROKER', default='d8e42404.ala.asia-southeast1.emqxsl.com')
 MQTT_PORT = int(get_secret('MQTT_PORT', default='8883'))
 MQTT_USERNAME = get_secret('MQTT_USERNAME', default='piuser')
 MQTT_PASSWORD = get_secret('MQTT_PASSWORD', default='cool.com')
-MQTT_CAFILE = get_secret('MQTT_CAFILE', default='ca.crt')
+MQTT_CAFILE = get_secret('MQTT_CAFILE', default='emqxsl-ca.crt')
 MQTT_TOPIC = get_secret('MQTT_TOPIC', default='garage/command')
 
 # Location Verification Configuration
