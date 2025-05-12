@@ -1,6 +1,7 @@
 import os
 import logging
 import math  # Add this import
+import paho.mqtt.client as mqtt
 from flask import Flask, jsonify, send_from_directory, request
 from werkzeug.exceptions import HTTPException
 from middleware.rate_limiter import configure_limiter, limit_webhook_endpoint, limit_verify_location_endpoint
@@ -142,6 +143,39 @@ def verify_location_page():
     This page prompts the user to share their location for verification.
     """
     return send_from_directory(app.static_folder, 'verify.html')
+
+@app.route('/mqtt-test', methods=['GET'])
+def mqtt_test():
+    """
+    Test if the MQTT broker is reachable.
+    ---
+    This endpoint attempts to connect to the MQTT broker and returns the result.
+    """
+    client = mqtt.Client()
+
+    # Set the MQTT broker details (replace with your values)
+    mqtt_broker = os.environ.get("MQTT_BROKER")
+    mqtt_port = int(os.environ.get("MQTT_PORT"))
+    mqtt_username = os.environ.get("MQTT_USERNAME")
+    mqtt_password = os.environ.get("MQTT_PASSWORD")
+    mqtt_cafile = os.environ.get("MQTT_CAFILE", "ca.crt")
+
+    # Set up TLS and credentials if necessary
+    client.tls_set(ca_certs=mqtt_cafile)
+    client.tls_insecure_set(True)  # Allow self-signed certificates
+    client.username_pw_set(mqtt_username, mqtt_password)
+
+    try:
+        # Attempt to connect to the MQTT broker
+        client.connect(mqtt_broker, mqtt_port, 60)
+
+        # Disconnect after testing
+        client.disconnect()
+
+        return jsonify({"status": "success", "message": "MQTT broker is reachable."}), 200
+    except Exception as e:
+        # Return an error if connection fails
+        return jsonify({"status": "failure", "message": f"MQTT connection failed: {str(e)}"}), 500
 
 # Location verification API endpoint
 @app.route('/api/verify-location', methods=['POST'])
