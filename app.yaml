@@ -12,7 +12,7 @@ env_variables:
   LINE_CHANNEL_SECRET:      "2eeb33ec876a3a3ad7cba129de6d3207"
 
   # MQTT Broker Settings
-  MQTT_BROKER:   "bri4nting.duckdns.org"
+  MQTT_BROKER:   "d8e42404.ala.asia-southeast1.emqxsl.com"
   MQTT_PORT:     "8883"
   MQTT_USERNAME: "piuser"
   MQTT_PASSWORD: "cool.com"
