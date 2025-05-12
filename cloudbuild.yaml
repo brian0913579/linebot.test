@@ -5,4 +5,8 @@ steps:
   - 'deploy'
   - 'app.yaml'
   - '--quiet'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
 timeout: '600s'
