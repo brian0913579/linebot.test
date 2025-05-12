@@ -154,11 +154,11 @@ def mqtt_test():
     client = mqtt.Client()
 
     # Set the MQTT broker details (replace with your values)
-    mqtt_broker = os.environ.get("MQTT_BROKER", "bri4nting.duckdns.org")
-    mqtt_port = int(os.environ.get("MQTT_PORT", 8883))
-    mqtt_username = os.environ.get("MQTT_USERNAME", "piuser")
-    mqtt_password = os.environ.get("MQTT_PASSWORD", "yourpassword")
-    mqtt_cafile = os.environ.get("MQTT_CAFILE", "ca.crt")
+    mqtt_broker = os.environ.get("MQTT_BROKER")
+    mqtt_port = int(os.environ.get("MQTT_PORT"))
+    mqtt_username = os.environ.get("MQTT_USERNAME")
+    mqtt_password = os.environ.get("MQTT_PASSWORD")
+    mqtt_cafile = os.environ.get("MQTT_CAFILE")
 
     # Set up TLS and credentials if necessary
     client.tls_set(ca_certs=mqtt_cafile)
