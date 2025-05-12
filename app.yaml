@@ -35,7 +35,7 @@ env_variables:
 
   # Security / Rate limiting
   RATE_LIMIT_ENABLED:     "false"
-  MAX_REQUESTS_PER_MINUTE:"30"
+  MAX_REQUESTS_PER_MINUTE: "30"
 
   # Secrets backend choice
   SECRETS_BACKEND: "env"
