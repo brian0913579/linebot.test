@@ -59,7 +59,7 @@ if swagger_ui_installed and apispec_installed:
             openapi_version="3.0.2",
             info=dict(
                 description="LINE Bot API for garage door control",
-                contact=dict(email="admin@example.com")
+                contact=dict(email="cool.brian1206cool@gmail.com")
             ),
             plugins=[FlaskPlugin(), MarshmallowPlugin()],
         )
