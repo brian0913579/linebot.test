@@ -1,8 +1,8 @@
-
 # Add parent directory to Python path so the root 'utils' module can be found
-import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 """
 API Documentation Module
@@ -12,7 +12,9 @@ It uses flask-swagger-ui to serve the documentation and apispec to generate the 
 """
 
 import importlib.util
-from flask import Blueprint, jsonify, current_app
+
+from flask import Blueprint, jsonify
+
 from utils.logger_config import get_logger
 
 # Configure logger
@@ -25,31 +27,27 @@ apispec_installed = importlib.util.find_spec("apispec") is not None
 # Store endpoint documentation for later processing
 endpoint_registry = []
 
-api_docs_blueprint = Blueprint('api_docs', __name__)
+api_docs_blueprint = Blueprint("api_docs", __name__)
 
 if swagger_ui_installed and apispec_installed:
-    from flask_swagger_ui import get_swaggerui_blueprint
     from apispec import APISpec
     from apispec.ext.marshmallow import MarshmallowPlugin
     from apispec_webframeworks.flask import FlaskPlugin
+    from flask_swagger_ui import get_swaggerui_blueprint
 
     # Import and configure APISpec - the actual spec will be created per request
-
     # Setup Swagger UI blueprint
-    SWAGGER_URL = '/api/docs'  # URL for accessing API docs UI
-    API_URL = '/api/spec'      # URL for accessing OpenAPI spec
+    SWAGGER_URL = "/api/docs"  # URL for accessing API docs UI
+    API_URL = "/api/spec"  # URL for accessing OpenAPI spec
 
     swaggerui_blueprint = get_swaggerui_blueprint(
         SWAGGER_URL,
         API_URL,
-        config={
-            'app_name': "LineBot API Documentation",
-            'layout': 'BaseLayout'
-        }
+        config={"app_name": "LineBot API Documentation", "layout": "BaseLayout"},
     )
 
     # Register view to serve OpenAPI spec
-    @api_docs_blueprint.route('/spec')
+    @api_docs_blueprint.route("/spec")
     def get_apispec():
         """Generate OpenAPI specification"""
         # Create fresh spec for each request
@@ -59,71 +57,86 @@ if swagger_ui_installed and apispec_installed:
             openapi_version="3.0.2",
             info=dict(
                 description="LINE Bot API for garage door control",
-                contact=dict(email="cool.brian1206cool@gmail.com")
+                contact=dict(email="cool.brian1206cool@gmail.com"),
             ),
             plugins=[FlaskPlugin(), MarshmallowPlugin()],
         )
-        
+
         # Add schemas
         current_spec.components.schema(
-            "LocationVerificationRequest", 
+            "LocationVerificationRequest",
             {
                 "type": "object",
                 "properties": {
-                    "lat": {"type": "number", "format": "float", "description": "Latitude coordinate"},
-                    "lng": {"type": "number", "format": "float", "description": "Longitude coordinate"},
-                    "acc": {"type": "number", "format": "float", "description": "Accuracy in meters"}
+                    "lat": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Latitude coordinate",
+                    },
+                    "lng": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Longitude coordinate",
+                    },
+                    "acc": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Accuracy in meters",
+                    },
                 },
-                "required": ["lat", "lng"]
-            }
+                "required": ["lat", "lng"],
+            },
         )
-        
+
         current_spec.components.schema(
-            "LocationVerificationResponse", 
+            "LocationVerificationResponse",
             {
                 "type": "object",
                 "properties": {
-                    "ok": {"type": "boolean", "description": "Whether verification was successful"},
-                    "message": {"type": "string", "description": "Error message if not successful"}
+                    "ok": {
+                        "type": "boolean",
+                        "description": "Whether verification was successful",
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Error message if not successful",
+                    },
                 },
-                "required": ["ok"]
-            }
+                "required": ["ok"],
+            },
         )
-        
+
         current_spec.components.schema(
-            "Error", 
+            "Error",
             {
                 "type": "object",
                 "properties": {
                     "error": {"type": "string", "description": "Error message"}
                 },
-                "required": ["error"]
-            }
+                "required": ["error"],
+            },
         )
-        
+
         # Add paths from registry
         for doc in endpoint_registry:
             try:
-                current_spec.path(
-                    path=doc['path'],
-                    operations=doc['operations']
-                )
+                current_spec.path(path=doc["path"], operations=doc["operations"])
             except Exception as e:
                 logger.warning(f"Failed to document endpoint {doc['path']}: {str(e)}")
-                
+
         return jsonify(current_spec.to_dict())
 
     def register_swagger_ui(app):
         """Register Swagger UI with Flask app"""
         app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-        app.register_blueprint(api_docs_blueprint, url_prefix='/api')
+        app.register_blueprint(api_docs_blueprint, url_prefix="/api")
         logger.info("Swagger UI registered at %s", SWAGGER_URL)
         return app
 
-    def document_api(view_function, endpoint, methods, location='path', **kwargs):
+    def document_api(view_function, endpoint, methods, location="path", **kwargs):
         """
         Document a Flask API endpoint using apispec.
-        
+
         Args:
             view_function: The Flask view function to document
             endpoint: The endpoint string (without /api prefix)
@@ -132,29 +145,30 @@ if swagger_ui_installed and apispec_installed:
             **kwargs: Additional documentation parameters
         """
         operations = {}
-        
+
         for method in methods:
             operations[method.lower()] = kwargs
-            
+
         # Store the documentation in the global registry
-        endpoint_registry.append({
-            'path': f"/api{endpoint}",
-            'operations': operations
-        })
+        endpoint_registry.append({"path": f"/api{endpoint}", "operations": operations})
 
 else:
     # Create dummy functions when Swagger UI or APISpec is not installed
     def register_swagger_ui(app):
         """Dummy function when Swagger UI is not installed"""
-        app.register_blueprint(api_docs_blueprint, url_prefix='/api')
+        app.register_blueprint(api_docs_blueprint, url_prefix="/api")
         return app
 
-    def document_api(view_function, endpoint, methods, location='path', **kwargs):
+    def document_api(view_function, endpoint, methods, location="path", **kwargs):
         """Dummy function when APISpec is not installed"""
-        pass
 
-    @api_docs_blueprint.route('/docs')
+    @api_docs_blueprint.route("/docs")
     def api_docs_unavailable():
-        return jsonify({
-            'error': 'API documentation is unavailable. Install flask-swagger-ui and apispec.'
-        }), 503
+        return (
+            jsonify(
+                {
+                    "error": "API documentation is unavailable. Install flask-swagger-ui and apispec."
+                }
+            ),
+            503,
+        )

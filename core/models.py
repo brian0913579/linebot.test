@@ -1,7 +1,8 @@
-import sqlite3
 import os
+import sqlite3
 
 DB_PATH = os.environ.get("DB_PATH", "/tmp/users.db")
+
 
 def get_allowed_users():
     connection = sqlite3.connect(DB_PATH)
