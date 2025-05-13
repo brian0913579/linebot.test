@@ -30,7 +30,7 @@ env_variables:
   VERIFY_URL_BASE: "https://linebot-458714.appspot.com/static/verify.html"
 
   # Security / Rate limiting
-  RATE_LIMIT_ENABLED:     "false"
+  RATE_LIMIT_ENABLED:     "true"
   MAX_REQUESTS_PER_MINUTE: "30"
 
   # Secrets backend choice
