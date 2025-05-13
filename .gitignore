@@ -1,15 +1,18 @@
-# Claude settings
-**/.claude/settings.local.json
+# Python
 __pycache__/
 *.pyc
-
-# ignore Python virtual environment
 venv/
 
-# ignore application log
+# IDE and System
+.claude/settings.local.json
+.DS_Store
+
+# Application Logs
 app.log
 error.log
 tests/app.log
 tests/error.log
 
-.DS_Store
+# Local Configuration
+.env
+users.db
