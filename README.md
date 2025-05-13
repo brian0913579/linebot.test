@@ -220,4 +220,4 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## Contact
 
-For questions or issues, please open an issue on the GitHub repo or reach out via email: your.email@example.com
+For questions or issues, please open an issue on the GitHub repo or reach out via email: cool.brian1206cool@gmail.com
