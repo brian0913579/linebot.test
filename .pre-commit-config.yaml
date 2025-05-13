@@ -16,4 +16,12 @@ repos:
           - --remove-all-unused-imports
           - --remove-unused-variables
           - --in-place
-  
+
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8 (local)
+        entry: flake8
+        language: system
+        types: [python]
+        args: ["--max-line-length=88"]
