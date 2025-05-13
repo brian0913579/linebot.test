@@ -120,7 +120,9 @@ if swagger_ui_installed and apispec_installed:
         # Add paths from registry
         for doc in endpoint_registry:
             try:
-                current_spec.path(path=doc["path"], operations=doc["operations"])
+                current_spec.path(
+                    path=doc["path"], operations=doc["operations"], view=doc["view"]
+                )
             except Exception as e:
                 logger.warning(f"Failed to document endpoint {doc['path']}: {str(e)}")
 
@@ -150,7 +152,9 @@ if swagger_ui_installed and apispec_installed:
             operations[method.lower()] = kwargs
 
         # Store the documentation in the global registry
-        endpoint_registry.append({"path": f"/api{endpoint}", "operations": operations})
+        endpoint_registry.append(
+            {"path": f"/api{endpoint}", "operations": operations, "view": view_function}
+        )
 
 else:
     # Create dummy functions when Swagger UI or APISpec is not installed
