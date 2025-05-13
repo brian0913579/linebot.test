@@ -15,4 +15,3 @@ tests/error.log
 
 # Local Configuration
 .env
-users.db
