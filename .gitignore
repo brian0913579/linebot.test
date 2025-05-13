@@ -15,3 +15,8 @@ tests/error.log
 
 # Local Configuration
 .env
+
+# Local secrets and state
+ca.crt
+emqxsl-ca.crt
+users.db
