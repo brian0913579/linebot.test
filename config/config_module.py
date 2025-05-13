@@ -12,6 +12,9 @@ from config.secret_manager import get_secret, validate_required_secrets
 # Ensure required secrets are available
 validate_required_secrets()
 
+# Caching toggle
+CACHE_ENABLED = get_secret('CACHE_ENABLED', default='false').lower() in ('true', '1', 'yes')
+
 # Line Bot Configuration
 LINE_CHANNEL_ACCESS_TOKEN = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
 LINE_CHANNEL_SECRET = get_secret("LINE_CHANNEL_SECRET")
