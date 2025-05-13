@@ -1,11 +1,12 @@
 import ssl
+import os
 import time
 import traceback
 import logging
 from paho.mqtt import client as mqtt
 from config.config_module import (
     MQTT_BROKER, MQTT_PORT, MQTT_USERNAME, 
-    MQTT_PASSWORD, MQTT_CAFILE, MQTT_TOPIC
+    MQTT_PASSWORD, MQTT_TOPIC
 )
 from utils.logger_config import get_logger
 
@@ -20,8 +21,9 @@ CONNECT_TIMEOUT = 5
 # MQTT Client Setup
 def create_mqtt_client():
     """Create and configure MQTT client with SSL settings"""
-    # Create SSL context with certificate
-    ssl_context = ssl.create_default_context(cafile=MQTT_CAFILE)
+    # Load CA file path from environment
+    cafile = os.environ.get("MQTT_CAFILE")
+    ssl_context = ssl.create_default_context(cafile=cafile)
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_REQUIRED
     

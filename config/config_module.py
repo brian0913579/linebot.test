@@ -21,7 +21,6 @@ MQTT_BROKER = get_secret('MQTT_BROKER', default='d8e42404.ala.asia-southeast1.em
 MQTT_PORT = int(get_secret('MQTT_PORT', default='8883'))
 MQTT_USERNAME = get_secret('MQTT_USERNAME', default='piuser')
 MQTT_PASSWORD = get_secret('MQTT_PASSWORD', default='cool.com')
-MQTT_CAFILE = get_secret('MQTT_CAFILE', default='emqxsl-ca.crt')
 MQTT_TOPIC = get_secret('MQTT_TOPIC', default='garage/command')
 
 # Location Verification Configuration
@@ -40,11 +39,3 @@ VERIFY_URL_BASE = get_secret('VERIFY_URL_BASE', default='https://bri4nting.duckd
 # Security Configuration
 RATE_LIMIT_ENABLED = get_secret('RATE_LIMIT_ENABLED', default='false').lower() == 'true'
 MAX_REQUESTS_PER_MINUTE = int(get_secret('MAX_REQUESTS_PER_MINUTE', default='30'))
-
-# Redis Cache Configuration
-REDIS_HOST = get_secret('REDIS_HOST', default='localhost')
-REDIS_PORT = int(get_secret('REDIS_PORT', default='6379'))
-REDIS_DB = int(get_secret('REDIS_DB', default='0'))
-REDIS_PASSWORD = get_secret('REDIS_PASSWORD', default='')
-REDIS_SSL = get_secret('REDIS_SSL', default='false').lower() == 'true'
-CACHE_ENABLED = get_secret('CACHE_ENABLED', default='false').lower() == 'true'

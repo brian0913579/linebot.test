@@ -1,4 +1,5 @@
 import os
+from google.cloud import storage
 import logging
 import math  # Add this import
 import paho.mqtt.client as mqtt
@@ -10,8 +11,31 @@ import importlib.util
 from config.config_module import PORT, CACHE_ENABLED
 from utils import setup_logging, get_logger
 
+# Persistence initialization: download DB and CA cert from Cloud Storage into /tmp
+def init_persistence():
+    """
+    Download the user database and CA certificate from Cloud Storage into /tmp if configured.
+    """
+    client = storage.Client()
+    # Database
+    db_bucket = os.environ.get("DB_BUCKET")
+    db_filename = os.environ.get("DB_FILENAME", "users.db")
+    if db_bucket:
+        db_blob = client.bucket(db_bucket).blob(db_filename)
+        db_dest = f"/tmp/{db_filename}"
+        db_blob.download_to_filename(db_dest)
+    # Certificate
+    crt_bucket = os.environ.get("CRT_BUCKET")
+    crt_filename = os.environ.get("CRT_FILENAME", "emqxsl-ca.crt")
+    if crt_bucket:
+        crt_blob = client.bucket(crt_bucket).blob(crt_filename)
+        crt_dest = f"/tmp/{crt_filename}"
+        crt_blob.download_to_filename(crt_dest)
+
 # Initialize Flask application
 app = Flask(__name__, static_folder='static')
+# Download DB and CA cert from Cloud Storage into /tmp
+init_persistence()
 
 def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """

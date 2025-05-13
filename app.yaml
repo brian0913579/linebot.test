@@ -42,6 +42,12 @@ env_variables:
   # Logging dir
   LOG_DIR: "/tmp"
 
+  # Cloud Storage persistence settings
+  DB_BUCKET:    "my-linebot-assets"
+  DB_FILENAME:  "users.db"
+  CRT_BUCKET:   "my-linebot-assets"
+  CRT_FILENAME: "emqxsl-ca.crt"
+
 # Serve anything under /static directly
 handlers:
   - url: /static
