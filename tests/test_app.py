@@ -50,8 +50,8 @@ def test_verify_signature(line_channel_secret):
     correct_signature = create_test_signature(test_body, line_channel_secret)
 
     with patch("core.line_webhook.LINE_CHANNEL_SECRET", line_channel_secret.decode()):
-        assert verify_signature(correct_signature, test_body) == True
-        assert verify_signature("wrong_signature", test_body) == False
+        assert verify_signature(correct_signature, test_body) is True
+        assert verify_signature("wrong_signature", test_body) is False
 
 
 # Test haversine distance function
@@ -82,7 +82,7 @@ def test_verify_location_endpoint_invalid_token(client):
         json={"lat": PARK_LAT, "lng": PARK_LNG},
     )
     assert response.status_code == 400
-    assert json.loads(response.data)["ok"] == False
+    assert json.loads(response.data)["ok"] is False
 
 
 # Test location verification with valid token but invalid location
@@ -102,7 +102,7 @@ def test_verify_location_endpoint_invalid_location(mock_tokens, client):
         json={"lat": far_lat, "lng": PARK_LNG},
     )
     assert response.status_code == 200
-    assert json.loads(response.data)["ok"] == False
+    assert json.loads(response.data)["ok"] is False
 
 
 # Test token generation and cleanup

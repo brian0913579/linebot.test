@@ -83,9 +83,14 @@ DEFAULT_LOG_CONFIG = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "default": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"},
+        "default": {
+            "format": ("%(asctime)s %(name)-12s %(levelname)-8s " "%(message)s")
+        },
         "detailed": {
-            "format": "%(asctime)s %(name)s [%(filename)s:%(lineno)d] %(levelname)s: %(message)s"
+            "format": (
+                "%(asctime)s %(name)s [%(filename)s:%(lineno)d] "
+                "%(levelname)s: %(message)s"
+            )
         },
         "simple": {"format": "%(message)s"},
     },
@@ -147,7 +152,8 @@ def setup_logging(log_level=None, config=None):
     Set up logging configuration.
 
     Args:
-        log_level (str, optional): Log level ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL').
+        log_level (str, optional):
+            Log level ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL').
                                    Defaults to None (uses INFO).
         config (dict, optional): Custom logging configuration dictionary.
                                  Defaults to None (uses DEFAULT_LOG_CONFIG).

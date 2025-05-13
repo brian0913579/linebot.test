@@ -8,18 +8,26 @@ from google.cloud import storage
 from werkzeug.exceptions import HTTPException
 
 from config.config_module import CACHE_ENABLED, PORT
+from core.line_webhook import verify_location_handler, webhook_handler
+from docs.api_docs import document_api, register_swagger_ui
+from middleware.middleware import (
+    apply_middleware,
+    rate_limit_by_ip,
+    validate_line_signature,
+)
 from middleware.rate_limiter import (
     configure_limiter,
     limit_verify_location_endpoint,
     limit_webhook_endpoint,
 )
-from utils import setup_logging
+from utils.logger_config import setup_logging
 
 
 # Persistence initialization: download DB and CA cert from Cloud Storage into /tmp
 def init_persistence():
     """
-    Download the user database and CA certificate from Cloud Storage into /tmp if configured.
+    Download the user database and CA certificate from Cloud Storage into /tmp
+    if configured.
     """
     client = storage.Client()
     # Database
@@ -46,7 +54,8 @@ init_persistence()
 
 def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
-    Calculate the great circle distance between two points on the earth (specified in decimal degrees).
+    Calculate the great circle distance between two points on the earth
+    (specified in decimal degrees).
     """
     # Convert decimal degrees to radians
     lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
@@ -92,18 +101,9 @@ if CACHE_ENABLED and flask_caching_installed:
 else:
     app.logger.info("Caching disabled or Flask-Caching not installed")
 
-# Apply middleware
-from middleware.middleware import apply_middleware
-
 app = apply_middleware(app)
 
-# Initialize API documentation
-from docs.api_docs import document_api, register_swagger_ui
-
 app = register_swagger_ui(app)
-
-# Import webhook handlers after cache setup to avoid circular imports
-from core.line_webhook import verify_location_handler, webhook_handler
 
 # Set up logging
 logger = setup_logging()
@@ -158,9 +158,6 @@ document_api(
     responses={200: {"description": "Application is healthy"}},
     tags=["System"],
 )
-
-# Import the decorators
-from middleware.middleware import rate_limit_by_ip, validate_line_signature
 
 
 # LINE Bot webhook endpoint
@@ -234,14 +231,22 @@ def mqtt_test():
         client.disconnect()
 
         return (
-            jsonify({"status": "success", "message": "MQTT broker is reachable."}),
+            jsonify(
+                {
+                    "status": "success",
+                    "message": "MQTT broker is reachable.",
+                }
+            ),
             200,
         )
     except Exception as e:
         # Return an error if connection fails
         return (
             jsonify(
-                {"status": "failure", "message": f"MQTT connection failed: {str(e)}"}
+                {
+                    "status": "failure",
+                    "message": f"MQTT connection failed: {str(e)}",
+                }
             ),
             500,
         )
@@ -362,7 +367,9 @@ def not_found_error(e):
         jsonify(
             {
                 "error": "Not Found",
-                "message": f"The requested URL {request.path} was not found on the server",
+                "message": (
+                    f"The requested URL {request.path} " "was not found on the server"
+                ),
             }
         ),
         404,

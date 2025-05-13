@@ -1,7 +1,7 @@
 """
 Secret Manager Module
 
-This module provides secure access to all application secrets. 
+This module provides secure access to all application secrets.
 It centralizes secret handling and supports multiple secrets backends:
 1. Environment variables (.env) for local development
 2. Google Cloud Secret Manager for production
@@ -44,7 +44,10 @@ if USE_GOOGLE_SECRET_MANAGER:
             )
     except ImportError:
         logger.error(
-            "Google Cloud Secret Manager requested but google-cloud-secret-manager not installed"
+            (
+                "Google Cloud Secret Manager requested but "
+                "google-cloud-secret-manager not installed"
+            )
         )
         USE_GOOGLE_SECRET_MANAGER = False
 

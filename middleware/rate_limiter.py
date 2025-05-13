@@ -64,7 +64,10 @@ def limit_webhook_endpoint(app):
         app.view_functions["webhook"]
     )
     logger.info(
-        f"Applied rate limit to webhook endpoint: {MAX_REQUESTS_PER_MINUTE} requests per minute"
+        (
+            f"Applied rate limit to webhook endpoint: {MAX_REQUESTS_PER_MINUTE} "
+            "requests per minute"
+        )
     )
 
 
@@ -84,5 +87,8 @@ def limit_verify_location_endpoint(app):
     twice_limit = MAX_REQUESTS_PER_MINUTE * 2
     limiter.limit(f"{twice_limit} per minute")(app.view_functions["verify_location"])
     logger.info(
-        f"Applied rate limit to verify-location endpoint: {twice_limit} requests per minute"
+        (
+            f"Applied rate limit to verify-location endpoint: {twice_limit} "
+            "requests per minute"
+        )
     )

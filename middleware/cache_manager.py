@@ -10,6 +10,15 @@ import importlib.util
 import json
 import time
 
+from config.config_module import (
+    LOCATION_TTL,
+    REDIS_DB,
+    REDIS_HOST,
+    REDIS_PASSWORD,
+    REDIS_PORT,
+    REDIS_SSL,
+    VERIFY_TTL,
+)
 from utils.logger_config import get_logger
 
 # Check if Redis is installed
@@ -42,16 +51,6 @@ else:
             pass
 
 
-from config.config_module import (
-    LOCATION_TTL,
-    REDIS_DB,
-    REDIS_HOST,
-    REDIS_PASSWORD,
-    REDIS_PORT,
-    REDIS_SSL,
-    VERIFY_TTL,
-)
-
 # Configure logger
 logger = get_logger(__name__)
 
@@ -81,7 +80,10 @@ if redis_installed and flask_caching_installed:
                 "CACHE_REDIS_PORT": REDIS_PORT,
                 "CACHE_REDIS_DB": REDIS_DB,
                 "CACHE_REDIS_PASSWORD": REDIS_PASSWORD,
-                "CACHE_REDIS_URL": f"redis{'s' if REDIS_SSL else ''}://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}",
+                "CACHE_REDIS_URL": (
+                    f"redis{'s' if REDIS_SSL else ''}://"
+                    f"{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
+                ),
                 "CACHE_DEFAULT_TIMEOUT": 300,
             }
         )
@@ -97,7 +99,12 @@ else:
     logger.warning("Redis or Flask-Caching not installed, using in-memory storage")
     redis_client = None
     cache = (
-        Cache(config={"CACHE_TYPE": "SimpleCache", "CACHE_DEFAULT_TIMEOUT": 300})
+        Cache(
+            config={
+                "CACHE_TYPE": "SimpleCache",
+                "CACHE_DEFAULT_TIMEOUT": 300,
+            }
+        )
         if flask_caching_installed
         else None
     )
@@ -125,7 +132,7 @@ def store_verify_token(token, user_id):
         # If Redis is unavailable, we need to alert the caller that
         # the operation actually failed so they can use an alternative
         logger.warning(
-            f"Redis unavailable for storing verify token, using in-memory fallback"
+            "Redis unavailable for storing verify token, using in-memory fallback"
         )
         return False
     except RedisError as e:
@@ -160,7 +167,7 @@ def get_verify_token(token):
             parsed = json.loads(data)
             # Delete immediately to prevent reuse
             redis_client.delete(key)
-            logger.info(f"Deleted Redis token after lookup")
+            logger.info("Deleted Redis token after lookup")
 
             # Check expiry
             if time.time() > parsed.get("expiry", 0):
@@ -171,7 +178,7 @@ def get_verify_token(token):
             return parsed.get("user_id"), parsed.get("expiry")
 
         # If Redis is unavailable, we need to alert the caller
-        logger.warning(f"Redis unavailable for token lookup, returning None")
+        logger.warning("Redis unavailable for token lookup, returning None")
         return None, None
     except (RedisError, json.JSONDecodeError) as e:
         logger.error(f"Error retrieving verify token: {str(e)}")
@@ -266,7 +273,8 @@ def get_action_token(token):
         token (str): The action token
 
     Returns:
-        tuple: (user_id, action, expiry) if valid, (None, None, None) if invalid or expired
+        tuple: (user_id, action, expiry) if valid,
+        (None, None, None) if invalid or expired
     """
     try:
         if redis_client:

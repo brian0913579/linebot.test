@@ -1,6 +1,11 @@
 # Add parent directory to Python path so the root 'utils' module can be found
+import importlib.util
 import os
 import sys
+
+from flask import Blueprint, jsonify
+
+from utils.logger_config import get_logger
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -11,11 +16,6 @@ This module provides Swagger/OpenAPI documentation for the LineBot API endpoints
 It uses flask-swagger-ui to serve the documentation and apispec to generate the specs.
 """
 
-import importlib.util
-
-from flask import Blueprint, jsonify
-
-from utils.logger_config import get_logger
 
 # Configure logger
 logger = get_logger(__name__)
@@ -167,7 +167,10 @@ else:
         return (
             jsonify(
                 {
-                    "error": "API documentation is unavailable. Install flask-swagger-ui and apispec."
+                    "error": (
+                        "API documentation is unavailable. Install flask-swagger-ui "
+                        "and apispec."
+                    )
                 }
             ),
             503,

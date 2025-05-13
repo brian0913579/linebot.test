@@ -122,7 +122,10 @@ def send_garage_command(action):
                 logger.info(f"Retrying in {RETRY_DELAY} seconds...")
                 time.sleep(RETRY_DELAY)
             else:
-                detailed_error = f"Failed to send MQTT command after {MAX_RETRIES} attempts: {str(e)}"
+                detailed_error = (
+                    f"Failed to send MQTT command after {MAX_RETRIES} attempts: "
+                    f"{str(e)}"
+                )
                 logger.error(detailed_error)
                 logger.error(traceback.format_exc())
                 return False, detailed_error

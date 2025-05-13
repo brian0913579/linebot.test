@@ -35,7 +35,12 @@ from config.config_module import (
 )
 from core.models import get_allowed_users
 from core.mqtt_handler import send_garage_command
-from core.token_manager import TOKENS, clean_expired_tokens, generate_token
+from core.token_manager import (
+    TOKENS,
+    clean_expired_tokens,
+    generate_token,
+    store_action_token,
+)
 from utils.logger_config import get_logger
 
 
@@ -49,7 +54,10 @@ def store_verify_token(token, user_id):
 def get_verify_token(token):
     record = VERIFY_TOKENS.get(token)
     logger.info(
-        f"Looking up token in memory: {token[:8] if token else 'None'}... Found: {record is not None}"
+        (
+            f"Looking up token in memory: {token[:8] if token else 'None'}... "
+            f"Found: {record is not None}"
+        )
     )
 
     if not record:
@@ -179,7 +187,10 @@ def verify_location_handler():
     data = request.get_json(silent=True)
 
     logger.info(
-        f"Received location verification request for token: {token[:8] if token else 'None'}..."
+        (
+            f"Received location verification request for token: "
+            f"{token[:8] if token else 'None'}..."
+        )
     )
 
     # Get and validate token (using our in-memory function)
@@ -191,7 +202,10 @@ def verify_location_handler():
     # Validate token
     if not token or not user_id:
         logger.warning(
-            f"Invalid token: token_provided={token is not None}, user_id_found={user_id is not None}"
+            (
+                f"Invalid token: token_provided={token is not None}, "
+                f"user_id_found={user_id is not None}"
+            )
         )
         return jsonify(ok=False, message="無效或已過期的驗證"), 400
 

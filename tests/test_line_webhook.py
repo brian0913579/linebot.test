@@ -6,7 +6,7 @@ import pytest
 from linebot.v3.webhooks import MessageEvent
 
 from app import app
-from core.line_webhook import handle_text, webhook_handler
+from core.line_webhook import handle_text
 
 
 @pytest.fixture
@@ -36,30 +36,6 @@ def test_webhook_handler_invalid_signature(client):
             "/webhook", headers={"X-Line-Signature": "invalid_signature"}, data="{}"
         )
         assert response.status_code == 400
-
-
-# Test webhook handler with valid signature
-def webhook_handler():
-    """
-    Handle incoming webhook events from LINE Platform.
-    """
-    body = request.get_data(as_text=True)
-    signature = request.headers.get("X-Line-Signature", "")
-
-    if not verify_signature(signature, body):
-        abort(400, description="Invalid signature")
-
-    try:
-        handler.handle(body, signature)
-        logger.info("Webhook processed successfully")
-        return "OK", 200
-    except InvalidSignatureError:
-        logger.error("Invalid signature from LINE Platform")
-        abort(400, description="Invalid signature")
-    except Exception as e:
-        logger.error(f"Error while handling webhook: {e}")
-        logger.error(f"Request body: {body[:200]}...")
-        return "OK", 200  # Still return 200 to acknowledge receipt
 
 
 # Test text message handling for non-allowed user
@@ -111,7 +87,7 @@ def test_verify_location_valid(
     )
 
     assert response.status_code == 200
-    assert json.loads(response.data)["ok"] == True
+    assert json.loads(response.data)["ok"] is True
 
     # Verify push message was sent
     mock_line_bot_api.push_message.assert_called()
