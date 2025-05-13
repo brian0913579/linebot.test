@@ -20,3 +20,6 @@ tests/error.log
 ca.crt
 emqxsl-ca.crt
 users.db
+__MACOSX/
+._*
+.vscode/
