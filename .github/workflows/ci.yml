@@ -33,7 +33,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install black==24.1.0 isort==5.12.0 flake8==6.0.0 pytest
+          pip install pre-commit black==24.1.0 isort==5.12.0 flake8==6.0.0
 
       - name: Check formatting with Black
         run: black --check .
