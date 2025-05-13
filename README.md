@@ -4,7 +4,7 @@
 
 A secure, robust LINE Bot service for remotely controlling a garage door via the LINE messaging platform. Authenticated users can open and close the garage door only after verifying they are physically present at the configured location.
 
-![LINE Bot Demo](https://via.placeholder.com/600x300?text=LINE+Bot+Demo)
+![LINE Bot Demo](static/demo.gif)
 
 ## Table of Contents
 
