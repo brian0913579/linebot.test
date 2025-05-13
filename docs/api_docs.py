@@ -146,6 +146,11 @@ if swagger_ui_installed and apispec_installed:
             location: Where parameters are passed ('path', 'query', or 'body')
             **kwargs: Additional documentation parameters
         """
+        # Allow passing description as positional argument (misused location parameter)
+        if location not in ("path", "query", "body") and "description" not in kwargs:
+            kwargs["description"] = location
+            location = "path"
+
         operations = {}
 
         for method in methods:
