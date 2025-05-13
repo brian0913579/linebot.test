@@ -1,25 +1,29 @@
-# Python
+# Python artifacts
 __pycache__/
 *.pyc
 venv/
 
-# IDE and System
-.claude/settings.local.json
-.DS_Store
+# Local environment variables
+.env
 
-# Application Logs
+# IDE and editor settings
+.vscode/
+.claude/settings.local.json
+
+# Operating system files
+.DS_Store
+__MACOSX/
+._*
+
+# Application and test logs
 app.log
 error.log
 tests/app.log
 tests/error.log
+logs/*.log
+docs/*.log
 
-# Local Configuration
-.env
-
-# Local secrets and state
+# Secrets, certificates, and state
+users.db
 ca.crt
 emqxsl-ca.crt
-users.db
-__MACOSX/
-._*
-.vscode/
