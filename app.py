@@ -75,10 +75,34 @@ def index():
     return send_from_directory(app.static_folder, 'index.html')
 
 # Health check endpoint
+@app.route("/healthz", methods=["GET"])
+def healthz():
+    """
+    Health check endpoint.
+    ---
+    Simple endpoint for monitoring to check if the application is alive.
+    """
+    return "OK", 200
+
+document_api(
+    healthz,
+    '/healthz',
+    ['GET'],
+    description="Health check endpoint",
+    summary="Check if the application is alive",
+    responses={
+        200: {
+            "description": "Application is healthy"
+        }
+    },
+    tags=['System']
+)
+
+# Second health check endpoint
 @app.route("/health", methods=["GET"])
 def health():
     """
-    Health check endpoint.
+    Alternative health check endpoint.
     ---
     Simple endpoint for monitoring to check if the application is alive.
     """
@@ -88,7 +112,7 @@ document_api(
     health,
     '/health',
     ['GET'],
-    description="Health check endpoint",
+    description="Alternative health check endpoint",
     summary="Check if the application is alive",
     responses={
         200: {

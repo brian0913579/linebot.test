@@ -74,22 +74,44 @@
         </div>
         
         <div class="api-section">
-            <h2>Available Endpoints</h2>
+            <h2>System Endpoints</h2>
             
+            <!-- Health Check -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Health Check</span>
                     <span class="method-badge get-badge">GET</span>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/health</span></h5>
+                    <h5 class="card-title">Endpoints: 
+                        <span class="endpoint">/healthz</span> or 
+                        <span class="endpoint">/health</span>
+                    </h5>
                     <p class="card-text">Simple endpoint for monitoring to check if the application is alive.</p>
                     <h6>Response:</h6>
                     <pre><code>Status: 200 OK
 Body: "OK"</code></pre>
                 </div>
             </div>
-            
+
+            <!-- API Documentation -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>API Documentation</span>
+                    <span class="method-badge get-badge">GET</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Endpoints:</h5>
+                    <ul>
+                        <li><span class="endpoint">/api/spec</span> - OpenAPI JSON specification</li>
+                        <li><span class="endpoint">/api/docs</span> - Interactive Swagger UI</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2 class="mt-5">Core Endpoints</h2>
+
+            <!-- LINE Webhook -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>LINE Webhook</span>
@@ -106,6 +128,7 @@ Body: "OK"</code></pre>
                 </div>
             </div>
             
+            <!-- Location Verification -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Location Verification</span>
@@ -147,40 +170,23 @@ Body: {
                 </div>
             </div>
 
+            <!-- Location Verification Page -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Verification Page</span>
+                    <span>Location Verification Page</span>
                     <span class="method-badge get-badge">GET</span>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Page: <span class="endpoint">/verify-location?token=&#123;token&#125;</span></h5>
+                    <h5 class="card-title">Endpoint: <span class="endpoint">/verify-location</span></h5>
                     <p class="card-text">Static HTML page that captures browser geolocation and submits to <code>/api/verify-location</code>.</p>
+                    <h6>Parameters:</h6>
+                    <ul>
+                        <li><code>token</code> (query): One-time verification token</li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Location Verification API</span>
-                    <span class="method-badge post-badge">POST</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/api/verify-location</span></h5>
-                    <p class="card-text">Verifies if a user is within the allowed distance of the garage.</p>
-                    <h6>Request Body:</h6>
-                    <pre><code>{
-  "lat": 24.79155,
-  "lng": 120.99442,
-  "acc": 10,   // optional accuracy in meters
-  "token": "one-time-token"
-}</code></pre>
-                    <h6>Response:</h6>
-                    <pre><code>{
-  "ok": true | false,
-  "message": "description on failure"
-}</code></pre>
-                </div>
-            </div>
-
+            <!-- MQTT Test -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>MQTT Test</span>
@@ -192,34 +198,13 @@ Body: {
                     <h6>Response:</h6>
                     <pre><code>{
   "status": "success" | "failure",
-  "message": "MQTT broker is reachable." | "MQTT connection failed: ... "
+  "message": "MQTT broker is reachable." | "MQTT connection failed: ..."
 }</code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>OpenAPI Spec</span>
-                    <span class="method-badge get-badge">GET</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/api/spec</span></h5>
-                    <p class="card-text">Returns the raw OpenAPI JSON specification for the API.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Interactive API Docs</span>
-                    <span class="method-badge get-badge">GET</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/api/docs</span></h5>
-                    <p class="card-text">Swagger UI for interactively exploring and testing the API.</p>
                 </div>
             </div>
         </div>
         
-        <div class="docs-link text-center">
+        <div class="docs-link text-center mt-5">
             <a href="/api/docs" class="btn btn-primary">
                 View Interactive API Documentation
             </a>
