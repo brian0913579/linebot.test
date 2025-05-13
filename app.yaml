@@ -8,14 +8,10 @@ instance_class: F1
 
 env_variables:
   # LINE Bot credentials
-  LINE_CHANNEL_ACCESS_TOKEN: "UvO6wZrUxzd3v2eJGZUcMJlz6IUGfUGBeL+GfM5X3rzgtULDXjHaD4yprwOQRuDHo/cpiPfIaUAnV8sMsO4UnhNetrUZxLpC9SK8fIR4hSSe2afi9wfuc+/droYOvbjv6xTsgclkdXm2cb2FON5g0wdB04t89/1O/w1cDnyilFU="
-  LINE_CHANNEL_SECRET:      "2eeb33ec876a3a3ad7cba129de6d3207"
 
   # MQTT Broker Settings
   MQTT_BROKER:   "d8e42404.ala.asia-southeast1.emqxsl.com"
   MQTT_PORT:     "8883"
-  MQTT_USERNAME: "piuser"
-  MQTT_PASSWORD: "cool.com"
   MQTT_TOPIC:    "garage/command"
 
   # Location geofence parameters
@@ -38,7 +34,7 @@ env_variables:
   MAX_REQUESTS_PER_MINUTE: "30"
 
   # Secrets backend choice
-  SECRETS_BACKEND: "env"
+  SECRETS_BACKEND: "gcp"
 
   # (Only used if SECRETS_BACKEND=gcp)
   GOOGLE_CLOUD_PROJECT: "linebot-458714"
