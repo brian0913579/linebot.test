@@ -91,7 +91,7 @@ def get_secret(secret_name, default=None):
             return gcp_value
 
     # Return default if nothing found
-    logger.debug(f"Secret '{secret_name}' not found, using default value")
+    logger.debug("A secret was not found, using the default value")
     return default
 
 
