@@ -25,7 +25,7 @@ Flask-Limiter==3.11.0
 
 # Caching (Redis with fallback)
 redis==6.1.0
-Flask-Caching==2.1.0
+Flask-Caching==2.3.1
 
 # API documentation
 flask-swagger-ui==4.11.1
