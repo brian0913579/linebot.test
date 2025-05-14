@@ -63,8 +63,11 @@ def _get_secret_from_gcp(secret_name):
         secret_path = f"projects/{GCP_PROJECT_ID}/secrets/{secret_name}/versions/latest"
         response = client.access_secret_version(name=secret_path)
         return response.payload.data.decode("UTF-8")
-    except Exception as e:
-        logger.error("Error retrieving a secret from GCP. Please check the configuration and permissions.")
+    except Exception:
+        logger.error(
+            "Error retrieving a secret from GCP."
+            "Please check the configuration and permissions."
+        )
         return None
 
 
