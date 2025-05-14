@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Keep Python (pip) libraries up to date
+  - package-ecosystem: "pip"
+    directory: "/"          # location of requirements.txt or Pipfile
+    schedule:
+      interval: "weekly"
+
+  # Keep your GitHub Actions workflows up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"          # location of your .github/workflows YAMLs
+    schedule:
+      interval: "weekly"
