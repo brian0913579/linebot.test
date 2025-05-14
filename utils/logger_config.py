@@ -42,6 +42,8 @@ class ImportantLogFilter(logging.Filter):
             "WSGI app",
             "Python module",
             "wget https",
+            "/health",
+            "/mqtt-test",
         ]
 
         # Important modules to always show logs from
