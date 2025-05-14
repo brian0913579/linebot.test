@@ -31,7 +31,7 @@ Flask-Caching==2.1.0
 flask-swagger-ui==4.11.1
 apispec==6.3.0
 apispec-webframeworks==0.5.2
-marshmallow==3.21.1
+marshmallow==4.0.0
 
 # Utilities
 sortedcontainers==2.4.0
