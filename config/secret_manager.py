@@ -110,7 +110,7 @@ def validate_required_secrets():
 
     if missing:
         error_msg = f"Missing required secrets: {', '.join(missing)}"
-        logger.critical(error_msg)
+        logger.critical("One or more required secrets are missing. Please check the configuration.")
         raise RuntimeError(error_msg)
 
     return True
