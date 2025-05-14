@@ -64,7 +64,7 @@ def _get_secret_from_gcp(secret_name):
         response = client.access_secret_version(name=secret_path)
         return response.payload.data.decode("UTF-8")
     except Exception as e:
-        logger.error(f"Error retrieving secret '{secret_name}' from GCP: {str(e)}")
+        logger.error("Error retrieving a secret from GCP. Please check the configuration and permissions.")
         return None
 
 
