@@ -240,12 +240,14 @@ def mqtt_test():
             200,
         )
     except Exception as e:
-        # Return an error if connection fails
+        # Log the exception details on the server
+        app.logger.error("MQTT connection failed", exc_info=e)
+        # Return a generic error message to the user
         return (
             jsonify(
                 {
                     "status": "failure",
-                    "message": f"MQTT connection failed: {str(e)}",
+                    "message": "MQTT connection failed due to an internal error.",
                 }
             ),
             500,
