@@ -29,7 +29,7 @@ Flask-Caching==2.1.0
 
 # API documentation
 flask-swagger-ui==4.11.1
-apispec==6.3.0
+apispec==6.8.2
 apispec-webframeworks==0.5.2
 marshmallow==3.21.1
 
