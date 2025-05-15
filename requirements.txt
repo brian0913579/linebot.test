@@ -9,8 +9,8 @@ gunicorn==23.0.0
 
 # LINE Bot SDK and requirements
 line-bot-sdk==3.17.1
-pydantic==2.11.4
-pydantic_core==2.34.1
+pydantic>=2.11.4
+pydantic-core>=2.33.2
 
 # MQTT client for garage door communication
 paho-mqtt==2.1.0
