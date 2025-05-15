@@ -12,7 +12,7 @@ on:
 
 permissions:
   contents:        read    # checkout code
-  id-token:        read   # for publish_results & OIDC checks
+  id-token:        write   # for publish_results & OIDC checks
   security-events: write   # publish SARIF to Security tab
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents:        read
-      id-token:        read
+      id-token:        write
       security-events: write
 
     steps:
