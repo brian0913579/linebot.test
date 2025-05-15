@@ -59,7 +59,7 @@ def store_verify_token(token, user_id):
     Returns True upon successful storage.
     """
 
-    logger.info(f"Storing verification token in memory: {token[:8]}...")
+    logger.info("Storing verification token in memory: %s...", token[:8])
     VERIFY_TOKENS[token] = (user_id, time.time() + VERIFY_TTL)
     return True
 
@@ -72,10 +72,9 @@ def get_verify_token(token):
 
     record = VERIFY_TOKENS.get(token)
     logger.info(
-        (
-            f"Looking up token in memory: {token[:8] if token else 'None'}... "
-            f"Found: {record is not None}"
-        )
+        "Looking up token in memory: %s... Found: %s",
+        token[:8] if token else "None",
+        record is not None,
     )
 
     if not record:
@@ -84,7 +83,7 @@ def get_verify_token(token):
     user_id, expiry = record
     # Remove token so it cannot be reused
     VERIFY_TOKENS.pop(token, None)
-    logger.info(f"Found and removed token for user_id: {user_id}")
+    logger.info("Found and removed token for user_id: %s", user_id)
 
     return user_id, expiry
 
@@ -139,6 +138,10 @@ def haversine(lat1, lon1, lat2, lon2):
 
 
 def build_open_close_template(user_id):
+    """
+    Builds a TemplateMessage containing open and close buttons for the given user_id,
+    storing tokens if caching is enabled.
+    """
     open_token, close_token = generate_token(user_id)
     if CACHE_ENABLED:
         store_action_token(open_token, user_id, "open")
@@ -172,6 +175,10 @@ def build_open_close_template(user_id):
 
 # Verify signature function
 def verify_signature(signature, body):
+    """
+    Verifies the incoming webhook signature using HMAC-SHA256 and the channel secret.
+    Returns True if signatures match.
+    """
     logger.debug(f"Received Signature: {signature}")
     logger.debug(f"Request Body: {body}")
 
@@ -221,30 +228,31 @@ def webhook_handler():
 
 # Handler for location verification
 def verify_location_handler():
+    """
+    Handles GET requests for location verification tokens, validating the token and
+    user location, then pushing open/close options if successful.
+    """
     # Query param contains the one-time verification token
     token = request.args.get("token")
     data = request.get_json(silent=True)
 
     logger.info(
-        (
-            f"Received location verification request for token: "
-            f"{token[:8] if token else 'None'}..."
-        )
+        "Received location verification request for token: %s...",
+        token[:8] if token else "None",
     )
 
     # Get and validate token (using our in-memory function)
     user_id, expiry = get_verify_token(token)
 
     # Debug check all tokens in memory
-    logger.info(f"Current tokens in memory: {len(VERIFY_TOKENS)}")
+    logger.info("Current tokens in memory: %d", len(VERIFY_TOKENS))
 
     # Validate token
     if not token or not user_id:
         logger.warning(
-            (
-                f"Invalid token: token_provided={token is not None}, "
-                f"user_id_found={user_id is not None}"
-            )
+            "Invalid token: token_provided=%s, user_id_found=%s",
+            token is not None,
+            user_id is not None,
         )
         return jsonify(ok=False, message="無效或已過期的驗證"), 400
 
@@ -283,10 +291,14 @@ def verify_location_handler():
 # Handle text messages
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text(event):
+    """
+    Handles incoming text messages: checks registration, enforces verification,
+    and sends appropriate responses or error messages.
+    """
     try:
         user_id = event.source.user_id
         user_msg = event.message.text
-        logger.info(f"User {user_id} sent a text message: {user_msg}")
+        logger.info("User %s sent a text message: %s", user_id, user_msg)
 
         # Respond only to the specific message "開關門"
         if user_msg != "開關門":
