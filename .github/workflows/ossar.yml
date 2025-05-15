@@ -12,9 +12,6 @@ on:
 
 permissions:
   contents:        read    # checkout code
-  id-token:        write  # allow OIDC token for msdo to Azure Defender
-  security-events: write   # publish SARIF
-  actions:         read    # required by upload-sarif in private repos
 
 jobs:
   ossar-scan:
