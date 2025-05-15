@@ -1,6 +1,7 @@
 
 # LINE Bot Garage Door Controller
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10563/badge)](https://www.bestpractices.dev/projects/10563)
 
 A secure, robust LINE Bot service for remotely controlling a garage door via the LINE messaging platform. Authenticated users can open and close the garage door only after verifying they are physically present at the configured location.
 
