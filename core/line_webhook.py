@@ -160,61 +160,6 @@ def verify_signature(signature, body):
     return signature == expected_signature
 
 
-# Centralized message sending with fallback
-def send_line_message(user_id, text, reply_token=None):
-    """Centralized message sending with fallback"""
-    message = TextMessage(text=text, quickReply=None, quoteToken=None)
-
-    if reply_token:
-        try:
-            line_bot_api.reply_message(
-                ReplyMessageRequest(
-                    replyToken=reply_token,
-                    messages=[message],
-                    notificationDisabled=False,
-                )
-            )
-            return True
-        except Exception as e:
-            logger.error(f"Failed to send reply: {e}")
-
-    # Fallback to push message
-    try:
-        line_bot_api.push_message(
-            PushMessageRequest(
-                to=user_id,
-                messages=[message],
-                notificationDisabled=False,
-                customAggregationUnits=[],
-            )
-        )
-        return True
-    except Exception as e:
-        logger.error(f"Failed to send push message: {e}")
-        return False
-
-
-def request_location_verification(user_id, reply_token):
-    """Unified location verification request"""
-    verify_token = py_secrets.token_urlsafe(24)
-    store_verify_token(verify_token, user_id)
-    verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
-
-    template = TemplateMessage(
-        alt_text="請先驗證定位",
-        template=ButtonsTemplate(
-            text="請先在車場範圍內進行位置驗證",
-            actions=[URIAction(label="📍 驗證我的位置", uri=verify_url)],
-        ),
-    )
-
-    return line_bot_api.reply_message(
-        ReplyMessageRequest(
-            replyToken=reply_token, messages=[template], notificationDisabled=False
-        )
-    )
-
-
 # Handler for webhook endpoint
 def webhook_handler():
     """
@@ -244,44 +189,56 @@ def webhook_handler():
 
 # Handler for location verification
 def verify_location_handler():
-    """Handle location verification requests"""
-    try:
-        token = request.args.get("token")
-        data = request.get_json(silent=True)
+    # Query param contains the one-time verification token
+    token = request.args.get("token")
+    data = request.get_json(silent=True)
 
-        if not token or not data:
-            return jsonify(ok=False, message="缺少參數"), 400
+    logger.info(
+        (
+            f"Received location verification request for token: "
+            f"{token[:8] if token else 'None'}..."
+        )
+    )
 
-        user_id, expiry = get_verify_token(token)
-        if not user_id or time.time() > expiry:
-            return jsonify(ok=False, message="驗證已過期或無效"), 400
+    # Get and validate token (using our in-memory function)
+    user_id, expiry = get_verify_token(token)
 
-        lat = data.get("lat")
-        lng = data.get("lng")
-        acc = data.get("acc", 999)
+    # Debug check all tokens in memory
+    logger.info(f"Current tokens in memory: {len(VERIFY_TOKENS)}")
 
-        if not all([lat, lng]):
-            return jsonify(ok=False, message="缺少位置資訊"), 400
-
-        dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
-        if dist <= MAX_DIST_KM and acc <= 50:
-            authorized_users[user_id] = time.time() + LOCATION_TTL
-            template = build_open_close_template(user_id)
-            line_bot_api.push_message(
-                PushMessageRequest(
-                    to=user_id,
-                    messages=[template],
-                    notificationDisabled=False,
-                    customAggregationUnits=[],
-                )
+    # Validate token
+    if not token or not user_id:
+        logger.warning(
+            (
+                f"Invalid token: token_provided={token is not None}, "
+                f"user_id_found={user_id is not None}"
             )
-            return jsonify(ok=True)
+        )
+        return jsonify(ok=False, message="無效或已過期的驗證"), 400
 
+    # Check expiry
+    if expiry and time.time() > expiry:
+        return jsonify(ok=False, message="驗證已過期，請重新驗證"), 400
+
+    if not data or "lat" not in data or "lng" not in data:
+        return jsonify(ok=False, message="缺少參數"), 400
+
+    lat, lng, acc = data["lat"], data["lng"], data.get("acc", 999)
+    dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
+
+    if dist <= MAX_DIST_KM and acc <= 50:
+        # Store authorization in Redis if enabled, otherwise in memory
+        if CACHE_ENABLED:
+            authorize_user(user_id)
+        else:
+            authorized_users[user_id] = time.time() + LOCATION_TTL
+
+        # Immediately push the open/close buttons to the user
+        template = build_open_close_template(user_id)
+        line_bot_api.push_message(PushMessageRequest(to=user_id, messages=[template]))
+        return jsonify(ok=True)
+    else:
         return jsonify(ok=False, message="不在車場範圍內"), 200
-
-    except Exception as e:
-        logger.error(f"Error in location verification: {e}")
-        return jsonify(ok=False, message="系統錯誤"), 500
 
 
 # Handle text messages
@@ -292,32 +249,78 @@ def handle_text(event):
         user_msg = event.message.text
         logger.info(f"User {user_id} sent a text message: {user_msg}")
 
+        # Respond only to the specific message "開關門"
         if user_msg != "開關門":
-            return
+            return  # Do nothing if the message is not "開關門"
 
+        # Registration check
         ALLOWED_USERS = get_allowed_users()
         if user_id not in ALLOWED_USERS:
-            return send_line_message(
-                user_id, "❌ 您尚未註冊為停車場用戶，請聯絡管理員。", event.reply_token
+            # Not a parking customer
+            reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
+            return line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
             )
 
-        if not is_user_authorized(user_id):
-            return request_location_verification(user_id, event.reply_token)
+        # Location verification check with expiry handling
+        is_authorized = is_user_authorized(user_id)
 
-        template = build_open_close_template(user_id)
+        # If not authorized, require verification
+        if not is_authorized:
+            # Generate one-time token for verification
+            verify_token = py_secrets.token_urlsafe(24)
+
+            # Store token in memory
+            store_verify_token(verify_token, user_id)
+
+            verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
+            reply = TemplateMessage(
+                alt_text="請先驗證定位",
+                template=ButtonsTemplate(
+                    text="請先在車場範圍內進行位置驗證",
+                    actions=[URIAction(label="📍 驗證我的位置", uri=verify_url)],
+                ),
+            )
+            return line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            )
+
+        # User is registered and verified -> show open/close buttons
+        open_token, close_token = generate_token(user_id)
+        template = TemplateMessage(
+            alt_text="開關門選單",
+            template=ButtonsTemplate(
+                text="請選擇動作",
+                actions=[
+                    PostbackAction(label="開門", data=open_token),
+                    PostbackAction(label="關門", data=close_token),
+                ],
+            ),
+        )
         return line_bot_api.reply_message(
-            ReplyMessageRequest(
-                replyToken=event.reply_token,
-                messages=[template],
-                notificationDisabled=False,
-            )
+            ReplyMessageRequest(reply_token=event.reply_token, messages=[template])
         )
 
     except Exception as e:
         logger.error(f"Error while processing text message: {e}")
-        return send_line_message(
-            user_id, "❌ 系統錯誤，請稍後再試。", event.reply_token
-        )
+        try:
+            reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+            line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            )
+        except Exception as reply_error:
+            logger.error(f"Unable to send error reply: {reply_error}")
+            # If we can't reply, try to push a message instead
+            try:
+                line_bot_api.push_message(
+                    PushMessageRequest(
+                        to=user_id,
+                        messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")],
+                    )
+                )
+                logger.info(f"Sent push message instead of reply to user {user_id}")
+            except Exception as push_error:
+                logger.error(f"Failed to send push message: {push_error}")
 
 
 # Handle postback events
@@ -329,8 +332,23 @@ def handle_postback(event):
     is_authorized = is_user_authorized(user_id)
 
     if not is_authorized:
-        request_location_verification(user_id, event.reply_token)
-        return
+        # User hasn't passed verify step yet
+        verify_token = py_secrets.token_urlsafe(24)
+
+        # Store token in memory
+        store_verify_token(verify_token, user_id)
+
+        verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
+        reply = TemplateMessage(
+            alt_text="請先驗證定位",
+            template=ButtonsTemplate(
+                text="請先在車場範圍內進行位置驗證",
+                actions=[URIAction(label="📍 驗證我的位置", uri=verify_url)],
+            ),
+        )
+        return line_bot_api.reply_message(
+            ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+        )
 
     try:
         # Clean expired tokens from in-memory storage if not using Redis
@@ -351,48 +369,55 @@ def handle_postback(event):
             valid_token = True
 
         if not valid_token:
-            send_line_message(
-                user_id=user_id, text="❌ 無效操作", reply_token=event.reply_token
+            reply = TextMessage(text="❌ 無效操作")
+            return line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
             )
-            return
 
         if event.source.user_id != user_id or time.time() > expiry:
-            send_line_message(
-                user_id=user_id,
-                text="❌ 此操作已失效，請重新傳送位置",
-                reply_token=event.reply_token,
+            reply = TextMessage(text="❌ 此操作已失效，請重新傳送位置")
+            return line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
             )
-            return
 
         # Send command to MQTT broker
         success, error = send_garage_command(action)
 
         if not success:
             logger.error(f"Failed to send garage command: {error}")
-            send_line_message(
-                user_id=user_id,
-                text="⚠️ 無法連接車庫控制器，請稍後再試。",
-                reply_token=event.reply_token,
+            reply = TextMessage(text="⚠️ 無法連接車庫控制器，請稍後再試。")
+            return line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
             )
-            return
 
         if action == "open":
-            send_line_message(
-                user_id=user_id,
-                text="✅ 門已開啟，請小心進出。",
-                reply_token=event.reply_token,
+            reply = TextMessage(text="✅ 門已開啟，請小心進出。")
+            line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
             )
         else:
-            send_line_message(
-                user_id=user_id,
-                text="✅ 門已關閉，感謝您的使用。",
-                reply_token=event.reply_token,
+            reply = TextMessage(text="✅ 門已關閉，感謝您的使用。")
+            line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
             )
 
     except Exception as e:
         logger.error(f"Unexpected error during postback handling: {e}")
-        send_line_message(
-            user_id=user_id,
-            text="❌ 系統錯誤，請稍後再試。",
-            reply_token=event.reply_token,
-        )
+        try:
+            reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+            line_bot_api.reply_message(
+                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            )
+        except Exception as reply_error:
+            logger.error(f"Unable to send error reply: {reply_error}")
+            # If we can't reply, try to push a message instead
+            try:
+                line_bot_api.push_message(
+                    PushMessageRequest(
+                        to=user_id,
+                        messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")],
+                    )
+                )
+                logger.info(f"Sent push message instead of reply to user {user_id}")
+            except Exception as push_error:
+                logger.error(f"Failed to send push message: {push_error}")
