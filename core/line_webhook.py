@@ -31,7 +31,6 @@ from linebot.v3.messaging import (
 from linebot.v3.webhooks import MessageEvent, PostbackEvent, TextMessageContent
 
 from config.config_module import (
-    ACC_THRESHOLD,
     CACHE_ENABLED,
     LINE_CHANNEL_ACCESS_TOKEN,
     LINE_CHANNEL_SECRET,
@@ -231,7 +230,7 @@ def verify_location_handler():
 
     lat, lng, acc = data["lat"], data["lng"], data.get("acc", 999)
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
-    acc_threshold = ACC_THRESHOLD if "ACC_THRESHOLD" in globals() else 50
+    acc_threshold = 50
 
     if dist <= MAX_DIST_KM and acc <= acc_threshold:
         if CACHE_ENABLED:
