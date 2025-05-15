@@ -1,3 +1,10 @@
+"""
+line_webhook.py
+
+Defines the webhook handlers and supporting functions for LINE Platform integration,
+including token verification, user authorization, and message handling.
+"""
+
 import base64
 import hashlib
 import hmac
@@ -46,12 +53,23 @@ from utils.logger_config import get_logger
 
 # Define cache-related functions (using in-memory storage)
 def store_verify_token(token, user_id):
+    """
+    Stores a one-time verification token in memory for the specified user_id,
+    setting its expiry timestamp based on VERIFY_TTL.
+    Returns True upon successful storage.
+    """
+
     logger.info(f"Storing verification token in memory: {token[:8]}...")
     VERIFY_TOKENS[token] = (user_id, time.time() + VERIFY_TTL)
     return True
 
 
 def get_verify_token(token):
+    """
+    Retrieves and consumes a one-time verification token from memory,
+    returning the associated user_id and expiry timestamp.
+    """
+
     record = VERIFY_TOKENS.get(token)
     logger.info(
         (
@@ -111,7 +129,7 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371.0
     dlat = radians(lat2 - lat1)
-    dlon = radians(lon2 - lon1)
+    dlon = radians(lat2 - lon2)
     a = (
         sin(dlat / 2) ** 2
         + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2) ** 2
@@ -127,18 +145,39 @@ def build_open_close_template(user_id):
         store_action_token(close_token, user_id, "close")
     buttons = ButtonsTemplate(
         text="請選擇操作",
+        thumbnailImageUrl=None,
+        imageAspectRatio=None,
+        imageSize=None,
+        imageBackgroundColor=None,
+        defaultAction=None,
         actions=[
-            PostbackAction(label="開門", data=open_token),
-            PostbackAction(label="關門", data=close_token),
+            PostbackAction(
+                label="開門",
+                data=open_token,
+                displayText="開門",
+                inputOption=None,
+                fillInText=None,
+            ),
+            PostbackAction(
+                label="關門",
+                data=close_token,
+                displayText="關門",
+                inputOption=None,
+                fillInText=None,
+            ),
         ],
     )
-    return TemplateMessage(alt_text="開關門選單", template=buttons)
+    return TemplateMessage(altText="開關門選單", template=buttons, quickReply=None)
 
 
 # Verify signature function
 def verify_signature(signature, body):
     logger.debug(f"Received Signature: {signature}")
     logger.debug(f"Request Body: {body}")
+
+    if not LINE_CHANNEL_SECRET:
+        logger.error("LINE_CHANNEL_SECRET is not configured")
+        return False
 
     # Calculate expected signature
     expected_signature = base64.b64encode(
@@ -228,7 +267,14 @@ def verify_location_handler():
 
         # Immediately push the open/close buttons to the user
         template = build_open_close_template(user_id)
-        line_bot_api.push_message(PushMessageRequest(to=user_id, messages=[template]))
+        line_bot_api.push_message(
+            PushMessageRequest(
+                to=user_id,
+                messages=[template],
+                notificationDisabled=False,
+                customAggregationUnits=[],
+            )
+        )
         return jsonify(ok=True)
     else:
         return jsonify(ok=False, message="不在車場範圍內"), 200
@@ -250,9 +296,17 @@ def handle_text(event):
         ALLOWED_USERS = get_allowed_users()
         if user_id not in ALLOWED_USERS:
             # Not a parking customer
-            reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
+            reply = TextMessage(
+                text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。",
+                quickReply=None,
+                quoteToken=None,
+            )
             return line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                ReplyMessageRequest(
+                    replyToken=event.reply_token,
+                    messages=[reply],
+                    notificationDisabled=False,
+                )
             )
 
         # Location verification check with expiry handling
@@ -268,38 +322,78 @@ def handle_text(event):
 
             verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
             reply = TemplateMessage(
-                alt_text="請先驗證定位",
+                altText="請先驗證定位",
                 template=ButtonsTemplate(
                     text="請先在車場範圍內進行位置驗證",
-                    actions=[URIAction(label="📍 驗證我的位置", uri=verify_url)],
+                    thumbnailImageUrl=None,
+                    imageAspectRatio=None,
+                    imageSize=None,
+                    imageBackgroundColor=None,
+                    defaultAction=None,
+                    actions=[
+                        URIAction(label="📍 驗證我的位置", uri=verify_url, altUri=None)
+                    ],
                 ),
+                quickReply=None,
             )
             return line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                ReplyMessageRequest(
+                    replyToken=event.reply_token,
+                    messages=[reply],
+                    notificationDisabled=False,
+                )
             )
 
         # User is registered and verified -> show open/close buttons
         open_token, close_token = generate_token(user_id)
         template = TemplateMessage(
-            alt_text="開關門選單",
+            altText="開關門選單",
             template=ButtonsTemplate(
                 text="請選擇動作",
+                thumbnailImageUrl=None,
+                imageAspectRatio=None,
+                imageSize=None,
+                imageBackgroundColor=None,
+                defaultAction=None,
                 actions=[
-                    PostbackAction(label="開門", data=open_token),
-                    PostbackAction(label="關門", data=close_token),
+                    PostbackAction(
+                        label="開門",
+                        data=open_token,
+                        displayText="開門",
+                        inputOption=None,
+                        fillInText=None,
+                    ),
+                    PostbackAction(
+                        label="關門",
+                        data=close_token,
+                        displayText="關門",
+                        inputOption=None,
+                        fillInText=None,
+                    ),
                 ],
             ),
+            quickReply=None,
         )
         return line_bot_api.reply_message(
-            ReplyMessageRequest(reply_token=event.reply_token, messages=[template])
+            ReplyMessageRequest(
+                replyToken=event.reply_token,
+                messages=[template],
+                notificationDisabled=False,
+            )
         )
 
     except Exception as e:
         logger.error(f"Error while processing text message: {e}")
         try:
-            reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+            reply = TextMessage(
+                text="❌ 系統錯誤，請稍後再試。", quickReply=None, quoteToken=None
+            )
             line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                ReplyMessageRequest(
+                    replyToken=event.reply_token,
+                    messages=[reply],
+                    notificationDisabled=False,
+                )
             )
         except Exception as reply_error:
             logger.error(f"Unable to send error reply: {reply_error}")
@@ -307,11 +401,21 @@ def handle_text(event):
             try:
                 line_bot_api.push_message(
                     PushMessageRequest(
-                        to=user_id,
-                        messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")],
+                        to=event.source.user_id,
+                        messages=[
+                            TextMessage(
+                                text="❌ 系統錯誤，請稍後再試。",
+                                quickReply=None,
+                                quoteToken=None,
+                            )
+                        ],
+                        notificationDisabled=False,
+                        customAggregationUnits=[],
                     )
                 )
-                logger.info(f"Sent push message instead of reply to user {user_id}")
+                logger.info(
+                    f"Sent push message instead of reply to user {event.source.user_id}"
+                )
             except Exception as push_error:
                 logger.error(f"Failed to send push message: {push_error}")
 
@@ -333,14 +437,26 @@ def handle_postback(event):
 
         verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
         reply = TemplateMessage(
-            alt_text="請先驗證定位",
+            altText="請先驗證定位",
             template=ButtonsTemplate(
                 text="請先在車場範圍內進行位置驗證",
-                actions=[URIAction(label="📍 驗證我的位置", uri=verify_url)],
+                thumbnailImageUrl=None,
+                imageAspectRatio=None,
+                imageSize=None,
+                imageBackgroundColor=None,
+                defaultAction=None,
+                actions=[
+                    URIAction(label="📍 驗證我的位置", uri=verify_url, altUri=None)
+                ],
             ),
+            quickReply=None,
         )
         return line_bot_api.reply_message(
-            ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            ReplyMessageRequest(
+                replyToken=event.reply_token,
+                messages=[reply],
+                notificationDisabled=False,
+            )
         )
 
     try:
@@ -353,24 +469,30 @@ def handle_postback(event):
         # Get token from in-memory TOKENS
         record = TOKENS.get(token)  # Get the token data from TOKENS
         if not record or len(record) != 3:
-            valid_token = False
             logger.warning(f"Invalid token in postback: {token[:8]}...")
-        else:
-            user_id, action, expiry = record
-            TOKENS.pop(token, None)  # Remove token to prevent reuse
-            logger.info(f"Found and used token for action: {action}")
-            valid_token = True
-
-        if not valid_token:
-            reply = TextMessage(text="❌ 無效操作")
+            reply = TextMessage(text="❌ 無效操作", quickReply=None, quoteToken=None)
             return line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                ReplyMessageRequest(
+                    replyToken=event.reply_token,
+                    messages=[reply],
+                    notificationDisabled=False,
+                )
             )
 
+        user_id, action, expiry = record
+        TOKENS.pop(token, None)  # Remove token to prevent reuse
+        logger.info(f"Found and used token for action: {action}")
+
         if event.source.user_id != user_id or time.time() > expiry:
-            reply = TextMessage(text="❌ 此操作已失效，請重新傳送位置")
+            reply = TextMessage(
+                text="❌ 此操作已失效，請重新傳送位置", quickReply=None, quoteToken=None
+            )
             return line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                ReplyMessageRequest(
+                    replyToken=event.reply_token,
+                    messages=[reply],
+                    notificationDisabled=False,
+                )
             )
 
         # Send command to MQTT broker
@@ -378,28 +500,48 @@ def handle_postback(event):
 
         if not success:
             logger.error(f"Failed to send garage command: {error}")
-            reply = TextMessage(text="⚠️ 無法連接車庫控制器，請稍後再試。")
+            reply = TextMessage(
+                text="⚠️ 無法連接車庫控制器，請稍後再試。",
+                quickReply=None,
+                quoteToken=None,
+            )
             return line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                ReplyMessageRequest(
+                    replyToken=event.reply_token,
+                    messages=[reply],
+                    notificationDisabled=False,
+                )
             )
 
         if action == "open":
-            reply = TextMessage(text="✅ 門已開啟，請小心進出。")
-            line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            reply = TextMessage(
+                text="✅ 門已開啟，請小心進出。", quickReply=None, quoteToken=None
             )
         else:
-            reply = TextMessage(text="✅ 門已關閉，感謝您的使用。")
-            line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            reply = TextMessage(
+                text="✅ 門已關閉，感謝您的使用。", quickReply=None, quoteToken=None
             )
+
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                replyToken=event.reply_token,
+                messages=[reply],
+                notificationDisabled=False,
+            )
+        )
 
     except Exception as e:
         logger.error(f"Unexpected error during postback handling: {e}")
         try:
-            reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
+            reply = TextMessage(
+                text="❌ 系統錯誤，請稍後再試。", quickReply=None, quoteToken=None
+            )
             line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                ReplyMessageRequest(
+                    replyToken=event.reply_token,
+                    messages=[reply],
+                    notificationDisabled=False,
+                )
             )
         except Exception as reply_error:
             logger.error(f"Unable to send error reply: {reply_error}")
@@ -408,7 +550,15 @@ def handle_postback(event):
                 line_bot_api.push_message(
                     PushMessageRequest(
                         to=user_id,
-                        messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")],
+                        messages=[
+                            TextMessage(
+                                text="❌ 系統錯誤，請稍後再試。",
+                                quickReply=None,
+                                quoteToken=None,
+                            )
+                        ],
+                        notificationDisabled=False,
+                        customAggregationUnits=[],
                     )
                 )
                 logger.info(f"Sent push message instead of reply to user {user_id}")

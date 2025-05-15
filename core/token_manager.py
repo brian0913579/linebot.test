@@ -1,3 +1,10 @@
+"""
+token_manager.py
+
+Provides functions for generating, storing,
+and cleaning user action tokens with expirations.
+"""
+
 import secrets as py_secrets
 import time
 
@@ -9,6 +16,12 @@ TOKENS = {}
 
 
 def generate_token(user_id):
+    """
+    Generates two URL-safe tokens ("open" and "close") for the given user_id,
+    each valid for 300 seconds from creation.
+    Returns a tuple (token_open, token_close).
+    """
+
     token_open = py_secrets.token_urlsafe(16)
     token_close = py_secrets.token_urlsafe(16)
 
@@ -28,6 +41,11 @@ def store_action_token(token: str, user_id: str, action: str) -> None:
 
 
 def clean_expired_tokens():
+    """
+    Removes all tokens from the TOKENS dictionary whose expiry timestamp
+    is less than or equal to the current time.
+    """
+
     current_time = time.time()
     expired_tokens = list(TOKENS.keys())
     for token in expired_tokens:

@@ -25,6 +25,11 @@ repos:
         language: system
         types: [python]
         args: ["--max-line-length=88"]
+#      - id: pylint
+#        name: pylint (local)
+#        entry: pylint
+#        language: system
+#        types: [python]
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.16.3
     hooks:
@@ -33,12 +38,11 @@ repos:
     rev: 3.0.0
     hooks:
       - id: shellcheck
+        args: []
+        types: [shell]
+        additional_dependencies: []
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/pylint-dev/pylint
-    rev: v2.17.2
-    hooks:
-      - id: pylint

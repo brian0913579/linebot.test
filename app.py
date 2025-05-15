@@ -1,3 +1,32 @@
+"""
+LineBot Application
+
+This is the main application module for the LineBot service. It provides a Flask-based
+web application that handles LINE webhook events, location verification, and MQTT
+communication for garage door control. The application includes rate limiting,
+caching support, and comprehensive error handling.
+
+Features:
+- LINE Platform webhook integration
+- Location-based verification system
+- MQTT broker communication
+- Rate limiting and caching
+- Swagger documentation
+- Comprehensive error handling
+- Health check endpoints
+
+Environment Variables:
+    DB_BUCKET: Google Cloud Storage bucket for database
+    DB_FILENAME: Database filename (default: users.db)
+    CRT_BUCKET: Google Cloud Storage bucket for certificates
+    CRT_FILENAME: Certificate filename (default: emqxsl-ca.crt)
+    MQTT_BROKER: MQTT broker hostname
+    MQTT_PORT: MQTT broker port (default: 1883)
+    MQTT_USERNAME: MQTT authentication username
+    MQTT_PASSWORD: MQTT authentication password
+    MQTT_CAFILE: Path to MQTT CA certificate file
+"""
+
 import importlib.util
 import math  # Add this import
 import os
