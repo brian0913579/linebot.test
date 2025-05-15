@@ -12,7 +12,6 @@ on:
 
 permissions:
   contents:        read    # checkout code
-  security-events: write   # publish SARIF to Security tab
 
 jobs:
   scorecard:
