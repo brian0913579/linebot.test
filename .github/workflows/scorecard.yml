@@ -1,0 +1,53 @@
+name: "Scorecard Supply-Chain Security"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    # every Friday at 14:30 UTC
+    - cron: '30 14 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents:        read    # checkout code
+  id-token:        write   # for publish_results & OIDC checks
+  security-events: write   # publish SARIF to Security tab
+
+jobs:
+  scorecard:
+    name: Run OSSF Scorecard
+    runs-on: ubuntu-latest
+    permissions:
+      contents:        read
+      id-token:        write
+      security-events: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run Scorecard
+        uses: ossf/scorecard-action@v2
+        id: scan
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+          # repo_token: ${{ secrets.SCORECARD_TOKEN }}
+
+      - name: Upload SARIF artifact
+        uses: actions/upload-artifact@v4
+        if: steps.scan.outputs.results_file != ''
+        with:
+          name: scorecard-sarif
+          path: results.sarif
+          retention-days: 5
+
+      - name: Upload to Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
