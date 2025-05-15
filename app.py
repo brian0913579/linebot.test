@@ -113,7 +113,7 @@ logger = setup_logging()
 @app.route("/", methods=["GET"])
 def index():
     """Serve the API documentation homepage"""
-    return send_from_directory(app.static_folder, "index.html")
+    return send_from_directory(app.static_folder or "static", "index.html")
 
 
 # Health check endpoint
@@ -199,7 +199,7 @@ def verify_location_page():
     ---
     This page prompts the user to share their location for verification.
     """
-    return send_from_directory(app.static_folder, "verify.html")
+    return send_from_directory(app.static_folder or "static", "verify.html")
 
 
 @app.route("/mqtt-test", methods=["GET"])
@@ -213,7 +213,19 @@ def mqtt_test():
 
     # Set the MQTT broker details (replace with your values)
     mqtt_broker = os.environ.get("MQTT_BROKER")
-    mqtt_port = int(os.environ.get("MQTT_PORT"))
+    if not mqtt_broker:
+        return (
+            jsonify({"status": "failure", "message": "MQTT broker not configured."}),
+            500,
+        )
+
+    mqtt_port = int(os.environ.get("MQTT_PORT", "1883"))
+    if not mqtt_port:
+        return (
+            jsonify({"status": "failure", "message": "MQTT port not configured."}),
+            500,
+        )
+
     mqtt_username = os.environ.get("MQTT_USERNAME")
     mqtt_password = os.environ.get("MQTT_PASSWORD")
     cafile = os.environ.get("MQTT_CAFILE")
