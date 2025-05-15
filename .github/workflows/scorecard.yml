@@ -12,7 +12,6 @@ on:
 
 permissions:
   contents:        read    # checkout code
-  id-token:        write   # for publish_results & OIDC checks
   security-events: write   # publish SARIF to Security tab
 
 jobs:
