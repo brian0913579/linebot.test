@@ -1,0 +1,44 @@
+name: "OSSAR Security Scan"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    # every Tuesday at 12:24 UTC
+    - cron: '24 12 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents:        read    # checkout code
+  security-events: write   # publish SARIF
+  actions:         read    # required by upload-sarif in private repos
+
+jobs:
+  ossar-scan:
+    name: Run OSSAR
+    runs-on: windows-latest
+    permissions:
+      contents:        read
+      security-events: write
+      actions:         read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # ─────── Optional: ensure .NET if self-hosted ───────
+      # - name: Install .NET (self-hosted only)
+      #   uses: actions/setup-dotnet@v4
+      #   with:
+      #     dotnet-version: '3.1.x'
+
+      - name: Run OSSAR
+        uses: github/ossar-action@v1
+        id: ossar
+
+      - name: Upload SARIF to Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.ossar.outputs.sarifFile }}
