@@ -15,8 +15,8 @@ env_variables:
   MQTT_TOPIC:    "garage/command"
 
   # Location geofence parameters
-  PARK_LAT:      "24.79155"
-  PARK_LNG:      "120.99442"
+  PARK_LAT:      "24.190502"
+  PARK_LNG:      "120.6686369"
   MAX_DIST_KM:   "0.5"
 
   # Timeouts & token TTLs (in seconds)
