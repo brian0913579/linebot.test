@@ -71,7 +71,7 @@ def init_persistence():
                 print(f"Downloaded database file: {db_dest}")
             except Exception as e:
                 print(f"Warning: Could not download database file: {e}")
-        
+
         # Certificate
         crt_bucket = os.environ.get("CRT_BUCKET")
         crt_filename = os.environ.get("CRT_FILENAME", "emqxsl-ca.crt")
@@ -183,13 +183,14 @@ def startup_status():
     Startup status endpoint for debugging App Engine deployment.
     """
     import sys
+
     status = {
         "status": "running",
         "python_version": sys.version,
         "port": PORT,
         "db_bucket": os.environ.get("DB_BUCKET", "not set"),
         "crt_bucket": os.environ.get("CRT_BUCKET", "not set"),
-        "cache_enabled": CACHE_ENABLED
+        "cache_enabled": CACHE_ENABLED,
     }
     return jsonify(status)
 
