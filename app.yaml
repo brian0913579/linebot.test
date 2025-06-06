@@ -6,6 +6,11 @@ entrypoint: gunicorn -b :$PORT app:app
 # If you need more memory/CPU you can bump this to F2 or higher
 instance_class: F1
 
+# Automatic scaling configuration
+automatic_scaling:
+  max_instances: 10
+  min_instances: 0
+
 env_variables:
   # LINE Bot credentials
 
