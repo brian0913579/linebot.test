@@ -32,8 +32,6 @@ from linebot.v3.webhooks import MessageEvent, PostbackEvent, TextMessageContent
 
 from config.config_module import (
     CACHE_ENABLED,
-    LINE_CHANNEL_ACCESS_TOKEN,
-    LINE_CHANNEL_SECRET,
     LOCATION_TTL,
     MAX_DIST_KM,
     PARK_LAT,
@@ -70,11 +68,55 @@ logger = get_logger(__name__)
 VERIFY_TOKENS = {}
 authorized_users = {}
 
-# Set up LINE API clients
-configuration = Configuration(access_token=LINE_CHANNEL_ACCESS_TOKEN)
-api_client = ApiClient(configuration)
-line_bot_api = MessagingApi(api_client)
-handler = WebhookHandler(LINE_CHANNEL_SECRET)
+# Global variables for LINE API clients (will be initialized lazily)
+line_bot_api = None
+handler = None
+_api_clients_initialized = False
+
+def _initialize_line_clients():
+    """Initialize LINE API clients lazily when first needed."""
+    global line_bot_api, handler, _api_clients_initialized
+    
+    if _api_clients_initialized:
+        return
+    
+    from config.secret_manager import get_secret
+    
+    # Get secrets directly from secret manager
+    access_token = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
+    channel_secret = get_secret("LINE_CHANNEL_SECRET")
+    
+    if not access_token or not channel_secret:
+        raise RuntimeError("LINE credentials not available in secret manager")
+    
+    # Initialize LINE API clients
+    configuration = Configuration(access_token=access_token)
+    api_client = ApiClient(configuration)
+    line_bot_api = MessagingApi(api_client)
+    handler = WebhookHandler(channel_secret)
+    
+    # Register event handlers
+    _register_handlers()
+    
+    # Schedule background cleanup
+    ensure_cleanup_scheduled()
+    
+    _api_clients_initialized = True
+
+def _register_handlers():
+    """Register LINE webhook event handlers."""
+    handler.add(MessageEvent, message=TextMessageContent)(handle_text)
+    handler.add(PostbackEvent)(handle_postback)
+
+def get_line_bot_api():
+    """Get the LINE Bot API client, initializing if needed."""
+    _initialize_line_clients()
+    return line_bot_api
+
+def get_webhook_handler():
+    """Get the webhook handler, initializing if needed."""
+    _initialize_line_clients()
+    return handler
 
 # Startup validation
 if not CACHE_ENABLED:
@@ -84,13 +126,25 @@ if not CACHE_ENABLED:
 
 
 # Background token cleanup
+_cleanup_scheduled = False
+
 def schedule_token_cleanup():
-    if not CACHE_ENABLED:
-        clean_expired_tokens()
-    threading.Timer(300, schedule_token_cleanup).start()
+    """Schedule background token cleanup (called lazily)."""
+    global _cleanup_scheduled
+    if _cleanup_scheduled:
+        return
+    
+    def cleanup_loop():
+        if not CACHE_ENABLED:
+            clean_expired_tokens()
+        threading.Timer(300, cleanup_loop).start()
+    
+    cleanup_loop()
+    _cleanup_scheduled = True
 
-
-schedule_token_cleanup()
+def ensure_cleanup_scheduled():
+    """Ensure cleanup is scheduled when LINE clients are used."""
+    schedule_token_cleanup()
 
 
 # Haversine formula
@@ -109,86 +163,77 @@ def haversine(lat1, lon1, lat2, lon2):
 # Enhanced rate limiting
 def is_rate_limited(user_id):
     with rate_limit_lock:
-        now = time.time()
+        current_time = time.time()
+
         # Clean old entries
-        rate_limit_store[user_id] = [
-            (ts, count)
-            for ts, count in rate_limit_store.get(user_id, [])
-            if now - ts < RATE_LIMIT_WINDOW
-        ]
         global_rate_limit_store[:] = [
-            (ts, count)
-            for ts, count in global_rate_limit_store
-            if now - ts < RATE_LIMIT_WINDOW
+            (timestamp, count)
+            for timestamp, count in global_rate_limit_store
+            if current_time - timestamp < RATE_LIMIT_WINDOW
         ]
-        # Check global limit
-        global_total = sum(count for _, count in global_rate_limit_store)
-        if global_total >= GLOBAL_RATE_LIMIT_MAX:
-            logger.warning("Global rate limit exceeded")
+
+        # Global rate limiting
+        total_global_requests = sum(count for _, count in global_rate_limit_store)
+        if total_global_requests >= GLOBAL_RATE_LIMIT_MAX:
             return True
-        # Check user limit
-        user_total = sum(count for _, count in rate_limit_store.get(user_id, []))
-        if user_total >= RATE_LIMIT_MAX:
-            logger.warning(f"User {user_id} rate limit exceeded")
+
+        # User-specific rate limiting
+        if user_id not in rate_limit_store:
+            rate_limit_store[user_id] = []
+
+        rate_limit_store[user_id] = [
+            (timestamp, count)
+            for timestamp, count in rate_limit_store[user_id]
+            if current_time - timestamp < RATE_LIMIT_WINDOW
+        ]
+
+        total_user_requests = sum(count for _, count in rate_limit_store[user_id])
+        if total_user_requests >= RATE_LIMIT_MAX:
             return True
-        # Add new request
-        rate_limit_store[user_id] = rate_limit_store.get(user_id, []) + [(now, 1)]
-        global_rate_limit_store.append((now, 1))
+
+        # Log the request
+        rate_limit_store[user_id].append((current_time, 1))
+        global_rate_limit_store.append((current_time, 1))
+
         return False
 
 
 def store_verify_token(token, user_id):
-    if not CACHE_ENABLED:
-        logger.warning("Using in-memory storage for verify token")
-        with verify_tokens_lock:
-            VERIFY_TOKENS[token] = (user_id, time.time() + VERIFY_TTL)
+    expiry = time.time() + VERIFY_TTL
+    if CACHE_ENABLED:
+        store_action_token(f"verify:{token}", user_id, "verify", expiry=LOCATION_TTL)
     else:
-        # Assume core.token_manager handles Redis storage
-        store_action_token(token, user_id, "verify")
-    return True
+        with verify_tokens_lock:
+            VERIFY_TOKENS[token] = (user_id, expiry)
 
 
 def get_verify_token(token):
-    logger.info(f"Looking up token: {token[:8] if token else 'None'}...")
-    if not CACHE_ENABLED:
-        with verify_tokens_lock:
-            record = VERIFY_TOKENS.pop(token, None)
-    else:
-        record = TOKENS.pop(token, None)  # Assume Redis-backed TOKENS
-    if not record:
-        logger.info("Token not found")
+    if CACHE_ENABLED:
+        record = TOKENS.get(f"verify:{token}")
+        if record and len(record) >= 3:
+            return record[0], record[2]  # user_id, expiry
         return None, None
-    user_id, expiry = record
-    logger.info(f"Found token for user_id: {user_id}")
-    return user_id, expiry
+    else:
+        with verify_tokens_lock:
+            return VERIFY_TOKENS.get(token, (None, None))
 
 
 def authorize_user(user_id):
-    logger.info(f"Authorizing user {user_id} for {LOCATION_TTL} seconds")
-    if not CACHE_ENABLED:
-        with authorized_users_lock:
-            authorized_users[user_id] = time.time() + LOCATION_TTL
-    else:
-        # Assume core.token_manager handles Redis storage
+    if CACHE_ENABLED:
         store_action_token(f"auth:{user_id}", user_id, "authorize", expiry=LOCATION_TTL)
-    return True
 
 
 def is_user_authorized(user_id):
-    if not CACHE_ENABLED:
+    if CACHE_ENABLED:
+        record = TOKENS.get(f"auth:{user_id}")
+        if record and len(record) >= 3:
+            expiry = record[2]
+            return time.time() < expiry
+        return False
+    else:
         with authorized_users_lock:
             expiry = authorized_users.get(user_id)
-            if expiry and expiry < time.time():
-                authorized_users.pop(user_id, None)
-            return expiry and expiry >= time.time()
-    else:
-        # Assume core.token_manager checks Redis
-        record = TOKENS.get(f"auth:{user_id}")
-        if record and record[2] >= time.time():
-            return True
-        if record:
-            TOKENS.pop(f"auth:{user_id}", None)
-        return False
+            return expiry and time.time() < expiry
 
 
 def build_open_close_template(user_id):
@@ -203,15 +248,22 @@ def build_open_close_template(user_id):
             PostbackAction(label="關門", data=close_token),
         ],
     )
-    return TemplateMessage(alt_text="開關門選單", template=buttons)
+    return TemplateMessage(altText="開關門選單", template=buttons)
 
 
 def verify_signature(signature, body):
     logger.debug(f"Received Signature: {signature}")
     logger.debug(f"Request Body: {body}")
+    
+    from config.secret_manager import get_secret
+    channel_secret = get_secret("LINE_CHANNEL_SECRET")
+    if not channel_secret:
+        logger.error("LINE_CHANNEL_SECRET not available")
+        return False
+        
     expected_signature = base64.b64encode(
         hmac.new(
-            key=LINE_CHANNEL_SECRET.encode(),
+            key=channel_secret.encode(),
             msg=body.encode(),
             digestmod=hashlib.sha256,
         ).digest()
@@ -225,15 +277,15 @@ def send_verification_message(user_id, reply_token):
     store_verify_token(verify_token, user_id)
     verify_url = f"{VERIFY_URL_BASE}?token={verify_token}"
     reply = TemplateMessage(
-        alt_text="請先驗證定位",
+        altText="請先驗證定位",
         template=ButtonsTemplate(
             text="請先在車場範圍內進行位置驗證",
             actions=[URIAction(label="📍 驗證我的位置", uri=verify_url)],
         ),
     )
     return retry_api_call(
-        lambda: line_bot_api.reply_message(
-            ReplyMessageRequest(reply_token=reply_token, messages=[reply])
+        lambda: get_line_bot_api().reply_message(
+            ReplyMessageRequest(replyToken=reply_token, messages=[reply])
         )
     )
 
@@ -243,15 +295,15 @@ def handle_system_error(user_id, reply_token, error, context):
     try:
         reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
         retry_api_call(
-            lambda: line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=reply_token, messages=[reply])
+            lambda: get_line_bot_api().reply_message(
+                ReplyMessageRequest(replyToken=reply_token, messages=[reply])
             )
         )
     except Exception as reply_error:
         logger.error(f"Unable to send error reply: {reply_error}")
         try:
             retry_api_call(
-                lambda: line_bot_api.push_message(
+                lambda: get_line_bot_api().push_message(
                     PushMessageRequest(
                         to=user_id,
                         messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")],
@@ -282,7 +334,7 @@ def webhook_handler():
     body = request.get_data(as_text=True)
     signature = request.headers.get("X-Line-Signature", "")
     try:
-        handler.handle(body, signature)
+        get_webhook_handler().handle(body, signature)
         logger.info("Webhook processed successfully")
     except InvalidSignatureError:
         logger.error("Invalid signature from LINE Platform")
@@ -334,7 +386,7 @@ def verify_location_handler():
                 authorized_users[user_id] = time.time() + LOCATION_TTL
         template = build_open_close_template(user_id)
         retry_api_call(
-            lambda: line_bot_api.push_message(
+            lambda: get_line_bot_api().push_message(
                 PushMessageRequest(to=user_id, messages=[template])
             )
         )
@@ -343,8 +395,8 @@ def verify_location_handler():
         return jsonify(ok=False, message="不在車場範圍內"), 200
 
 
-@handler.add(MessageEvent, message=TextMessageContent)
 def handle_text(event):
+    user_id = None
     try:
         user_id = event.source.user_id
         user_msg = event.message.text
@@ -357,8 +409,8 @@ def handle_text(event):
         if user_id not in ALLOWED_USERS:
             reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
             return retry_api_call(
-                lambda: line_bot_api.reply_message(
-                    ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                lambda: get_line_bot_api().reply_message(
+                    ReplyMessageRequest(replyToken=event.reply_token, messages=[reply])
                 )
             )
 
@@ -367,16 +419,16 @@ def handle_text(event):
 
         template = build_open_close_template(user_id)
         return retry_api_call(
-            lambda: line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[template])
+            lambda: get_line_bot_api().reply_message(
+                ReplyMessageRequest(replyToken=event.reply_token, messages=[template])
             )
         )
 
     except Exception as e:
-        handle_system_error(user_id, event.reply_token, e, "text message processing")
+        if user_id:
+            handle_system_error(user_id, event.reply_token, e, "text message processing")
 
 
-@handler.add(PostbackEvent)
 def handle_postback(event):
     user_id = event.source.user_id
     if not is_user_authorized(user_id):
@@ -389,8 +441,8 @@ def handle_postback(event):
             logger.warning(f"Invalid token in postback: {token[:8]}...")
             reply = TextMessage(text="❌ 無效操作")
             return retry_api_call(
-                lambda: line_bot_api.reply_message(
-                    ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                lambda: get_line_bot_api().reply_message(
+                    ReplyMessageRequest(replyToken=event.reply_token, messages=[reply])
                 )
             )
 
@@ -401,8 +453,8 @@ def handle_postback(event):
         if event.source.user_id != token_user_id or time.time() > expiry:
             reply = TextMessage(text="❌ 此操作已失效，請重新傳送位置")
             return retry_api_call(
-                lambda: line_bot_api.reply_message(
-                    ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+                lambda: get_line_bot_api().reply_message(
+                    ReplyMessageRequest(replyToken=event.reply_token, messages=[reply])
                 )
             )
 
@@ -418,9 +470,9 @@ def handle_postback(event):
                 logger.error(f"Failed to send garage command: {error}")
                 reply = TextMessage(text="⚠️ 無法連接車庫控制器，請稍後再試。")
                 return retry_api_call(
-                    lambda: line_bot_api.reply_message(
+                    lambda: get_line_bot_api().reply_message(
                         ReplyMessageRequest(
-                            reply_token=event.reply_token, messages=[reply]
+                            replyToken=event.reply_token, messages=[reply]
                         )
                     )
                 )
@@ -430,8 +482,8 @@ def handle_postback(event):
         else:
             reply = TextMessage(text="✅ 門已關閉，感謝您的使用。")
         retry_api_call(
-            lambda: line_bot_api.reply_message(
-                ReplyMessageRequest(reply_token=event.reply_token, messages=[reply])
+            lambda: get_line_bot_api().reply_message(
+                ReplyMessageRequest(replyToken=event.reply_token, messages=[reply])
             )
         )
 
