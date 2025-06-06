@@ -73,50 +73,55 @@ line_bot_api = None
 handler = None
 _api_clients_initialized = False
 
+
 def _initialize_line_clients():
     """Initialize LINE API clients lazily when first needed."""
     global line_bot_api, handler, _api_clients_initialized
-    
+
     if _api_clients_initialized:
         return
-    
+
     from config.secret_manager import get_secret
-    
+
     # Get secrets directly from secret manager
     access_token = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
     channel_secret = get_secret("LINE_CHANNEL_SECRET")
-    
+
     if not access_token or not channel_secret:
         raise RuntimeError("LINE credentials not available in secret manager")
-    
+
     # Initialize LINE API clients
     configuration = Configuration(access_token=access_token)
     api_client = ApiClient(configuration)
     line_bot_api = MessagingApi(api_client)
     handler = WebhookHandler(channel_secret)
-    
+
     # Register event handlers
     _register_handlers()
-    
+
     # Schedule background cleanup
     ensure_cleanup_scheduled()
-    
+
     _api_clients_initialized = True
+
 
 def _register_handlers():
     """Register LINE webhook event handlers."""
     handler.add(MessageEvent, message=TextMessageContent)(handle_text)
     handler.add(PostbackEvent)(handle_postback)
 
+
 def get_line_bot_api():
     """Get the LINE Bot API client, initializing if needed."""
     _initialize_line_clients()
     return line_bot_api
 
+
 def get_webhook_handler():
     """Get the webhook handler, initializing if needed."""
     _initialize_line_clients()
     return handler
+
 
 # Startup validation
 if not CACHE_ENABLED:
@@ -128,19 +133,21 @@ if not CACHE_ENABLED:
 # Background token cleanup
 _cleanup_scheduled = False
 
+
 def schedule_token_cleanup():
     """Schedule background token cleanup (called lazily)."""
     global _cleanup_scheduled
     if _cleanup_scheduled:
         return
-    
+
     def cleanup_loop():
         if not CACHE_ENABLED:
             clean_expired_tokens()
         threading.Timer(300, cleanup_loop).start()
-    
+
     cleanup_loop()
     _cleanup_scheduled = True
+
 
 def ensure_cleanup_scheduled():
     """Ensure cleanup is scheduled when LINE clients are used."""
@@ -254,13 +261,14 @@ def build_open_close_template(user_id):
 def verify_signature(signature, body):
     logger.debug(f"Received Signature: {signature}")
     logger.debug(f"Request Body: {body}")
-    
+
     from config.secret_manager import get_secret
+
     channel_secret = get_secret("LINE_CHANNEL_SECRET")
     if not channel_secret:
         logger.error("LINE_CHANNEL_SECRET not available")
         return False
-        
+
     expected_signature = base64.b64encode(
         hmac.new(
             key=channel_secret.encode(),
@@ -426,7 +434,9 @@ def handle_text(event):
 
     except Exception as e:
         if user_id:
-            handle_system_error(user_id, event.reply_token, e, "text message processing")
+            handle_system_error(
+                user_id, event.reply_token, e, "text message processing"
+            )
 
 
 def handle_postback(event):
