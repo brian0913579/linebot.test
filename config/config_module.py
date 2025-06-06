@@ -5,10 +5,10 @@ This module centralizes all application configuration settings
 and loads values from appropriate sources.
 """
 
-from config.secret_manager import get_secret, validate_required_secrets
+from config.secret_manager import get_secret
 
-# Ensure required secrets are available
-validate_required_secrets()
+# NOTE: Secret validation is now done in app.py after initialization
+# validate_required_secrets() - moved to app startup
 
 # Caching toggle
 CACHE_ENABLED = get_secret("CACHE_ENABLED", default="false").lower() in (

@@ -157,6 +157,16 @@ app = register_swagger_ui(app)
 # Logger is already set up earlier
 logger.info("Application setup completed")
 
+# Validate required secrets after app initialization
+try:
+    from config.secret_manager import validate_required_secrets
+    validate_required_secrets()
+    logger.info("Secret validation passed")
+except Exception as e:
+    logger.error(f"Secret validation failed: {e}")
+    # Continue anyway for now to allow debugging
+    logger.warning("Continuing with startup despite secret validation failure")
+
 
 # Root endpoint for documentation
 @app.route("/", methods=["GET"])

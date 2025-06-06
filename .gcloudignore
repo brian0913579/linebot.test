@@ -13,13 +13,34 @@
 .git
 .gitignore
 
-# Python pycache:
+# Python artifacts
 __pycache__/
-# Ignored by the build system
-/setup.cfg
-/venv
-# Local environment and secret files
+*.pyc
+venv/
+
+# Local environment variables
 .env
-.env.*
-*.pem
-*.key
+
+# IDE and editor settings
+.vscode/
+.claude/settings.local.json
+google-cloud-sdk/
+google-cloud-cli-471.0.0-linux-x86_64.tar.gz
+
+# Operating system files
+.DS_Store
+__MACOSX/
+._*
+
+# Application and test logs
+app.log
+error.log
+tests/app.log
+tests/error.log
+logs/*.log
+docs/*.log
+
+# Secrets, certificates, and state
+users.db
+ca.crt
+emqxsl-ca.crt
