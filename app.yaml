@@ -27,7 +27,7 @@ env_variables:
   PORT:          "8080"
 
   # Base URL for the verify-page link
-  VERIFY_URL_BASE: "https://linebot-458714.appspot.com/static/verify.html"
+  VERIFY_URL_BASE: "https://line-462014.appspot.com/static/verify.html"
 
   # Security / Rate limiting
   RATE_LIMIT_ENABLED:     "true"
@@ -37,15 +37,15 @@ env_variables:
   SECRETS_BACKEND: "gcp"
 
   # (Only used if SECRETS_BACKEND=gcp)
-  GOOGLE_CLOUD_PROJECT: "linebot-458714"
+  GOOGLE_CLOUD_PROJECT: "line-462014"
 
   # Logging dir
   LOG_DIR: "/tmp"
 
   # Cloud Storage persistence settings
-  DB_BUCKET:    "my-linebot-assets"
+  DB_BUCKET:    "line-bot-assets"
   DB_FILENAME:  "users.db"
-  CRT_BUCKET:   "my-linebot-assets"
+  CRT_BUCKET:   "line-bot-assets"
   CRT_FILENAME: "emqxsl-ca.crt"
 
 # Serve anything under /static directly
