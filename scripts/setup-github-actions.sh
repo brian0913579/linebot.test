@@ -37,6 +37,11 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:${SERVICE_ACCOUNT_EMAIL}" \
     --role="roles/secretmanager.secretAccessor"
 
+echo "Granting Service Account User role (required for App Engine deployment)..."
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member="serviceAccount:${SERVICE_ACCOUNT_EMAIL}" \
+    --role="roles/iam.serviceAccountUser"
+
 # Create and download service account key
 echo "Creating service account key..."
 gcloud iam service-accounts keys create github-actions-key.json \
