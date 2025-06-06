@@ -160,6 +160,7 @@ logger.info("Application setup completed")
 # Validate required secrets after app initialization
 try:
     from config.secret_manager import validate_required_secrets
+
     validate_required_secrets()
     logger.info("Secret validation passed")
 except Exception as e:
