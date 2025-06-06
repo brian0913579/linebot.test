@@ -58,27 +58,47 @@ def init_persistence():
     Download the user database and CA certificate from Cloud Storage into /tmp
     if configured.
     """
-    client = storage.Client()
-    # Database
-    db_bucket = os.environ.get("DB_BUCKET")
-    db_filename = os.environ.get("DB_FILENAME", "users.db")
-    if db_bucket:
-        db_blob = client.bucket(db_bucket).blob(db_filename)
-        db_dest = f"/tmp/{db_filename}"
-        db_blob.download_to_filename(db_dest)
-    # Certificate
-    crt_bucket = os.environ.get("CRT_BUCKET")
-    crt_filename = os.environ.get("CRT_FILENAME", "emqxsl-ca.crt")
-    if crt_bucket:
-        crt_blob = client.bucket(crt_bucket).blob(crt_filename)
-        crt_dest = f"/tmp/{crt_filename}"
-        crt_blob.download_to_filename(crt_dest)
+    try:
+        client = storage.Client()
+        # Database
+        db_bucket = os.environ.get("DB_BUCKET")
+        db_filename = os.environ.get("DB_FILENAME", "users.db")
+        if db_bucket:
+            try:
+                db_blob = client.bucket(db_bucket).blob(db_filename)
+                db_dest = f"/tmp/{db_filename}"
+                db_blob.download_to_filename(db_dest)
+                print(f"Downloaded database file: {db_dest}")
+            except Exception as e:
+                print(f"Warning: Could not download database file: {e}")
+        
+        # Certificate
+        crt_bucket = os.environ.get("CRT_BUCKET")
+        crt_filename = os.environ.get("CRT_FILENAME", "emqxsl-ca.crt")
+        if crt_bucket:
+            try:
+                crt_blob = client.bucket(crt_bucket).blob(crt_filename)
+                crt_dest = f"/tmp/{crt_filename}"
+                crt_blob.download_to_filename(crt_dest)
+                print(f"Downloaded certificate file: {crt_dest}")
+            except Exception as e:
+                print(f"Warning: Could not download certificate file: {e}")
+    except Exception as e:
+        print(f"Warning: Could not initialize persistence: {e}")
+        # Don't fail app startup if persistence fails
 
 
 # Initialize Flask application
 app = Flask(__name__, static_folder="static")
+
+# Set up logging early
+logger = setup_logging()
+logger.info("Starting LINE Bot application...")
+
 # Download DB and CA cert from Cloud Storage into /tmp
+logger.info("Initializing persistence...")
 init_persistence()
+logger.info("Persistence initialization completed")
 
 
 def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -134,8 +154,8 @@ app = apply_middleware(app)
 
 app = register_swagger_ui(app)
 
-# Set up logging
-logger = setup_logging()
+# Logger is already set up earlier
+logger.info("Application setup completed")
 
 
 # Root endpoint for documentation
@@ -154,6 +174,24 @@ def healthz():
     Simple endpoint for monitoring to check if the application is alive.
     """
     return "OK", 200
+
+
+# Startup status endpoint for debugging
+@app.route("/startup", methods=["GET"])
+def startup_status():
+    """
+    Startup status endpoint for debugging App Engine deployment.
+    """
+    import sys
+    status = {
+        "status": "running",
+        "python_version": sys.version,
+        "port": PORT,
+        "db_bucket": os.environ.get("DB_BUCKET", "not set"),
+        "crt_bucket": os.environ.get("CRT_BUCKET", "not set"),
+        "cache_enabled": CACHE_ENABLED
+    }
+    return jsonify(status)
 
 
 document_api(
