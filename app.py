@@ -39,10 +39,7 @@ from werkzeug.exceptions import HTTPException
 from config.config_module import CACHE_ENABLED, PORT
 from core.line_webhook import verify_location_handler, webhook_handler
 from docs.api_docs import document_api, register_swagger_ui
-from middleware.middleware import (
-    apply_middleware,
-    rate_limit_by_ip,
-)
+from middleware.middleware import apply_middleware, rate_limit_by_ip
 from middleware.rate_limiter import (
     configure_limiter,
     limit_verify_location_endpoint,
