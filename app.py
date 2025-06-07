@@ -42,7 +42,6 @@ from docs.api_docs import document_api, register_swagger_ui
 from middleware.middleware import (
     apply_middleware,
     rate_limit_by_ip,
-    validate_line_signature,
 )
 from middleware.rate_limiter import (
     configure_limiter,
@@ -241,7 +240,6 @@ document_api(
 
 # LINE Bot webhook endpoint
 @app.route("/webhook", methods=["POST"])
-@validate_line_signature
 def webhook():
     """
     LINE Platform webhook endpoint.
