@@ -1,0 +1,52 @@
+# Test Requirements for LINE Bot Application
+# Install with: pip install -r test_requirements.txt
+
+# Testing Framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.1
+pytest-html>=3.2.0
+pytest-xdist>=3.3.1
+
+# Mock and Test Utilities
+responses>=0.23.3
+freezegun>=1.2.2
+factory-boy>=3.3.0
+faker>=19.6.2
+
+# Flask Testing
+pytest-flask>=1.2.0
+
+# Coverage
+coverage>=7.3.0
+
+# Test Data and Fixtures
+pytest-fixtures>=0.1.0
+
+# Performance Testing
+pytest-benchmark>=4.0.0
+
+# Async Testing (if needed)
+pytest-asyncio>=0.21.1
+
+# Redis Testing (if using Redis)
+fakeredis>=2.18.1
+
+# Database Testing
+pytest-postgresql>=5.0.0
+
+# Security Testing
+bandit>=1.7.5
+safety>=2.3.5
+
+# Code Quality (for test quality)
+flake8>=6.0.0
+black>=23.7.0
+isort>=5.12.0
+
+# Documentation Testing
+pytest-doctestplus>=1.0.0
+
+# Additional utilities
+parameterized>=0.9.0
+testfixtures>=7.2.0

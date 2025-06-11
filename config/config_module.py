@@ -45,6 +45,13 @@ LOCATION_TTL = int(
     get_secret("LOCATION_TTL", default="300")
 )  # 5 minutes location verification validity
 
+# Redis Configuration
+REDIS_HOST = get_secret("REDIS_HOST", default="localhost")
+REDIS_PORT = int(get_secret("REDIS_PORT", default="6379"))
+REDIS_PASSWORD = get_secret("REDIS_PASSWORD", default=None)
+REDIS_DB = int(get_secret("REDIS_DB", default="0"))
+REDIS_SSL = get_secret("REDIS_SSL", default="false").lower() in ("true", "1", "yes")
+
 # Flask App Configuration
 PORT = int(get_secret("PORT", default="8080"))
 VERIFY_URL_BASE = get_secret(
