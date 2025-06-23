@@ -39,6 +39,6 @@ requests==2.32.4
 PyYAML==6.0.2
 
 # Testing dependencies
-pytest==8.3.5
+pytest==8.4.1
 pytest-cov==6.2.1
 pytest-mock==3.14.1
