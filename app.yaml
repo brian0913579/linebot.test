@@ -26,7 +26,7 @@ env_variables:
 
   # Timeouts & token TTLs (in seconds)
   VERIFY_TTL:    "300"
-  LOCATION_TTL:  "10"
+  LOCATION_TTL:  "60"
 
   # HTTP port (must match gunicorn bind)
   PORT:          "8080"

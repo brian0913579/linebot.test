@@ -8,7 +8,7 @@ MarkupSafe==3.0.2
 gunicorn==23.0.0
 
 # LINE Bot SDK and requirements
-line-bot-sdk==3.17.1
+line-bot-sdk==3.18.0
 pydantic>=2.11.4
 pydantic-core>=2.33.2
 
@@ -18,13 +18,13 @@ paho-mqtt==2.1.0
 # Security and secret management
 google-cloud-secret-manager==2.24.0
 google-cloud-storage>=2.0.0
-python-dotenv==1.1.0
+python-dotenv==1.1.1
 
 # API security and limiting
 Flask-Limiter==3.11.0
 
 # Caching (Redis with fallback)
-redis==6.2.0
+redis==6.4.0
 Flask-Caching==2.3.1
 
 # API documentation
