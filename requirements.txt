@@ -40,5 +40,5 @@ PyYAML==6.0.2
 
 # Testing dependencies
 pytest==8.4.1
-pytest-cov==6.2.1
+pytest-cov==7.0.0
 pytest-mock==3.14.1
