@@ -28,10 +28,10 @@ def remove_user(user_id):
 
 
 # Example usage to insert users:
-# insert_user('Uea6813ef8ec77e7446090621ebcf472a', 'admin_Brian')
-# insert_user('U1d640cea545510e631396b5306ade151', 'cyn.18')
-# insert_user('U82a11186c98448e8c2f8f9ee9145ffdc', '陳年曉')
-# insert_user('Ua9c842eb797a057384c687240de1ea38', '菜志廣')
-
+#insert_user('Uea6813ef8ec77e7446090621ebcf472a', 'admin_Brian')
+#insert_user('U1d640cea545510e631396b5306ade151', 'cyn.18')
+#insert_user('U82a11186c98448e8c2f8f9ee9145ffdc', '陳年曉')
+#insert_user('Ua9c842eb797a057384c687240de1ea38', '菜志廣')
+#insert_user('Ua3a926bee26567e7d4ee6a1e9c5edfa0', '宸菲')
 # Example usage to remove a user:
 # remove_user('Uea6813ef8ec77e7446090621ebcf472a')
