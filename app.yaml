@@ -1,4 +1,4 @@
-runtime: python39
+runtime: python311
 
 # Tell App Engine how to start your app:
 entrypoint: gunicorn -b :$PORT app:app
