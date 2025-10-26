@@ -20,7 +20,6 @@ from linebot.v3.messaging import (
     ApiClient,
     ButtonsTemplate,
     Configuration,
-    FlexMessage,
     MessagingApi,
     PostbackAction,
     PushMessageRequest,
@@ -249,57 +248,14 @@ def build_open_close_template(user_id):
     if CACHE_ENABLED:
         store_action_token(open_token, user_id, "open")
         store_action_token(close_token, user_id, "close")
-    
-    # Use Flex Message for proper spacing control
-    flex_content = {
-        "type": "bubble",
-        "size": "kilo",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": "🏠 車庫門控制",
-                    "weight": "bold",
-                    "size": "xl",
-                    "align": "center"
-                },
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "margin": "xl",
-                    "spacing": "xl",
-                    "contents": [
-                        {
-                            "type": "button",
-                            "action": {
-                                "type": "postback",
-                                "label": "🚪 開門",
-                                "data": open_token
-                            },
-                            "style": "primary",
-                            "color": "#00B900",
-                            "height": "md"
-                        },
-                        {
-                            "type": "button",
-                            "action": {
-                                "type": "postback",
-                                "label": "🔒 關門",
-                                "data": close_token
-                            },
-                            "style": "primary",
-                            "color": "#E74C3C",
-                            "height": "md"
-                        }
-                    ]
-                }
-            ]
-        }
-    }
-    
-    return FlexMessage(alt_text="車庫門控制", contents=flex_content)
+    buttons = ButtonsTemplate(
+        text="請選擇操作",
+        actions=[
+            PostbackAction(label="開門", data=open_token),
+            PostbackAction(label="關門", data=close_token),
+        ],
+    )
+    return TemplateMessage(altText="開關門選單", template=buttons)
 
 
 def verify_signature(signature, body):
