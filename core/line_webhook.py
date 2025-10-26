@@ -252,7 +252,6 @@ def build_open_close_template(user_id):
         text="請選擇操作",
         actions=[
             PostbackAction(label="開門", data=open_token),
-            PostbackAction(label="", data=None),  # Spacer for better UI
             PostbackAction(label="關門", data=close_token),
         ],
     )
