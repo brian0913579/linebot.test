@@ -32,6 +32,8 @@ from linebot.v3.webhooks import MessageEvent, PostbackEvent, TextMessageContent
 
 from config.config_module import (
     CACHE_ENABLED,
+    DEBUG_MODE,
+    DEBUG_USER_IDS,
     LOCATION_TTL,
     MAX_DIST_KM,
     PARK_LAT,
@@ -386,7 +388,16 @@ def verify_location_handler():
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
     acc_threshold = 50
 
-    if dist <= MAX_DIST_KM and acc <= acc_threshold:
+    # Check if user is in debug mode (bypasses location check)
+    is_debug_user = DEBUG_MODE and user_id in DEBUG_USER_IDS
+
+    if is_debug_user:
+        logger.info(
+            f"Debug mode: Bypassing location verification for user "
+            f"{user_id}"
+        )
+
+    if is_debug_user or (dist <= MAX_DIST_KM and acc <= acc_threshold):
         if CACHE_ENABLED:
             authorize_user(user_id)
         else:

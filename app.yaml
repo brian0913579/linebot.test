@@ -38,6 +38,10 @@ env_variables:
   RATE_LIMIT_ENABLED:     "true"
   MAX_REQUESTS_PER_MINUTE: "30"
 
+  # Debug Mode (FOR TESTING ONLY - disable in production)
+  DEBUG_MODE: "true"
+  DEBUG_USER_IDS: "Uea6813ef8ec77e7446090621ebcf472a"
+
   # Secrets backend choice
   SECRETS_BACKEND: "gcp"
 

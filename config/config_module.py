@@ -61,3 +61,13 @@ VERIFY_URL_BASE = get_secret(
 # Security Configuration
 RATE_LIMIT_ENABLED = get_secret("RATE_LIMIT_ENABLED", default="false").lower() == "true"
 MAX_REQUESTS_PER_MINUTE = int(get_secret("MAX_REQUESTS_PER_MINUTE", default="30"))
+
+# Debug/Test Mode Configuration
+DEBUG_MODE = get_secret("DEBUG_MODE", default="false").lower() in (
+    "true",
+    "1",
+    "yes",
+)
+# Comma-separated list of user IDs that can bypass location verification
+debug_users = get_secret("DEBUG_USER_IDS", default="")
+DEBUG_USER_IDS = debug_users.split(",") if debug_users else []
