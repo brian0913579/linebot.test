@@ -466,7 +466,7 @@ def handle_postback(event):
     try:
         retry_api_call(
             lambda: get_line_bot_api().show_loading_animation(
-                ShowLoadingAnimationRequest(chatId=user_id, loadingSeconds=3)
+                ShowLoadingAnimationRequest(chatId=user_id, loadingSeconds=5)
             )
         )
         logger.info(f"Loading animation started for user {user_id}")
