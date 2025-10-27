@@ -23,6 +23,8 @@ from linebot.v3.messaging import (
     MessagingApi,
     PostbackAction,
     PushMessageRequest,
+    QuickReply,
+    QuickReplyItem,
     ReplyMessageRequest,
     TemplateMessage,
     TextMessage,
@@ -250,14 +252,20 @@ def build_open_close_template(user_id):
     if CACHE_ENABLED:
         store_action_token(open_token, user_id, "open")
         store_action_token(close_token, user_id, "close")
-    buttons = ButtonsTemplate(
-        text="請選擇操作",
-        actions=[
-            PostbackAction(label="開門", data=open_token),
-            PostbackAction(label="關門", data=close_token),
-        ],
+    
+    # Use Quick Reply for better button spacing and UX
+    quick_reply = QuickReply(
+        items=[
+            QuickReplyItem(
+                action=PostbackAction(label="🟢 開門", data=open_token)
+            ),
+            QuickReplyItem(
+                action=PostbackAction(label="🔴 關門", data=close_token)
+            ),
+        ]
     )
-    return TemplateMessage(altText="開關門選單", template=buttons)
+    
+    return TextMessage(text="請選擇車庫門操作：", quick_reply=quick_reply)
 
 
 def verify_signature(signature, body):
