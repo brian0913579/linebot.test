@@ -26,6 +26,7 @@ from linebot.v3.messaging import (
     QuickReply,
     QuickReplyItem,
     ReplyMessageRequest,
+    ShowLoadingAnimationRequest,
     TemplateMessage,
     TextMessage,
     URIAction,
@@ -460,6 +461,19 @@ def handle_text(event):
 
 def handle_postback(event):
     user_id = event.source.user_id
+    
+    # Show loading animation immediately for better UX
+    try:
+        retry_api_call(
+            lambda: get_line_bot_api().show_loading_animation(
+                ShowLoadingAnimationRequest(chatId=user_id, loadingSeconds=15)
+            )
+        )
+        logger.info(f"Loading animation started for user {user_id}")
+    except Exception as loading_error:
+        # Non-critical: continue even if loading animation fails
+        logger.warning(f"Failed to show loading animation: {loading_error}")
+    
     if not is_user_authorized(user_id):
         return send_verification_message(user_id, event.reply_token)
 
