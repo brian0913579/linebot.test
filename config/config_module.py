@@ -70,4 +70,4 @@ DEBUG_MODE = get_secret("DEBUG_MODE", default="false").lower() in (
 )
 # Comma-separated list of user IDs that can bypass location verification
 debug_users = get_secret("DEBUG_USER_IDS", default="")
-DEBUG_USER_IDS = debug_users.split(",") if debug_users else []
+DEBUG_USER_IDS = [user.strip() for user in debug_users.split(",") if user.strip()] if debug_users else []
