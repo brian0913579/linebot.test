@@ -13,12 +13,22 @@ Debug mode allows specific users to **bypass location verification** so you can 
 
 Add these to your `.env` file or App Engine environment variables:
 
+**For a single debug user:**
 ```bash
 # Enable debug mode
 DEBUG_MODE=true
 
-# Add your LINE user ID (comma-separated for multiple users)
-DEBUG_USER_IDS=U1234567890abcdef,Uanother_user_id
+# Add your LINE user ID
+DEBUG_USER_IDS=U1234567890abcdef
+```
+
+**For multiple debug users:**
+```bash
+# Enable debug mode
+DEBUG_MODE=true
+
+# Add multiple LINE user IDs (comma-separated, spaces are optional)
+DEBUG_USER_IDS=U1234567890abcdef,Uanother_user_id,U999888777
 ```
 
 ### 2. Get Your LINE User ID
@@ -34,10 +44,19 @@ If you don't know your LINE user ID:
 
 Update your `app.yaml` with the debug settings:
 
+**For a single debug user:**
 ```yaml
 env_variables:
   DEBUG_MODE: "true"
   DEBUG_USER_IDS: "U1234567890abcdef"
+  # ... other variables
+```
+
+**For multiple debug users:**
+```yaml
+env_variables:
+  DEBUG_MODE: "true"
+  DEBUG_USER_IDS: "U1234567890abcdef,Uanother_user_id,U999888777"
   # ... other variables
 ```
 
@@ -94,7 +113,10 @@ env_variables:
   
   # Debug Mode (ONLY for testing!)
   DEBUG_MODE: "true"
+  # Single user
   DEBUG_USER_IDS: "U1234567890abcdef"
+  # Or multiple users (comma-separated)
+  # DEBUG_USER_IDS: "U1234567890abcdef,Uanother_user_id,U999888777"
   
   # ... other variables
 ```
@@ -113,7 +135,7 @@ For more secure testing, consider:
 | Variable | Purpose | Example |
 |----------|---------|---------|
 | `DEBUG_MODE` | Enable/disable debug mode | `true` or `false` |
-| `DEBUG_USER_IDS` | Users who can bypass location | `U1234567890abcdef` |
+| `DEBUG_USER_IDS` | Users who can bypass location verification (comma-separated for multiple users) | Single: `U1234567890abcdef`<br>Multiple: `U1234567890abcdef,Uanother_user_id,U999888777` |
 
 ---
 

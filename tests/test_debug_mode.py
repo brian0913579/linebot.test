@@ -30,13 +30,29 @@ def test_debug_user_ids_parsing_empty():
 
 
 def test_debug_user_ids_parsing_with_spaces():
-    """Test that debug user IDs with spaces around commas are handled."""
+    """Test that debug user IDs with spaces around commas are handled correctly."""
     debug_users = "U1234567890abcdef, Uanother_user_id , U999888777"
-    result = debug_users.split(",") if debug_users else []
-    # Note: This test shows current behavior - spaces are preserved
+    result = [user.strip() for user in debug_users.split(",") if user.strip()] if debug_users else []
+    # Spaces should be stripped from each user ID
+    assert result == ["U1234567890abcdef", "Uanother_user_id", "U999888777"]
     assert len(result) == 3
-    # The current implementation doesn't strip spaces, which might be unexpected
-    # If we want to strip spaces, we'd need: [u.strip() for u in debug_users.split(",")]
+
+
+def test_debug_user_ids_parsing_with_trailing_comma():
+    """Test that trailing commas are handled correctly."""
+    debug_users = "U1234567890abcdef,Uanother_user_id,"
+    result = [user.strip() for user in debug_users.split(",") if user.strip()] if debug_users else []
+    # Empty strings from trailing commas should be filtered out
+    assert result == ["U1234567890abcdef", "Uanother_user_id"]
+    assert len(result) == 2
+
+
+def test_debug_user_ids_parsing_only_commas():
+    """Test that a string with only commas results in an empty list."""
+    debug_users = ",,,"
+    result = [user.strip() for user in debug_users.split(",") if user.strip()] if debug_users else []
+    assert result == []
+    assert len(result) == 0
 
 
 def test_debug_user_check_single_user():
