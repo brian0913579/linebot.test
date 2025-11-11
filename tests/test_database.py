@@ -8,7 +8,10 @@ import tempfile
 import pytest
 
 # Set test environment before importing database module
-os.environ["DB_PATH"] = tempfile.mktemp(suffix=".db")
+# Use NamedTemporaryFile instead of mktemp for security
+with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as tmp_file:
+    _initial_db_path = tmp_file.name
+os.environ["DB_PATH"] = _initial_db_path
 os.environ.pop("MONGO_URI", None)  # Ensure no MongoDB connection in tests
 os.environ["DB_MODE"] = "sqlite"
 
@@ -24,8 +27,9 @@ from db.database import (  # noqa: E402
 @pytest.fixture
 def clean_database():
     """Create a clean database for each test."""
-    # Create temporary database file
-    db_path = tempfile.mktemp(suffix=".db")
+    # Create temporary database file using NamedTemporaryFile (secure)
+    with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as tmp_file:
+        db_path = tmp_file.name
     old_db_path = os.environ.get("DB_PATH")
     os.environ["DB_PATH"] = db_path
 
@@ -173,8 +177,9 @@ def test_mongodb_fallback_to_sqlite():
     os.environ["MONGO_URI"] = "mongodb://invalid:27017"
     os.environ["DB_MODE"] = "mongo"
 
-    # Create temporary database for this test
-    db_path = tempfile.mktemp(suffix=".db")
+    # Create temporary database for this test using NamedTemporaryFile (secure)
+    with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as tmp_file:
+        db_path = tmp_file.name
     os.environ["DB_PATH"] = db_path
 
     # Reset database state
