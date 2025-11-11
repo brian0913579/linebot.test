@@ -57,6 +57,10 @@ env_variables:
   CRT_BUCKET:   "line-bot-assets"
   CRT_FILENAME: "emqxsl-ca.crt"
 
+  # Database Settings
+  # MONGO_URI: "mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority"
+  # DB_MODE: "mongo"  # Options: "mongo" (use MongoDB), "sqlite" (use SQLite), "auto" (try MongoDB, fallback to SQLite)
+
 # Serve anything under /static directly
 handlers:
   - url: /static

@@ -1,13 +1,17 @@
-import os
-import sqlite3
+"""
+User authorization models.
 
-DB_PATH = os.environ.get("DB_PATH", "/tmp/users.db")
+This module provides user authorization functions using the database abstraction layer.
+"""
+
+from db.database import get_allowed_users as db_get_allowed_users
 
 
 def get_allowed_users():
-    connection = sqlite3.connect(DB_PATH)
-    cursor = connection.cursor()
-    cursor.execute("SELECT user_id, user_name FROM allowed_users")
-    users = cursor.fetchall()
-    connection.close()
-    return {user[0]: user[1] for user in users}
+    """
+    Get all allowed users from the database.
+    
+    Returns:
+        Dictionary mapping user_id to username.
+    """
+    return db_get_allowed_users()
