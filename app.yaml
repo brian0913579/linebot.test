@@ -40,7 +40,7 @@ env_variables:
 
   # Debug Mode (FOR TESTING ONLY - disable in production)
   DEBUG_MODE: "true"
-  DEBUG_USER_IDS: "Uea6813ef8ec77e7446090621ebcf472a"
+  DEBUG_USER_IDS: "Uea6813ef8ec77e7446090621ebcf472a,U1d640cea545510e631396b5306ade151,U82a11186c98448e8c2f8f9ee9145ffdc"
 
   # Secrets backend choice
   SECRETS_BACKEND: "gcp"
