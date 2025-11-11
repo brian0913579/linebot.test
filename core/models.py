@@ -1,13 +1,10 @@
-import os
-import sqlite3
+"""
+User Models Module
 
-DB_PATH = os.environ.get("DB_PATH", "/tmp/users.db")
+This module provides functions for retrieving user authorization data from MongoDB.
+"""
 
+from utils.mongodb_client import get_allowed_users
 
-def get_allowed_users():
-    connection = sqlite3.connect(DB_PATH)
-    cursor = connection.cursor()
-    cursor.execute("SELECT user_id, user_name FROM allowed_users")
-    users = cursor.fetchall()
-    connection.close()
-    return {user[0]: user[1] for user in users}
+# Re-export get_allowed_users for backward compatibility
+__all__ = ["get_allowed_users"]

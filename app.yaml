@@ -14,6 +14,10 @@ automatic_scaling:
 env_variables:
   # LINE Bot credentials
 
+  # MongoDB Configuration
+  # MONGO_URI should be set via Google Cloud Secret Manager or environment variables
+  # Example: mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
+  
   # MQTT Broker Settings
   MQTT_BROKER:   "d8e42404.ala.asia-southeast1.emqxsl.com"
   MQTT_PORT:     "8883"

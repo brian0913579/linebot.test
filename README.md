@@ -29,7 +29,7 @@ A secure, robust LINE Bot service for remotely controlling a garage door via the
 
 ## Features
 
-- **User Authentication**: Only registered users in the SQLite database can control the garage door.
+- **User Authentication**: Only registered users in the MongoDB database can control the garage door.
 - **Geolocation Verification**: Users must be physically present near the garage (configurable radius) to operate the door.
 - **One-Time Token System**: Secure, single-use tokens prevent replay attacks.
 - **TLS-Encrypted MQTT Communication**: Securely communicates with the garage door controller over MQTT.
@@ -78,7 +78,7 @@ A secure, robust LINE Bot service for remotely controlling a garage door via the
 │   └── security.py         # Signature & header middleware
 ├── utils/
 │   ├── logger_config.py    # Logging setup
-│   └── createUserDatabase.py / insertUsertoDatabase.py
+│   └── mongodb_client.py   # MongoDB connection and user management
 ├── docs/
 │   └── api_docs.py         # Swagger/OpenAPI generator
 └── tests/                  # pytest test suite
@@ -93,6 +93,7 @@ A secure, robust LINE Bot service for remotely controlling a garage door via the
 - Python 3.9+
 - Google Cloud SDK (for App Engine deployment)
 - A LINE Developer account and Messaging API channel
+- **MongoDB Atlas account** or MongoDB instance (for user authentication)
 - An MQTT broker (EMQX Cloud, HiveMQ, etc.)
 - Redis server (optional; falls back to in-memory)
 - CA certificate for MQTT broker (if not publicly trusted)
@@ -137,10 +138,17 @@ Update your LINE webhook to `https://YOUR_PROJECT_ID.appspot.com/webhook`.
 
 ## Configuration
 
-Create a `.env.example` with:
+Create a `.env` file based on `.env.example`:
+
 ```env
+# LINE Bot credentials
 LINE_CHANNEL_ACCESS_TOKEN=your_access_token
 LINE_CHANNEL_SECRET=your_channel_secret
+
+# MongoDB connection
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/linebot?retryWrites=true&w=majority
+
+# MQTT Broker
 MQTT_BROKER=mqtt.example.com
 MQTT_PORT=8883
 MQTT_USERNAME=your_user
@@ -148,11 +156,23 @@ MQTT_PASSWORD=your_pass
 MQTT_TOPIC=garage/command
 ```
 
+### MongoDB Atlas Setup
+
+1. Create a free MongoDB Atlas account at https://www.mongodb.com/cloud/atlas
+2. Create a new cluster (free tier available)
+3. Create a database user with read/write permissions
+4. Whitelist your IP address (or use 0.0.0.0/0 for testing)
+5. Get your connection string (looks like `mongodb+srv://...`)
+6. Set the `MONGO_URI` environment variable with your connection string
+
+The application will automatically create the `authorized_users` collection on first use.
+
 Environment variables (set in `.env` or `app.yaml`):
 
 ```env
 LINE_CHANNEL_ACCESS_TOKEN=
 LINE_CHANNEL_SECRET=
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/linebot
 MQTT_BROKER=
 MQTT_PORT=8883
 MQTT_USERNAME=
@@ -171,8 +191,34 @@ MAX_REQUESTS_PER_MINUTE=30
 
 ## User Management
 
-- Initialize SQLite DB: `python utils/createUserDatabase.py`
-- Add users: `python utils/insertUsertoDatabase.py`
+The application uses MongoDB Atlas to store authorized users. Use the `add_user.py` CLI tool to manage users:
+
+### Add a new authorized user:
+```bash
+python add_user.py add U1234567890abcdef "John Doe"
+```
+
+### Check if a user exists:
+```bash
+python add_user.py get U1234567890abcdef
+```
+
+### Authorize an existing user:
+```bash
+python add_user.py authorize U1234567890abcdef
+```
+
+### Deauthorize a user (without removing from database):
+```bash
+python add_user.py deauthorize U1234567890abcdef
+```
+
+### Remove a user completely:
+```bash
+python add_user.py remove U1234567890abcdef
+```
+
+**Note:** The LINE user ID can be found in the LINE webhook events when a user first messages your bot.
 
 ## MQTT Integration
 

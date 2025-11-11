@@ -16,10 +16,7 @@ Features:
 - Health check endpoints
 
 Environment Variables:
-    DB_BUCKET: Google Cloud Storage bucket for database
-    DB_FILENAME: Database filename (default: users.db)
-    CRT_BUCKET: Google Cloud Storage bucket for certificates
-    CRT_FILENAME: Certificate filename (default: emqxsl-ca.crt)
+    MONGO_URI: MongoDB Atlas connection URI
     MQTT_BROKER: MQTT broker hostname
     MQTT_PORT: MQTT broker port (default: 1883)
     MQTT_USERNAME: MQTT authentication username
@@ -33,7 +30,6 @@ import os
 
 import paho.mqtt.client as mqtt
 from flask import Flask, jsonify, request, send_from_directory
-from google.cloud import storage
 from werkzeug.exceptions import HTTPException
 
 from config.config_module import CACHE_ENABLED, PORT
@@ -48,42 +44,6 @@ from middleware.rate_limiter import (
 from utils.logger_config import setup_logging
 
 
-# Persistence initialization: download DB and CA cert from Cloud Storage into /tmp
-def init_persistence():
-    """
-    Download the user database and CA certificate from Cloud Storage into /tmp
-    if configured.
-    """
-    try:
-        client = storage.Client()
-        # Database
-        db_bucket = os.environ.get("DB_BUCKET")
-        db_filename = os.environ.get("DB_FILENAME", "users.db")
-        if db_bucket:
-            try:
-                db_blob = client.bucket(db_bucket).blob(db_filename)
-                db_dest = f"/tmp/{db_filename}"
-                db_blob.download_to_filename(db_dest)
-                print(f"Downloaded database file: {db_dest}")
-            except Exception as e:
-                print(f"Warning: Could not download database file: {e}")
-
-        # Certificate
-        crt_bucket = os.environ.get("CRT_BUCKET")
-        crt_filename = os.environ.get("CRT_FILENAME", "emqxsl-ca.crt")
-        if crt_bucket:
-            try:
-                crt_blob = client.bucket(crt_bucket).blob(crt_filename)
-                crt_dest = f"/tmp/{crt_filename}"
-                crt_blob.download_to_filename(crt_dest)
-                print(f"Downloaded certificate file: {crt_dest}")
-            except Exception as e:
-                print(f"Warning: Could not download certificate file: {e}")
-    except Exception as e:
-        print(f"Warning: Could not initialize persistence: {e}")
-        # Don't fail app startup if persistence fails
-
-
 # Initialize Flask application
 app = Flask(__name__, static_folder="static")
 
@@ -91,10 +51,17 @@ app = Flask(__name__, static_folder="static")
 logger = setup_logging()
 logger.info("Starting LINE Bot application...")
 
-# Download DB and CA cert from Cloud Storage into /tmp
-logger.info("Initializing persistence...")
-init_persistence()
-logger.info("Persistence initialization completed")
+# Test MongoDB connection on startup
+try:
+    from utils.mongodb_client import get_mongo_client
+    
+    logger.info("Testing MongoDB connection...")
+    client = get_mongo_client()
+    logger.info("MongoDB connection test successful")
+except Exception as e:
+    logger.error(f"Failed to connect to MongoDB: {e}")
+    logger.warning("Application starting without database connection. User authentication will fail.")
+
 
 
 def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -195,9 +162,8 @@ def startup_status():
         "status": "running",
         "python_version": sys.version,
         "port": PORT,
-        "db_bucket": os.environ.get("DB_BUCKET", "not set"),
-        "crt_bucket": os.environ.get("CRT_BUCKET", "not set"),
         "cache_enabled": CACHE_ENABLED,
+        "database": "MongoDB Atlas"
     }
     return jsonify(status)
 

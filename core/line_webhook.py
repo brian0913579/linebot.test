@@ -435,12 +435,15 @@ def handle_text(event):
 
         ALLOWED_USERS = get_allowed_users()
         if user_id not in ALLOWED_USERS:
+            logger.warning(f"Authorization failed: User {user_id} not in authorized users list")
             reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
             return retry_api_call(
                 lambda: get_line_bot_api().reply_message(
                     ReplyMessageRequest(replyToken=event.reply_token, messages=[reply])
                 )
             )
+
+        logger.info(f"Authorization successful: User {user_id} ({ALLOWED_USERS[user_id]}) is authorized")
 
         if not is_user_authorized(user_id):
             return send_verification_message(user_id, event.reply_token)
