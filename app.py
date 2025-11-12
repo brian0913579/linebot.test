@@ -53,22 +53,33 @@ def init_persistence():
     """
     Download the user database and CA certificate from Cloud Storage into /tmp
     if configured.
+    
+    When using MongoDB (MONGO_URI is set), only the certificate is downloaded.
+    When using SQLite, both the database and certificate are downloaded.
     """
     try:
         client = storage.Client()
-        # Database
-        db_bucket = os.environ.get("DB_BUCKET")
-        db_filename = os.environ.get("DB_FILENAME", "users.db")
-        if db_bucket:
-            try:
-                db_blob = client.bucket(db_bucket).blob(db_filename)
-                db_dest = f"/tmp/{db_filename}"
-                db_blob.download_to_filename(db_dest)
-                print(f"Downloaded database file: {db_dest}")
-            except Exception as e:
-                print(f"Warning: Could not download database file: {e}")
+        
+        # Check if we're using MongoDB
+        mongo_uri = os.environ.get("MONGO_URI")
+        db_mode = os.environ.get("DB_MODE", "mongo").lower()
+        
+        # Database - only download if not using MongoDB
+        if not mongo_uri or db_mode == "sqlite":
+            db_bucket = os.environ.get("DB_BUCKET")
+            db_filename = os.environ.get("DB_FILENAME", "users.db")
+            if db_bucket:
+                try:
+                    db_blob = client.bucket(db_bucket).blob(db_filename)
+                    db_dest = f"/tmp/{db_filename}"
+                    db_blob.download_to_filename(db_dest)
+                    print(f"Downloaded database file: {db_dest}")
+                except Exception as e:
+                    print(f"Warning: Could not download database file: {e}")
+        else:
+            print("MongoDB mode: skipping SQLite database download")
 
-        # Certificate
+        # Certificate - always download for MQTT
         crt_bucket = os.environ.get("CRT_BUCKET")
         crt_filename = os.environ.get("CRT_FILENAME", "emqxsl-ca.crt")
         if crt_bucket:
@@ -95,6 +106,16 @@ logger.info("Starting LINE Bot application...")
 logger.info("Initializing persistence...")
 init_persistence()
 logger.info("Persistence initialization completed")
+
+# Initialize database connection
+logger.info("Initializing database...")
+try:
+    from db.database import initialize_database
+    db_mode = initialize_database()
+    logger.info(f"Database initialized successfully in {db_mode} mode")
+except Exception as e:
+    logger.error(f"Database initialization failed: {e}")
+    logger.warning("Continuing with startup - database will attempt to reconnect on first use")
 
 
 def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

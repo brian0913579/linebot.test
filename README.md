@@ -29,7 +29,8 @@ A secure, robust LINE Bot service for remotely controlling a garage door via the
 
 ## Features
 
-- **User Authentication**: Only registered users in the SQLite database can control the garage door.
+- **User Authentication**: Registered users in MongoDB Atlas (with SQLite fallback) can control the garage door.
+- **Database Flexibility**: Primary MongoDB Atlas storage with automatic SQLite fallback for high availability.
 - **Geolocation Verification**: Users must be physically present near the garage (configurable radius) to operate the door.
 - **One-Time Token System**: Secure, single-use tokens prevent replay attacks.
 - **TLS-Encrypted MQTT Communication**: Securely communicates with the garage door controller over MQTT.
@@ -94,6 +95,7 @@ A secure, robust LINE Bot service for remotely controlling a garage door via the
 - Google Cloud SDK (for App Engine deployment)
 - A LINE Developer account and Messaging API channel
 - An MQTT broker (EMQX Cloud, HiveMQ, etc.)
+- MongoDB Atlas account (recommended) or SQLite for user storage
 - Redis server (optional; falls back to in-memory)
 - CA certificate for MQTT broker (if not publicly trusted)
 - OS packages: `mosquitto-clients` (for local MQTT testing)
@@ -151,28 +153,85 @@ MQTT_TOPIC=garage/command
 Environment variables (set in `.env` or `app.yaml`):
 
 ```env
+# LINE Bot credentials
 LINE_CHANNEL_ACCESS_TOKEN=
 LINE_CHANNEL_SECRET=
+
+# MQTT Broker settings
 MQTT_BROKER=
 MQTT_PORT=8883
 MQTT_USERNAME=
 MQTT_PASSWORD=
 MQTT_TOPIC=garage/command
 MQTT_CAFILE=ca.crt
+
+# Location verification
 PARK_LAT=24.79155
 PARK_LNG=120.99442
 MAX_DIST_KM=0.5
 VERIFY_URL_BASE=https://YOUR_DOMAIN/static/verify.html
+
+# Database settings
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority
+DB_MODE=mongo  # Options: mongo, sqlite, auto
+DB_PATH=/tmp/users.db  # Only used for SQLite
+
+# Redis cache (optional)
 REDIS_URL=redis://:password@host:6379/0
 CACHE_ENABLED=false
+
+# Rate limiting
 RATE_LIMIT_ENABLED=true
 MAX_REQUESTS_PER_MINUTE=30
 ```
 
 ## User Management
 
+### MongoDB Atlas Setup (Recommended)
+
+1. **Create MongoDB Atlas Cluster**:
+   - Sign up at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+   - Create a free cluster (M0 tier is sufficient)
+   - Whitelist your IP addresses or use 0.0.0.0/0 for testing
+   - Create a database user with read/write permissions
+
+2. **Get Connection String**:
+   - Click "Connect" on your cluster
+   - Choose "Connect your application"
+   - Copy the connection string (looks like: `mongodb+srv://username:password@cluster.mongodb.net/`)
+
+3. **Configure Environment**:
+   ```bash
+   export MONGO_URI="mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority"
+   export DB_MODE="mongo"
+   ```
+
+4. **Add Users**:
+   ```bash
+   # Add a new authorized user
+   python add_user.py add Uea6813ef8ec77e7446090621ebcf472a "John Doe"
+   
+   # Remove a user
+   python add_user.py remove Uea6813ef8ec77e7446090621ebcf472a
+   
+   # List all authorized users
+   python add_user.py list
+   ```
+
+### SQLite Fallback
+
+If MongoDB is unavailable or `MONGO_URI` is not set, the system automatically falls back to SQLite:
+
 - Initialize SQLite DB: `python utils/createUserDatabase.py`
-- Add users: `python utils/insertUsertoDatabase.py`
+- Add users: Edit and run `python utils/insertUsertoDatabase.py`
+
+The fallback is automatic and requires no configuration. The app will log which database mode is active.
+
+### Database Modes
+
+- **mongo**: Use MongoDB Atlas exclusively (fails if unavailable)
+- **sqlite**: Use SQLite exclusively (ignores MongoDB)
+- **auto** (default): Try MongoDB first, fall back to SQLite if unavailable
 
 ## MQTT Integration
 

@@ -15,6 +15,9 @@ pydantic-core>=2.33.2
 # MQTT client for garage door communication
 paho-mqtt==2.1.0
 
+# MongoDB client for user database
+pymongo==4.10.1
+
 # Security and secret management
 google-cloud-secret-manager==2.25.0
 google-cloud-storage>=2.0.0
