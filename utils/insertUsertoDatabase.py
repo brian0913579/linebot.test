@@ -37,5 +37,6 @@ def remove_user(user_id):
 # insert_user('Uba1b26ccbd38eee0220b2be32580fd1d', '林彥廷')
 # insert_user('U42d128774be7d1c2dded2cbea220cf70', '鍾維哲')
 # insert_user('U3a451bc2437bcb35434db5a671b14ba3', 'Sankyy')
+# insert_user('U81667d7891c66c76ae1de67266e6cf6d', '周鴻任')
 # Example usage to remove a user:
 # remove_user('Uea6813ef8ec77e7446090621ebcf472a')
