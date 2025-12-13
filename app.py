@@ -46,6 +46,39 @@ from middleware.rate_limiter import (
     limit_webhook_endpoint,
 )
 from utils.logger_config import setup_logging
+from core.models import get_allowed_users, add_user, remove_user
+from functools import wraps
+from flask import Response, flash, redirect, url_for, session, render_template
+from config.secret_manager import get_secret
+
+# Simple Basic Auth
+def check_auth(username, password):
+    """Check if a username/password combination is valid."""
+    # Fetch from Secret Manager (or .env locally)
+    expected_username = get_secret("ADMIN_USERNAME", "admin")
+    expected_password = get_secret("ADMIN_PASSWORD", "password")
+    
+    # If using defaults, log a warning (optional but good practice)
+    if expected_password == "password":
+        logger.warning("Using default admin password! Please set ADMIN_PASSWORD.")
+        
+    return username == expected_username and password == expected_password
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
 
 
 # Persistence initialization: download DB and CA cert from Cloud Storage into /tmp
