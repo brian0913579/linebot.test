@@ -1,13 +1,33 @@
-import os
-import sqlite3
+from google.cloud import datastore
 
-DB_PATH = os.environ.get("DB_PATH", "/tmp/users.db")
+# Global client to reuse connection
+db = None
 
+def get_datastore_client():
+    global db
+    if db is None:
+        db = datastore.Client()
+    return db
 
 def get_allowed_users():
-    connection = sqlite3.connect(DB_PATH)
-    cursor = connection.cursor()
-    cursor.execute("SELECT user_id, user_name FROM allowed_users")
-    users = cursor.fetchall()
-    connection.close()
-    return {user[0]: user[1] for user in users}
+    """
+    Fetches allowed users from Google Cloud Datastore.
+    Kind: 'allowed_users'
+    Key Name: user_id
+    """
+    try:
+        db = get_datastore_client()
+        query = db.query(kind='allowed_users')
+        results = list(query.fetch())
+        
+        allowed_users = {}
+        for entity in results:
+            user_id = entity.get('user_id') or entity.key.name
+            user_name = entity.get('user_name', 'Unknown')
+            if user_id:
+                allowed_users[user_id] = user_name
+                
+        return allowed_users
+    except Exception as e:
+        print(f"Error serving allowed_users from Datastore: {e}")
+        return {}

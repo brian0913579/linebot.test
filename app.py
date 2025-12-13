@@ -16,8 +16,8 @@ Features:
 - Health check endpoints
 
 Environment Variables:
-    DB_BUCKET: Google Cloud Storage bucket for database
-    DB_FILENAME: Database filename (default: users.db)
+    DB_BUCKET: (Deprecated) Google Cloud Storage bucket for database
+    DB_FILENAME: (Deprecated) Database filename (default: users.db)
     CRT_BUCKET: Google Cloud Storage bucket for certificates
     CRT_FILENAME: Certificate filename (default: emqxsl-ca.crt)
     MQTT_BROKER: MQTT broker hostname
@@ -57,16 +57,10 @@ def init_persistence():
     try:
         client = storage.Client()
         # Database
-        db_bucket = os.environ.get("DB_BUCKET")
-        db_filename = os.environ.get("DB_FILENAME", "users.db")
-        if db_bucket:
-            try:
-                db_blob = client.bucket(db_bucket).blob(db_filename)
-                db_dest = f"/tmp/{db_filename}"
-                db_blob.download_to_filename(db_dest)
-                print(f"Downloaded database file: {db_dest}")
-            except Exception as e:
-                print(f"Warning: Could not download database file: {e}")
+        # Database download removed (Migrated to Firestore)
+        # db_bucket = os.environ.get("DB_BUCKET")
+        # db_filename = os.environ.get("DB_FILENAME", "users.db")
+
 
         # Certificate
         crt_bucket = os.environ.get("CRT_BUCKET")
