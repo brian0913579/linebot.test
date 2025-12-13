@@ -400,6 +400,42 @@ document_api(
 )
 
 
+# Admin Routes
+@app.route("/admin", methods=["GET"])
+@requires_auth
+def admin_dashboard():
+    users = get_allowed_users()
+    return render_template("admin.html", users=users)
+
+@app.route("/admin/add", methods=["POST"])
+@requires_auth
+def admin_add():
+    user_name = request.form.get("user_name")
+    user_id = request.form.get("user_id")
+    
+    if not user_name or not user_id:
+        flash("Please enter complete data", "error")
+    else:
+        if add_user(user_id, user_name):
+            flash(f"Added: {user_name}", "success")
+        else:
+            flash("Failed to add user", "error")
+            
+    return redirect(url_for("admin_dashboard"))
+
+@app.route("/admin/delete", methods=["POST"])
+@requires_auth
+def admin_delete():
+    user_id = request.form.get("user_id")
+    if user_id:
+        if remove_user(user_id):
+            flash(f"Deleted: {user_id}", "success")
+        else:
+            flash("Failed to delete user", "error")
+            
+    return redirect(url_for("admin_dashboard"))
+
+
 # Error handlers for different HTTP errors
 @app.errorhandler(400)
 def bad_request_error(e):
