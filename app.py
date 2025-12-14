@@ -478,21 +478,7 @@ def admin_reject():
             
     return redirect(url_for("admin_dashboard"))
 
-@app.route("/admin/add", methods=["POST"])
-@requires_auth
-def admin_add():
-    user_name = request.form.get("user_name")
-    user_id = request.form.get("user_id")
-    
-    if not user_name or not user_id:
-        flash("Please enter complete data", "error")
-    else:
-        if add_user(user_id, user_name):
-            flash(f"Added: {user_name}", "success")
-        else:
-            flash("Failed to add user", "error")
-            
-    return redirect(url_for("admin_dashboard"))
+
 
 @app.route("/admin/delete", methods=["POST"])
 @requires_auth
