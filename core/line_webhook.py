@@ -435,7 +435,11 @@ def handle_text(event):
 
         ALLOWED_USERS = get_allowed_users()
         if user_id not in ALLOWED_USERS:
-            reply = TextMessage(text="❌ 您尚未註冊為停車場用戶，請聯絡管理員。")
+            # Auto-register as pending user
+            from core.models import add_pending_user
+            add_pending_user(user_id)
+            
+            reply = TextMessage(text="🔒 您尚未開通權限。\n\n已自動將您的申請送出給管理員，請耐心等候審核。")
             return retry_api_call(
                 lambda: get_line_bot_api().reply_message(
                     ReplyMessageRequest(replyToken=event.reply_token, messages=[reply])

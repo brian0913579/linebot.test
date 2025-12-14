@@ -46,7 +46,14 @@ from middleware.rate_limiter import (
     limit_webhook_endpoint,
 )
 from utils.logger_config import setup_logging
-from core.models import get_allowed_users, add_user, remove_user
+from core.models import (
+    get_allowed_users,
+    add_user,
+    remove_user,
+    get_pending_users,
+    add_pending_user,
+    remove_pending_user,
+)
 from functools import wraps
 from flask import Response, flash, redirect, url_for, session, render_template
 from config.secret_manager import get_secret
@@ -439,7 +446,37 @@ document_api(
 @requires_auth
 def admin_dashboard():
     users = get_allowed_users()
-    return render_template("admin.html", users=users)
+    pending_users = get_pending_users()
+    return render_template("admin.html", users=users, pending_users=pending_users)
+
+@app.route("/admin/approve", methods=["POST"])
+@requires_auth
+def admin_approve():
+    user_id = request.form.get("user_id")
+    user_name = request.form.get("user_name")
+    
+    if user_id and user_name:
+        if add_user(user_id, user_name):
+            remove_pending_user(user_id)
+            flash(f"Approved: {user_name}", "success")
+        else:
+            flash("Failed to approve user", "error")
+    else:
+        flash("Missing user data", "error")
+            
+    return redirect(url_for("admin_dashboard"))
+
+@app.route("/admin/reject", methods=["POST"])
+@requires_auth
+def admin_reject():
+    user_id = request.form.get("user_id")
+    if user_id:
+        if remove_pending_user(user_id):
+            flash(f"Rejected: {user_id}", "success")
+        else:
+            flash("Failed to reject user", "error")
+            
+    return redirect(url_for("admin_dashboard"))
 
 @app.route("/admin/add", methods=["POST"])
 @requires_auth
