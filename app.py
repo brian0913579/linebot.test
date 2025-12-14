@@ -113,6 +113,7 @@ def init_persistence():
 
 # Initialize Flask application
 app = Flask(__name__, static_folder="static")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super-secret-key-change-this") # Required for flash messages
 
 # Set up logging early
 logger = setup_logging()
