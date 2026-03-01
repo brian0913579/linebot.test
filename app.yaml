@@ -22,7 +22,7 @@ env_variables:
   # Location geofence parameters 24.18590° N, 120.68247° E
   PARK_LAT:      "24.19092"
   PARK_LNG:      "120.66806"
-  MAX_DIST_KM:   "0.5"
+  MAX_DIST_KM:   "1"
 
   # Timeouts & token TTLs (in seconds)
   VERIFY_TTL:    "300"
