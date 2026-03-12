@@ -30,14 +30,33 @@ Environment Variables:
 import importlib.util
 import math  # Add this import
 import os
+from functools import wraps
 
 import paho.mqtt.client as mqtt
-from flask import Flask, jsonify, request, send_from_directory
+from flask import (
+    Flask,
+    Response,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
+)
 from google.cloud import storage
 from werkzeug.exceptions import HTTPException
 
 from config.config_module import CACHE_ENABLED, PORT
+from config.secret_manager import get_secret
 from core.line_webhook import verify_location_handler, webhook_handler
+from core.models import (
+    add_user,
+    get_allowed_users,
+    get_pending_users,
+    remove_pending_user,
+    remove_user,
+)
 from docs.api_docs import document_api, register_swagger_ui
 from middleware.middleware import apply_middleware, rate_limit_by_ip
 from middleware.rate_limiter import (
@@ -46,17 +65,6 @@ from middleware.rate_limiter import (
     limit_webhook_endpoint,
 )
 from utils.logger_config import setup_logging
-from core.models import (
-    get_allowed_users,
-    add_user,
-    remove_user,
-    get_pending_users,
-    add_pending_user,
-    remove_pending_user,
-)
-from functools import wraps
-from flask import Response, flash, redirect, url_for, session, render_template
-from config.secret_manager import get_secret
 
 
 # Simple Basic Auth

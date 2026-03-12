@@ -1,9 +1,7 @@
 import argparse
-import sys
-import os
+import datetime
 
 from google.cloud import datastore
-import datetime
 
 
 def get_client():
@@ -80,5 +78,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Error: {e}")
         print(
-            "Tip: Ensure you have set GOOGLE_APPLICATION_CREDENTIALS or run 'gcloud auth application-default login'"
+            "Tip: Ensure you have set GOOGLE_APPLICATION_CREDENTIALS or "
+            "run 'gcloud auth application-default login'"
         )

@@ -38,8 +38,8 @@ from config.config_module import (
     DEBUG_MODE,
     DEBUG_USER_IDS,
     LOCATION_TTL,
-    MAX_DIST_KM,
     MAX_ACCURACY_METERS,
+    MAX_DIST_KM,
     PARK_LAT,
     PARK_LNG,
     VERIFY_TTL,
@@ -51,8 +51,8 @@ from core.token_manager import (
     TOKENS,
     clean_expired_tokens,
     generate_token,
-    store_action_token,
     invalidate_user_tokens,
+    store_action_token,
 )
 from utils.logger_config import get_logger
 
@@ -437,7 +437,9 @@ def handle_text(event):
 
             add_pending_user(user_id)
 
-            reply = TextMessage(text="🔒 您尚未開通權限。\n\n已自動將您的申請送出給管理員，請耐心等候審核。")
+            reply = TextMessage(
+                text="🔒 您尚未開通權限。\n\n已自動將您的申請送出給管理員，請耐心等候審核。"
+            )
             return retry_api_call(
                 lambda: get_line_bot_api().reply_message(
                     ReplyMessageRequest(replyToken=event.reply_token, messages=[reply])

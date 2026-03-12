@@ -1,8 +1,8 @@
 """
 Test debug mode functionality with multiple users.
 """
+
 import os
-import pytest
 
 
 def test_debug_user_ids_parsing_single_user():
@@ -100,7 +100,7 @@ def test_debug_user_check_multiple_users():
 
 
 def test_debug_mode_disabled():
-    """Test that when debug mode is disabled, users are not identified as debug users."""
+    """Test that disabled debug mode does not identify users as debug users."""
     DEBUG_MODE = False
     DEBUG_USER_IDS = ["U1234567890abcdef", "Uanother_user_id"]
     user_id = "U1234567890abcdef"
@@ -116,8 +116,9 @@ def test_config_module_integration():
     os.environ["DEBUG_USER_IDS"] = "U111,U222,U333"
 
     # Import config module (this will re-read environment variables)
-    from config import config_module
     import importlib
+
+    from config import config_module
 
     importlib.reload(config_module)
 
