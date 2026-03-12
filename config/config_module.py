@@ -34,8 +34,12 @@ MQTT_TOPIC = get_secret("MQTT_TOPIC", default="garage/command")
 PARK_LAT = float(get_secret("PARK_LAT", default="24.79155"))  # Parking lot latitude
 PARK_LNG = float(get_secret("PARK_LNG", default="120.99442"))  # Parking lot longitude
 MAX_DIST_KM = float(
-    get_secret("MAX_DIST_KM", default="0.5")
-)  # 500 meters maximum distance
+    get_secret("MAX_DIST_KM", default="1.0")
+)  # 1.0 km maximum distance by default
+
+MAX_ACCURACY_METERS = float(
+    get_secret("MAX_ACCURACY_METERS", default="250")
+)  # 250 meters max GPS error allowed
 
 # Time-to-live settings
 VERIFY_TTL = int(
@@ -70,4 +74,8 @@ DEBUG_MODE = get_secret("DEBUG_MODE", default="false").lower() in (
 )
 # Comma-separated list of user IDs that can bypass location verification
 debug_users = get_secret("DEBUG_USER_IDS", default="")
-DEBUG_USER_IDS = [user.strip() for user in debug_users.split(",") if user.strip()] if debug_users else []
+DEBUG_USER_IDS = (
+    [user.strip() for user in debug_users.split(",") if user.strip()]
+    if debug_users
+    else []
+)

@@ -39,6 +39,7 @@ from config.config_module import (
     DEBUG_USER_IDS,
     LOCATION_TTL,
     MAX_DIST_KM,
+    MAX_ACCURACY_METERS,
     PARK_LAT,
     PARK_LNG,
     VERIFY_TTL,
@@ -51,6 +52,7 @@ from core.token_manager import (
     clean_expired_tokens,
     generate_token,
     store_action_token,
+    invalidate_user_tokens,
 )
 from utils.logger_config import get_logger
 
@@ -253,19 +255,15 @@ def build_open_close_template(user_id):
     if CACHE_ENABLED:
         store_action_token(open_token, user_id, "open")
         store_action_token(close_token, user_id, "close")
-    
+
     # Use Quick Reply for better button spacing and UX
     quick_reply = QuickReply(
         items=[
-            QuickReplyItem(
-                action=PostbackAction(label="🟢 開門", data=open_token)
-            ),
-            QuickReplyItem(
-                action=PostbackAction(label="🔴 關門", data=close_token)
-            ),
+            QuickReplyItem(action=PostbackAction(label="🟢 開門", data=open_token)),
+            QuickReplyItem(action=PostbackAction(label="🔴 關門", data=close_token)),
         ]
     )
-    
+
     return TextMessage(text="請選擇車庫門操作：", quick_reply=quick_reply)
 
 
@@ -395,15 +393,14 @@ def verify_location_handler():
 
     lat, lng, acc = data["lat"], data["lng"], data.get("acc", 999)
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
-    acc_threshold = 50
+    acc_threshold = MAX_ACCURACY_METERS
 
     # Check if user is in debug mode (bypasses location check)
     is_debug_user = DEBUG_MODE and user_id in DEBUG_USER_IDS
 
     if is_debug_user:
         logger.info(
-            f"Debug mode: Bypassing location verification for user "
-            f"{user_id}"
+            f"Debug mode: Bypassing location verification for user " f"{user_id}"
         )
 
     if is_debug_user or (dist <= MAX_DIST_KM and acc <= acc_threshold):
@@ -437,8 +434,9 @@ def handle_text(event):
         if user_id not in ALLOWED_USERS:
             # Auto-register as pending user
             from core.models import add_pending_user
+
             add_pending_user(user_id)
-            
+
             reply = TextMessage(text="🔒 您尚未開通權限。\n\n已自動將您的申請送出給管理員，請耐心等候審核。")
             return retry_api_call(
                 lambda: get_line_bot_api().reply_message(
@@ -465,7 +463,7 @@ def handle_text(event):
 
 def handle_postback(event):
     user_id = event.source.user_id
-    
+
     # Show loading animation immediately for better UX
     try:
         retry_api_call(
@@ -477,7 +475,7 @@ def handle_postback(event):
     except Exception as loading_error:
         # Non-critical: continue even if loading animation fails
         logger.warning(f"Failed to show loading animation: {loading_error}")
-    
+
     if not is_user_authorized(user_id):
         return send_verification_message(user_id, event.reply_token)
 
@@ -494,7 +492,11 @@ def handle_postback(event):
             )
 
         token_user_id, action, expiry = record
-        TOKENS.pop(token, None)
+
+        # Invalidate all OTHER open/close tokens for this user immediately
+        # to prevent double-click malfunction
+        invalidate_user_tokens(token_user_id)
+
         logger.info(f"Found and used token for action: {action}")
 
         if event.source.user_id != token_user_id or time.time() > expiry:

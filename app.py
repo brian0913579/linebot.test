@@ -58,25 +58,30 @@ from functools import wraps
 from flask import Response, flash, redirect, url_for, session, render_template
 from config.secret_manager import get_secret
 
+
 # Simple Basic Auth
 def check_auth(username, password):
     """Check if a username/password combination is valid."""
     # Fetch from Secret Manager (or .env locally)
     expected_username = get_secret("ADMIN_USERNAME", "admin")
     expected_password = get_secret("ADMIN_PASSWORD", "password")
-    
+
     # If using defaults, log a warning (optional but good practice)
     if expected_password == "password":
         logger.warning("Using default admin password! Please set ADMIN_PASSWORD.")
-        
+
     return username == expected_username and password == expected_password
+
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
     return Response(
-    'Could not verify your access level for that URL.\n'
-    'You have to login with proper credentials', 401,
-    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+        "Could not verify your access level for that URL.\n"
+        "You have to login with proper credentials",
+        401,
+        {"WWW-Authenticate": 'Basic realm="Login Required"'},
+    )
+
 
 def requires_auth(f):
     @wraps(f)
@@ -85,6 +90,7 @@ def requires_auth(f):
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
         return f(*args, **kwargs)
+
     return decorated
 
 
@@ -100,7 +106,6 @@ def init_persistence():
         # Database download removed (Migrated to Firestore)
         # db_bucket = os.environ.get("DB_BUCKET")
         # db_filename = os.environ.get("DB_FILENAME", "users.db")
-
 
         # Certificate
         crt_bucket = os.environ.get("CRT_BUCKET")
@@ -120,7 +125,9 @@ def init_persistence():
 
 # Initialize Flask application
 app = Flask(__name__, static_folder="static")
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super-secret-key-change-this") # Required for flash messages
+app.secret_key = os.environ.get(
+    "FLASK_SECRET_KEY", "super-secret-key-change-this"
+)  # Required for flash messages
 
 # Set up logging early
 logger = setup_logging()
@@ -449,12 +456,13 @@ def admin_dashboard():
     pending_users = get_pending_users()
     return render_template("admin.html", users=users, pending_users=pending_users)
 
+
 @app.route("/admin/approve", methods=["POST"])
 @requires_auth
 def admin_approve():
     user_id = request.form.get("user_id")
     user_name = request.form.get("user_name")
-    
+
     if user_id and user_name:
         if add_user(user_id, user_name):
             remove_pending_user(user_id)
@@ -463,8 +471,9 @@ def admin_approve():
             flash("Failed to approve user", "error")
     else:
         flash("Missing user data", "error")
-            
+
     return redirect(url_for("admin_dashboard"))
+
 
 @app.route("/admin/reject", methods=["POST"])
 @requires_auth
@@ -475,9 +484,8 @@ def admin_reject():
             flash(f"Rejected: {user_id}", "success")
         else:
             flash("Failed to reject user", "error")
-            
-    return redirect(url_for("admin_dashboard"))
 
+    return redirect(url_for("admin_dashboard"))
 
 
 @app.route("/admin/delete", methods=["POST"])
@@ -489,7 +497,7 @@ def admin_delete():
             flash(f"Deleted: {user_id}", "success")
         else:
             flash("Failed to delete user", "error")
-            
+
     return redirect(url_for("admin_dashboard"))
 
 

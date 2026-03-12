@@ -15,27 +15,28 @@ env_variables:
   # LINE Bot credentials
 
   # MQTT Broker Settings
-  MQTT_BROKER:   "d8e42404.ala.asia-southeast1.emqxsl.com"
-  MQTT_PORT:     "8883"
-  MQTT_TOPIC:    "garage/command"
+  MQTT_BROKER: "d8e42404.ala.asia-southeast1.emqxsl.com"
+  MQTT_PORT: "8883"
+  MQTT_TOPIC: "garage/command"
 
   # Location geofence parameters 24.18590° N, 120.68247° E
-  PARK_LAT:      "24.19092"
-  PARK_LNG:      "120.66806"
-  MAX_DIST_KM:   "1"
+  PARK_LAT: "24.19092"
+  PARK_LNG: "120.66806"
+  MAX_DIST_KM: "1"
+  MAX_ACCURACY_METERS: "250"
 
   # Timeouts & token TTLs (in seconds)
-  VERIFY_TTL:    "300"
-  LOCATION_TTL:  "60"
+  VERIFY_TTL: "300"
+  LOCATION_TTL: "60"
 
   # HTTP port (must match gunicorn bind)
-  PORT:          "8080"
+  PORT: "8080"
 
   # Base URL for the verify-page link
   VERIFY_URL_BASE: "https://line-462014.appspot.com/static/verify.html"
 
   # Security / Rate limiting
-  RATE_LIMIT_ENABLED:     "true"
+  RATE_LIMIT_ENABLED: "true"
   MAX_REQUESTS_PER_MINUTE: "30"
 
   # Debug Mode (FOR TESTING ONLY - disable in production)
@@ -52,9 +53,9 @@ env_variables:
   LOG_DIR: "/tmp"
 
   # Cloud Storage persistence settings
-  DB_BUCKET:    "line-bot-assets"
-  DB_FILENAME:  "users.db"
-  CRT_BUCKET:   "line-bot-assets"
+  DB_BUCKET: "line-bot-assets"
+  DB_FILENAME: "users.db"
+  CRT_BUCKET: "line-bot-assets"
   CRT_FILENAME: "emqxsl-ca.crt"
 
 # Serve anything under /static directly

@@ -52,3 +52,17 @@ def clean_expired_tokens():
         _, _, expiry = TOKENS[token]
         if expiry <= current_time:
             del TOKENS[token]
+
+
+def invalidate_user_tokens(user_id: str) -> None:
+    """
+    Immediately invalidates all pending open/close action tokens for a given user.
+    Called when a user successfully consumes any token to prevent double-clicking.
+    """
+    tokens_to_remove = []
+    for token, (t_user_id, t_action, t_expiry) in TOKENS.items():
+        if t_user_id == user_id and t_action in ("open", "close"):
+            tokens_to_remove.append(token)
+
+    for token in tokens_to_remove:
+        del TOKENS[token]

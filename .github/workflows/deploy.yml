@@ -2,7 +2,7 @@ name: Deploy to Google App Engine
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
@@ -12,33 +12,33 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.9"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Run basic syntax check
-      run: |
-        python -m py_compile app.py
+      - name: Run basic syntax check
+        run: |
+          python -m py_compile app.py
 
-    - name: Authenticate to Google Cloud
-      uses: google-github-actions/auth@v3
-      with:
-        credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v3
-      with:
-        project_id: line-462014
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v3
+        with:
+          project_id: line-462014
 
-    - name: Deploy to App Engine
-      run: |
-        gcloud app deploy app.yaml --quiet --project=line-462014
+      - name: Deploy to App Engine
+        run: |
+          gcloud app deploy app.yaml --quiet --project=line-462014

@@ -7,6 +7,7 @@
 **Improved User Experience: Switched from ButtonsTemplate to Quick Reply**
 
 #### Why?
+
 - Buttons were too close together (not user-friendly)
 - Quick Reply provides better spacing and easier tapping
 - Official LINE API feature with better mobile UX
@@ -16,6 +17,7 @@
 **File: `core/line_webhook.py`**
 
 1. **Added imports:**
+
    ```python
    from linebot.v3.messaging import (
        QuickReply,
@@ -31,6 +33,7 @@
    - Updated message text from "請選擇操作" to "請選擇車庫門操作："
 
 #### Before:
+
 ```python
 buttons = ButtonsTemplate(
     text="請選擇操作",
@@ -43,6 +46,7 @@ return TemplateMessage(altText="開關門選單", template=buttons)
 ```
 
 #### After:
+
 ```python
 quick_reply = QuickReply(
     items=[
@@ -68,6 +72,7 @@ return TextMessage(text="請選擇車庫門操作：", quick_reply=quick_reply)
 ### User Experience
 
 **How it looks to users:**
+
 - Message appears: "請選擇車庫門操作："
 - Two buttons appear at the bottom of the chat:
   - `🟢 開門` (left)
@@ -78,6 +83,7 @@ return TextMessage(text="請選擇車庫門操作：", quick_reply=quick_reply)
 ### Testing
 
 After deploying:
+
 1. Send "開關門" to the bot
 2. Complete location verification
 3. You should see the new Quick Reply buttons at the bottom

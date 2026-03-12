@@ -1,10 +1,10 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: 24.1.0            # use the latest stable release
+    rev: 24.1.0 # use the latest stable release
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0            # match your project’s Python version
+    rev: 5.12.0 # match your project’s Python version
     hooks:
       - id: isort
         args: ["--profile", "black"]
@@ -25,11 +25,11 @@ repos:
         language: system
         types: [python]
         args: ["--max-line-length=88"]
-#      - id: pylint
-#        name: pylint (local)
-#        entry: pylint
-#        language: system
-#        types: [python]
+  #      - id: pylint
+  #        name: pylint (local)
+  #        entry: pylint
+  #        language: system
+  #        types: [python]
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.16.3
     hooks:

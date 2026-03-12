@@ -195,9 +195,9 @@ def apply_middleware(app):
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         # HSTS (only in production)
         if not app.debug:
-            response.headers["Strict-Transport-Security"] = (
-                "max-age=31536000; includeSubDomains"
-            )
+            response.headers[
+                "Strict-Transport-Security"
+            ] = "max-age=31536000; includeSubDomains"
         return response
 
     logger.info("Middleware applied successfully")

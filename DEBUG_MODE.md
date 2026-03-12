@@ -1,6 +1,7 @@
 # Debug Mode for Testing
 
 ## Problem
+
 When testing new features in production, you can't test the garage door functionality unless you're physically at the garage location. This makes it difficult to verify new updates remotely.
 
 ## Solution: Debug Mode
@@ -14,6 +15,7 @@ Debug mode allows specific users to **bypass location verification** so you can 
 Add these to your `.env` file or App Engine environment variables:
 
 **For a single debug user:**
+
 ```bash
 # Enable debug mode
 DEBUG_MODE=true
@@ -23,6 +25,7 @@ DEBUG_USER_IDS=U1234567890abcdef
 ```
 
 **For multiple debug users:**
+
 ```bash
 # Enable debug mode
 DEBUG_MODE=true
@@ -45,6 +48,7 @@ If you don't know your LINE user ID:
 Update your `app.yaml` with the debug settings:
 
 **For a single debug user:**
+
 ```yaml
 env_variables:
   DEBUG_MODE: "true"
@@ -53,6 +57,7 @@ env_variables:
 ```
 
 **For multiple debug users:**
+
 ```yaml
 env_variables:
   DEBUG_MODE: "true"
@@ -61,6 +66,7 @@ env_variables:
 ```
 
 Then deploy:
+
 ```bash
 gcloud app deploy
 ```
@@ -101,23 +107,23 @@ env_variables:
   # Line Bot
   LINE_CHANNEL_ACCESS_TOKEN: "your_token"
   LINE_CHANNEL_SECRET: "your_secret"
-  
+
   # MQTT
   MQTT_BROKER: "your_broker.emqxsl.com"
   MQTT_PORT: "8883"
-  
+
   # Location
   PARK_LAT: "24.79155"
   PARK_LNG: "120.99442"
   MAX_DIST_KM: "0.5"
-  
+
   # Debug Mode (ONLY for testing!)
   DEBUG_MODE: "true"
   # Single user
   DEBUG_USER_IDS: "U1234567890abcdef"
   # Or multiple users (comma-separated)
   # DEBUG_USER_IDS: "U1234567890abcdef,Uanother_user_id,U999888777"
-  
+
   # ... other variables
 ```
 
@@ -132,9 +138,9 @@ For more secure testing, consider:
 
 ## Quick Reference
 
-| Variable | Purpose | Example |
-|----------|---------|---------|
-| `DEBUG_MODE` | Enable/disable debug mode | `true` or `false` |
+| Variable         | Purpose                                                                         | Example                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `DEBUG_MODE`     | Enable/disable debug mode                                                       | `true` or `false`                                                                        |
 | `DEBUG_USER_IDS` | Users who can bypass location verification (comma-separated for multiple users) | Single: `U1234567890abcdef`<br>Multiple: `U1234567890abcdef,Uanother_user_id,U999888777` |
 
 ---

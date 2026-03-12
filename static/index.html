@@ -1,154 +1,182 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LineBot API</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 900px;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #0d6efd;
-            margin-bottom: 20px;
-        }
-        .api-section {
-            margin-top: 40px;
-        }
-        .card {
-            margin-bottom: 20px;
-            border: none;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .card-header {
-            background-color: #f1f8ff;
-            font-weight: 600;
-        }
-        .method-badge {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-        .get-badge {
-            background-color: #5cb85c;
-            color: white;
-        }
-        .post-badge {
-            background-color: #f0ad4e;
-            color: white;
-        }
-        .endpoint {
-            font-family: monospace;
-            background-color: #f5f5f5;
-            padding: 3px 6px;
-            border-radius: 4px;
-        }
-        .docs-link {
-            margin-top: 20px;
-            font-size: 1.2rem;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        max-width: 900px;
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #0d6efd;
+        margin-bottom: 20px;
+      }
+      .api-section {
+        margin-top: 40px;
+      }
+      .card {
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .card-header {
+        background-color: #f1f8ff;
+        font-weight: 600;
+      }
+      .method-badge {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .get-badge {
+        background-color: #5cb85c;
+        color: white;
+      }
+      .post-badge {
+        background-color: #f0ad4e;
+        color: white;
+      }
+      .endpoint {
+        font-family: monospace;
+        background-color: #f5f5f5;
+        padding: 3px 6px;
+        border-radius: 4px;
+      }
+      .docs-link {
+        margin-top: 20px;
+        font-size: 1.2rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>LineBot API Documentation</h1>
-        <p class="lead">
-            This is the API documentation for the LineBot Garage Control System.
-            Below you'll find information about the available endpoints and their usage.
-        </p>
+      <h1>LineBot API Documentation</h1>
+      <p class="lead">
+        This is the API documentation for the LineBot Garage Control System.
+        Below you'll find information about the available endpoints and their
+        usage.
+      </p>
 
-        <div class="alert alert-info">
-            For detailed API specifications and interactive documentation, visit the
-            <a href="/api/docs" class="alert-link">Swagger UI</a> page.
+      <div class="alert alert-info">
+        For detailed API specifications and interactive documentation, visit the
+        <a href="/api/docs" class="alert-link">Swagger UI</a> page.
+      </div>
+
+      <div class="api-section">
+        <h2>System Endpoints</h2>
+
+        <!-- Health Check -->
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <span>Health Check</span>
+            <span class="method-badge get-badge">GET</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">
+              Endpoints: <span class="endpoint">/healthz</span> or
+              <span class="endpoint">/health</span>
+            </h5>
+            <p class="card-text">
+              Simple endpoint for monitoring to check if the application is
+              alive.
+            </p>
+            <h6>Response:</h6>
+            <pre><code>Status: 200 OK
+Body: "OK"</code></pre>
+          </div>
         </div>
 
-        <div class="api-section">
-            <h2>System Endpoints</h2>
+        <!-- API Documentation -->
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <span>API Documentation</span>
+            <span class="method-badge get-badge">GET</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Endpoints:</h5>
+            <ul>
+              <li>
+                <span class="endpoint">/api/spec</span> - OpenAPI JSON
+                specification
+              </li>
+              <li>
+                <span class="endpoint">/api/docs</span> - Interactive Swagger UI
+              </li>
+            </ul>
+          </div>
+        </div>
 
-            <!-- Health Check -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Health Check</span>
-                    <span class="method-badge get-badge">GET</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoints:
-                        <span class="endpoint">/healthz</span> or
-                        <span class="endpoint">/health</span>
-                    </h5>
-                    <p class="card-text">Simple endpoint for monitoring to check if the application is alive.</p>
-                    <h6>Response:</h6>
-                    <pre><code>Status: 200 OK
+        <h2 class="mt-5">Core Endpoints</h2>
+
+        <!-- LINE Webhook -->
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <span>LINE Webhook</span>
+            <span class="method-badge post-badge">POST</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">
+              Endpoint: <span class="endpoint">/webhook</span>
+            </h5>
+            <p class="card-text">
+              This endpoint receives webhook events from the LINE Platform.
+            </p>
+            <h6>Authentication:</h6>
+            <p>Requires a valid X-Line-Signature header for validation.</p>
+            <h6>Response:</h6>
+            <pre><code>Status: 200 OK
 Body: "OK"</code></pre>
-                </div>
-            </div>
+          </div>
+        </div>
 
-            <!-- API Documentation -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>API Documentation</span>
-                    <span class="method-badge get-badge">GET</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoints:</h5>
-                    <ul>
-                        <li><span class="endpoint">/api/spec</span> - OpenAPI JSON specification</li>
-                        <li><span class="endpoint">/api/docs</span> - Interactive Swagger UI</li>
-                    </ul>
-                </div>
-            </div>
-
-            <h2 class="mt-5">Core Endpoints</h2>
-
-            <!-- LINE Webhook -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>LINE Webhook</span>
-                    <span class="method-badge post-badge">POST</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/webhook</span></h5>
-                    <p class="card-text">This endpoint receives webhook events from the LINE Platform.</p>
-                    <h6>Authentication:</h6>
-                    <p>Requires a valid X-Line-Signature header for validation.</p>
-                    <h6>Response:</h6>
-                    <pre><code>Status: 200 OK
-Body: "OK"</code></pre>
-                </div>
-            </div>
-
-            <!-- Location Verification -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Location Verification</span>
-                    <span class="method-badge post-badge">POST</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/api/verify-location</span></h5>
-                    <p class="card-text">Verifies if a user is within the allowed distance of the garage.</p>
-                    <h6>Parameters:</h6>
-                    <ul>
-                        <li><code>token</code> (query): One-time verification token</li>
-                    </ul>
-                    <h6>Request Body:</h6>
-                    <pre><code>{
+        <!-- Location Verification -->
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <span>Location Verification</span>
+            <span class="method-badge post-badge">POST</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">
+              Endpoint: <span class="endpoint">/api/verify-location</span>
+            </h5>
+            <p class="card-text">
+              Verifies if a user is within the allowed distance of the garage.
+            </p>
+            <h6>Parameters:</h6>
+            <ul>
+              <li><code>token</code> (query): One-time verification token</li>
+            </ul>
+            <h6>Request Body:</h6>
+            <pre><code>{
   "lat": 24.79155,  // Latitude
   "lng": 120.99442, // Longitude
   "acc": 10         // Accuracy in meters (optional)
 }</code></pre>
-                    <h6>Response:</h6>
-                    <pre><code>// Success
+            <h6>Response:</h6>
+            <pre><code>// Success
 Status: 200 OK
 Body: {
   "ok": true
@@ -167,48 +195,62 @@ Body: {
   "ok": false,
   "message": "無效或已過期的驗證"
 }</code></pre>
-                </div>
-            </div>
+          </div>
+        </div>
 
-            <!-- Location Verification Page -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Location Verification Page</span>
-                    <span class="method-badge get-badge">GET</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/verify-location</span></h5>
-                    <p class="card-text">Static HTML page that captures browser geolocation and submits to <code>/api/verify-location</code>.</p>
-                    <h6>Parameters:</h6>
-                    <ul>
-                        <li><code>token</code> (query): One-time verification token</li>
-                    </ul>
-                </div>
-            </div>
+        <!-- Location Verification Page -->
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <span>Location Verification Page</span>
+            <span class="method-badge get-badge">GET</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">
+              Endpoint: <span class="endpoint">/verify-location</span>
+            </h5>
+            <p class="card-text">
+              Static HTML page that captures browser geolocation and submits to
+              <code>/api/verify-location</code>.
+            </p>
+            <h6>Parameters:</h6>
+            <ul>
+              <li><code>token</code> (query): One-time verification token</li>
+            </ul>
+          </div>
+        </div>
 
-            <!-- MQTT Test -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>MQTT Test</span>
-                    <span class="method-badge get-badge">GET</span>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Endpoint: <span class="endpoint">/mqtt-test</span></h5>
-                    <p class="card-text">Tests connectivity with the MQTT broker and returns success or failure.</p>
-                    <h6>Response:</h6>
-                    <pre><code>{
+        <!-- MQTT Test -->
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <span>MQTT Test</span>
+            <span class="method-badge get-badge">GET</span>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">
+              Endpoint: <span class="endpoint">/mqtt-test</span>
+            </h5>
+            <p class="card-text">
+              Tests connectivity with the MQTT broker and returns success or
+              failure.
+            </p>
+            <h6>Response:</h6>
+            <pre><code>{
   "status": "success" | "failure",
   "message": "MQTT broker is reachable." | "MQTT connection failed: ..."
 }</code></pre>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="docs-link text-center mt-5">
-            <a href="/api/docs" class="btn btn-primary">
-                View Interactive API Documentation
-            </a>
-        </div>
+      <div class="docs-link text-center mt-5">
+        <a href="/api/docs" class="btn btn-primary">
+          View Interactive API Documentation
+        </a>
+      </div>
     </div>
-</body>
+  </body>
 </html>
