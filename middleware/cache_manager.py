@@ -8,6 +8,7 @@ and allow for distributed deployments.
 
 import importlib.util
 import json
+import secrets as py_secrets
 import time
 
 from config.config_module import (
@@ -298,6 +299,38 @@ def get_action_token(token):
     except (RedisError, json.JSONDecodeError) as e:
         logger.error(f"Error retrieving action token: {str(e)}")
         return None, None, None
+
+
+def generate_token(user_id):
+    """
+    Generates two URL-safe tokens ("open" and "close") for the given user_id.
+    Returns a tuple (token_open, token_close).
+    """
+    token_open = py_secrets.token_urlsafe(16)
+    token_close = py_secrets.token_urlsafe(16)
+    return token_open, token_close
+
+
+def invalidate_user_tokens(user_id: str) -> None:
+    """
+    Immediately invalidates all pending open/close action tokens for a given user.
+    """
+    if not redis_client:
+        return
+    try:
+        keys_to_delete = []
+        for key in redis_client.scan_iter("action_token:*"):
+            data = redis_client.get(key)
+            if data:
+                parsed = json.loads(data)
+                if parsed.get("user_id") == user_id:
+                    keys_to_delete.append(key)
+
+        if keys_to_delete:
+            redis_client.delete(*keys_to_delete)
+            logger.info(f"Invalidated {len(keys_to_delete)} tokens for user {user_id}")
+    except (RedisError, json.JSONDecodeError) as e:
+        logger.error(f"Error invalidating user tokens: {str(e)}")
 
 
 def clear_all_caches():

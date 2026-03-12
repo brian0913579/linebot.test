@@ -5,11 +5,7 @@ Defines the webhook handlers and supporting functions for LINE Platform integrat
 including token verification, user authorization, and message handling.
 """
 
-import base64
-import hashlib
-import hmac
 import secrets as py_secrets
-import threading
 import time
 from math import atan2, cos, radians, sin, sqrt
 
@@ -34,46 +30,30 @@ from linebot.v3.messaging import (
 from linebot.v3.webhooks import MessageEvent, PostbackEvent, TextMessageContent
 
 from config.config_module import (
-    CACHE_ENABLED,
     DEBUG_MODE,
     DEBUG_USER_IDS,
-    LOCATION_TTL,
     MAX_ACCURACY_METERS,
     MAX_DIST_KM,
     PARK_LAT,
     PARK_LNG,
-    VERIFY_TTL,
     VERIFY_URL_BASE,
 )
 from core.models import get_allowed_users
 from core.mqtt_handler import send_garage_command
-from core.token_manager import (
-    TOKENS,
-    clean_expired_tokens,
+from middleware.cache_manager import (
+    authorize_user,
     generate_token,
+    get_action_token,
+    get_verify_token,
     invalidate_user_tokens,
+    is_user_authorized,
     store_action_token,
+    store_verify_token,
 )
 from utils.logger_config import get_logger
 
-# Thread locks for in-memory storage (used only if CACHE_ENABLED is False)
-verify_tokens_lock = threading.Lock()
-authorized_users_lock = threading.Lock()
-
-# In-memory rate limiter for verify_location_handler
-RATE_LIMIT_WINDOW = 60  # 1 minute
-RATE_LIMIT_MAX = 5  # 5 requests per minute per user
-GLOBAL_RATE_LIMIT_MAX = 100  # 100 requests per minute globally
-rate_limit_store = {}  # {user_id: [(timestamp, count)]}
-global_rate_limit_store = []  # [(timestamp, count)]
-rate_limit_lock = threading.Lock()
-
 # Configure logger
 logger = get_logger(__name__)
-
-# In-memory stores (fallback, discouraged in production)
-VERIFY_TOKENS = {}
-authorized_users = {}
 
 # Global variables for LINE API clients (will be initialized lazily)
 line_bot_api = None
@@ -106,9 +86,6 @@ def _initialize_line_clients():
     # Register event handlers
     _register_handlers()
 
-    # Schedule background cleanup
-    ensure_cleanup_scheduled()
-
     _api_clients_initialized = True
 
 
@@ -130,37 +107,6 @@ def get_webhook_handler():
     return handler
 
 
-# Startup validation
-if not CACHE_ENABLED:
-    logger.warning("In-memory storage is enabled. Set CACHE_ENABLED=True.")
-    # In production, consider raising an error:
-    # raise RuntimeError("Redis cache is required for production.")
-
-
-# Background token cleanup
-_cleanup_scheduled = False
-
-
-def schedule_token_cleanup():
-    """Schedule background token cleanup (called lazily)."""
-    global _cleanup_scheduled
-    if _cleanup_scheduled:
-        return
-
-    def cleanup_loop():
-        if not CACHE_ENABLED:
-            clean_expired_tokens()
-        threading.Timer(300, cleanup_loop).start()
-
-    cleanup_loop()
-    _cleanup_scheduled = True
-
-
-def ensure_cleanup_scheduled():
-    """Ensure cleanup is scheduled when LINE clients are used."""
-    schedule_token_cleanup()
-
-
 # Haversine formula
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371.0
@@ -174,87 +120,10 @@ def haversine(lat1, lon1, lat2, lon2):
     return R * c
 
 
-# Enhanced rate limiting
-def is_rate_limited(user_id):
-    with rate_limit_lock:
-        current_time = time.time()
-
-        # Clean old entries
-        global_rate_limit_store[:] = [
-            (timestamp, count)
-            for timestamp, count in global_rate_limit_store
-            if current_time - timestamp < RATE_LIMIT_WINDOW
-        ]
-
-        # Global rate limiting
-        total_global_requests = sum(count for _, count in global_rate_limit_store)
-        if total_global_requests >= GLOBAL_RATE_LIMIT_MAX:
-            return True
-
-        # User-specific rate limiting
-        if user_id not in rate_limit_store:
-            rate_limit_store[user_id] = []
-
-        rate_limit_store[user_id] = [
-            (timestamp, count)
-            for timestamp, count in rate_limit_store[user_id]
-            if current_time - timestamp < RATE_LIMIT_WINDOW
-        ]
-
-        total_user_requests = sum(count for _, count in rate_limit_store[user_id])
-        if total_user_requests >= RATE_LIMIT_MAX:
-            return True
-
-        # Log the request
-        rate_limit_store[user_id].append((current_time, 1))
-        global_rate_limit_store.append((current_time, 1))
-
-        return False
-
-
-def store_verify_token(token, user_id):
-    expiry = time.time() + VERIFY_TTL
-    if CACHE_ENABLED:
-        store_action_token(f"verify:{token}", user_id, "verify", expiry=LOCATION_TTL)
-    else:
-        with verify_tokens_lock:
-            VERIFY_TOKENS[token] = (user_id, expiry)
-
-
-def get_verify_token(token):
-    if CACHE_ENABLED:
-        record = TOKENS.get(f"verify:{token}")
-        if record and len(record) >= 3:
-            return record[0], record[2]  # user_id, expiry
-        return None, None
-    else:
-        with verify_tokens_lock:
-            return VERIFY_TOKENS.get(token, (None, None))
-
-
-def authorize_user(user_id):
-    if CACHE_ENABLED:
-        store_action_token(f"auth:{user_id}", user_id, "authorize", expiry=LOCATION_TTL)
-
-
-def is_user_authorized(user_id):
-    if CACHE_ENABLED:
-        record = TOKENS.get(f"auth:{user_id}")
-        if record and len(record) >= 3:
-            expiry = record[2]
-            return time.time() < expiry
-        return False
-    else:
-        with authorized_users_lock:
-            expiry = authorized_users.get(user_id)
-            return expiry and time.time() < expiry
-
-
 def build_open_close_template(user_id):
     open_token, close_token = generate_token(user_id)
-    if CACHE_ENABLED:
-        store_action_token(open_token, user_id, "open")
-        store_action_token(close_token, user_id, "close")
+    store_action_token(open_token, user_id, "open")
+    store_action_token(close_token, user_id, "close")
 
     # Use Quick Reply for better button spacing and UX
     quick_reply = QuickReply(
@@ -265,28 +134,6 @@ def build_open_close_template(user_id):
     )
 
     return TextMessage(text="請選擇車庫門操作：", quick_reply=quick_reply)
-
-
-def verify_signature(signature, body):
-    logger.debug(f"Received Signature: {signature}")
-    logger.debug(f"Request Body: {body}")
-
-    from config.secret_manager import get_secret
-
-    channel_secret = get_secret("LINE_CHANNEL_SECRET")
-    if not channel_secret:
-        logger.error("LINE_CHANNEL_SECRET not available")
-        return False
-
-    expected_signature = base64.b64encode(
-        hmac.new(
-            key=channel_secret.encode(),
-            msg=body.encode(),
-            digestmod=hashlib.sha256,
-        ).digest()
-    ).decode()
-    logger.debug(f"Expected Signature: {expected_signature}")
-    return signature == expected_signature
 
 
 def send_verification_message(user_id, reply_token):
@@ -388,9 +235,6 @@ def verify_location_handler():
     ):
         return jsonify(ok=False, message="無效的經緯度格式"), 400
 
-    if is_rate_limited(user_id):
-        return jsonify(ok=False, message="請求過於頻繁，請稍後再試"), 429
-
     lat, lng, acc = data["lat"], data["lng"], data.get("acc", 999)
     dist = haversine(lat, lng, PARK_LAT, PARK_LNG)
     acc_threshold = MAX_ACCURACY_METERS
@@ -404,11 +248,7 @@ def verify_location_handler():
         )
 
     if is_debug_user or (dist <= MAX_DIST_KM and acc <= acc_threshold):
-        if CACHE_ENABLED:
-            authorize_user(user_id)
-        else:
-            with authorized_users_lock:
-                authorized_users[user_id] = time.time() + LOCATION_TTL
+        authorize_user(user_id)
         template = build_open_close_template(user_id)
         retry_api_call(
             lambda: get_line_bot_api().push_message(
@@ -483,8 +323,8 @@ def handle_postback(event):
 
     try:
         token = event.postback.data
-        record = TOKENS.get(token)
-        if not record or len(record) != 3:
+        user_id, action, expiry = get_action_token(token)
+        if not user_id or not action:
             logger.warning(f"Invalid token in postback: {token[:8]}...")
             reply = TextMessage(text="❌ 無效操作")
             return retry_api_call(
@@ -493,15 +333,13 @@ def handle_postback(event):
                 )
             )
 
-        token_user_id, action, expiry = record
-
         # Invalidate all OTHER open/close tokens for this user immediately
         # to prevent double-click malfunction
-        invalidate_user_tokens(token_user_id)
+        invalidate_user_tokens(user_id)
 
         logger.info(f"Found and used token for action: {action}")
 
-        if event.source.user_id != token_user_id or time.time() > expiry:
+        if event.source.user_id != user_id or time.time() > expiry:
             reply = TextMessage(text="❌ 此操作已失效，請重新傳送位置")
             return retry_api_call(
                 lambda: get_line_bot_api().reply_message(

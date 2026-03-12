@@ -5,78 +5,15 @@ This module provides middleware functions for Flask application,
 including signature validation for LINE webhook requests.
 """
 
-import base64
 import functools
-import hashlib
-import hmac
 import time
 
 from flask import abort, request
 
-from config.config_module import LINE_CHANNEL_SECRET
 from utils.logger_config import get_logger
 
 # Configure logger
 logger = get_logger(__name__)
-
-
-def validate_line_signature(f):
-    """
-    Decorator middleware to validate LINE webhook signatures.
-
-    This middleware validates that incoming webhook requests
-    are actually from LINE by checking the signature in the header.
-
-    Args:
-        f: The Flask view function to wrap
-
-    Returns:
-        The wrapped function that validates signatures before processing
-    """
-
-    @functools.wraps(f)
-    def decorated_function(*args, **kwargs):
-        # Only validate POST requests to webhook endpoint
-        if request.method != "POST" or not request.path.endswith("/webhook"):
-            return f(*args, **kwargs)
-
-        signature = request.headers.get("X-Line-Signature")
-        if not signature:
-            logger.error("Missing X-Line-Signature header")
-            abort(400, description="Missing signature header")
-
-        body = request.get_data(as_text=True)
-
-        # Log request info in debug mode
-        logger.debug(f"Webhook request path: {request.path}")
-        logger.debug(f"Received signature: {signature}")
-        logger.debug(f"Request body length: {len(body)} bytes")
-
-        # Validate signature
-        try:
-            # Calculate expected signature
-            expected_signature = base64.b64encode(
-                hmac.new(
-                    key=LINE_CHANNEL_SECRET.encode(),
-                    msg=body.encode(),
-                    digestmod=hashlib.sha256,
-                ).digest()
-            ).decode()
-
-            if signature != expected_signature:
-                logger.error("Invalid LINE webhook signature")
-                logger.debug(f"Expected: {expected_signature}")
-                logger.debug(f"Received: {signature}")
-                abort(400, description="Invalid signature")
-
-            logger.debug("LINE webhook signature validated successfully")
-            return f(*args, **kwargs)
-
-        except Exception as e:
-            logger.error(f"Error validating signature: {str(e)}")
-            abort(400, description="Signature validation error")
-
-    return decorated_function
 
 
 def require_json(f):
