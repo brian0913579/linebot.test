@@ -86,6 +86,7 @@ class Config:
     VERIFY_URL_BASE = get_secret(
         "VERIFY_URL_BASE", default="https://bri4nting.duckdns.org/verify-location"
     )
+    APP_BASE_URL = get_secret("APP_BASE_URL", default="https://bri4nting.duckdns.org")
 
     # Redis Configuration
     REDIS_HOST = get_secret("REDIS_HOST", default="localhost")

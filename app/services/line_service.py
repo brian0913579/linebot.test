@@ -72,9 +72,7 @@ class LineService:
         from app.api.camera import generate_camera_token
 
         token = generate_camera_token(user_id)
-        base_url = current_app.config.get("VERIFY_URL_BASE", "").rsplit(
-            "/verify-location", 1
-        )[0]
+        base_url = current_app.config.get("APP_BASE_URL", "").rstrip("/")
         camera_url = f"{base_url}/camera?token={token}"
         ttl_hours = current_app.config.get("CAMERA_TOKEN_TTL", 3600) // 3600
         reply = TemplateMessage(

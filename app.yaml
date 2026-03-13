@@ -38,6 +38,7 @@ env_variables:
 
   # Base URL for the verify-page link
   VERIFY_URL_BASE: "https://line-462014.appspot.com/static/verify.html"
+  APP_BASE_URL: "https://line-462014.appspot.com"
 
   # Security / Rate limiting
   RATE_LIMIT_ENABLED: "true"
