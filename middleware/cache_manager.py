@@ -11,6 +11,8 @@ import json
 import secrets as py_secrets
 import time
 
+from google.cloud import datastore
+
 from config.config_module import (
     LOCATION_TTL,
     REDIS_DB,
@@ -110,8 +112,18 @@ else:
         else None
     )
 
-# In-memory dictionary fallback if Redis is not installed
-_MEMORY_CACHE = {}
+# Fallback to Google Cloud Datastore if Redis is not installed or unreachable
+_ds_client = None
+
+
+def get_ds_client():
+    global _ds_client
+    if _ds_client is None:
+        try:
+            _ds_client = datastore.Client()
+        except Exception as e:
+            logger.error(f"Failed to initialize Datastore fallback client: {e}")
+    return _ds_client
 
 
 # Authorization cache functions
@@ -133,11 +145,16 @@ def store_verify_token(token, user_id):
             # Store in Redis with expiry
             data = json.dumps({"user_id": user_id, "expiry": expiry})
             return redis_client.setex(f"verify_token:{token}", VERIFY_TTL, data)
-        # If Redis is unavailable, use in-memory fallback
+        # If Redis is unavailable, use Datastore fallback
         logger.warning(
-            "Redis unavailable for storing verify token, using in-memory fallback"
+            "Redis unavailable for storing verify token, using Datastore fallback"
         )
-        _MEMORY_CACHE[f"verify_token:{token}"] = {"user_id": user_id, "expiry": expiry}
+        db = get_ds_client()
+        if db:
+            key = db.key("VerifyToken", token)
+            entity = datastore.Entity(key=key)
+            entity.update({"user_id": user_id, "expiry": expiry})
+            db.put(entity)
         return True
     except RedisError as e:
         logger.error(f"Redis error while storing verify token: {str(e)}")
@@ -181,16 +198,20 @@ def get_verify_token(token):
             logger.info(f"Valid token from Redis for user_id: {parsed.get('user_id')}")
             return parsed.get("user_id"), parsed.get("expiry")
 
-        # If Redis is unavailable, use memory cache
-        key = f"verify_token:{token}"
-        if key in _MEMORY_CACHE:
-            data = _MEMORY_CACHE.pop(key)
-            if time.time() > data.get("expiry", 0):
-                logger.warning("Token expired in memory cache")
-                return None, None
-            return data.get("user_id"), data.get("expiry")
+        # If Redis is unavailable, use Datastore cache
+        logger.warning("Redis unavailable, checking Datastore for verify token")
+        db = get_ds_client()
+        if db:
+            key = db.key("VerifyToken", token)
+            entity = db.get(key)
+            if entity:
+                db.delete(key)
+                if time.time() > entity.get("expiry", 0):
+                    logger.warning("Token expired in Datastore cache")
+                    return None, None
+                return entity.get("user_id"), entity.get("expiry")
 
-        logger.warning("Token not found in memory cache")
+        logger.warning("Token not found in Datastore cache")
         return None, None
     except (RedisError, json.JSONDecodeError) as e:
         logger.error(f"Error retrieving verify token: {str(e)}")
@@ -213,8 +234,13 @@ def authorize_user(user_id):
         if redis_client:
             # Store in Redis with expiry
             return redis_client.setex(f"auth_user:{user_id}", LOCATION_TTL, expiry)
-        # If Redis is unavailable, store in memory
-        _MEMORY_CACHE[f"auth_user:{user_id}"] = expiry
+        # If Redis is unavailable, store in Datastore
+        db = get_ds_client()
+        if db:
+            key = db.key("AuthUser", user_id)
+            entity = datastore.Entity(key=key)
+            entity.update({"expiry": expiry})
+            db.put(entity)
         return True
     except RedisError as e:
         logger.error(f"Redis error while authorizing user: {str(e)}")
@@ -245,10 +271,13 @@ def is_user_authorized(user_id):
             except ValueError:
                 return False
 
-        # If Redis is unavailable, check memory cache
-        expiry = _MEMORY_CACHE.get(f"auth_user:{user_id}")
-        if expiry:
-            return time.time() <= float(expiry)
+        # If Redis is unavailable, check Datastore cache
+        db = get_ds_client()
+        if db:
+            key = db.key("AuthUser", user_id)
+            entity = db.get(key)
+            if entity:
+                return time.time() <= float(entity.get("expiry", 0))
         return False
     except RedisError as e:
         logger.error(f"Redis error checking user authorization: {str(e)}")
@@ -274,12 +303,13 @@ def store_action_token(token, user_id, action):
         if redis_client:
             # Store in Redis with expiry
             return redis_client.setex(f"action_token:{token}", VERIFY_TTL, data)
-        # If Redis is unavailable, return True but don't store
-        _MEMORY_CACHE[f"action_token:{token}"] = {
-            "user_id": user_id,
-            "action": action,
-            "expiry": expiry,
-        }
+        # If Redis is unavailable, store in Datastore
+        db = get_ds_client()
+        if db:
+            key = db.key("ActionToken", token)
+            entity = datastore.Entity(key=key)
+            entity.update({"user_id": user_id, "action": action, "expiry": expiry})
+            db.put(entity)
         return True
     except RedisError as e:
         logger.error(f"Redis error while storing action token: {str(e)}")
@@ -314,13 +344,16 @@ def get_action_token(token):
 
             return parsed.get("user_id"), parsed.get("action"), parsed.get("expiry")
 
-        # If Redis is unavailable, check memory
-        key = f"action_token:{token}"
-        if key in _MEMORY_CACHE:
-            data = _MEMORY_CACHE.pop(key)
-            if time.time() > data.get("expiry", 0):
-                return None, None, None
-            return data.get("user_id"), data.get("action"), data.get("expiry")
+        # If Redis is unavailable, check Datastore
+        db = get_ds_client()
+        if db:
+            key = db.key("ActionToken", token)
+            entity = db.get(key)
+            if entity:
+                db.delete(key)
+                if time.time() > entity.get("expiry", 0):
+                    return None, None, None
+                return entity.get("user_id"), entity.get("action"), entity.get("expiry")
 
         return None, None, None
     except (RedisError, json.JSONDecodeError) as e:
@@ -343,12 +376,12 @@ def invalidate_user_tokens(user_id: str) -> None:
     Immediately invalidates all pending open/close action tokens for a given user.
     """
     if not redis_client:
-        keys_to_delete = []
-        for k, v in _MEMORY_CACHE.items():
-            if k.startswith("action_token:") and v.get("user_id") == user_id:
-                keys_to_delete.append(k)
-        for k in keys_to_delete:
-            del _MEMORY_CACHE[k]
+        db = get_ds_client()
+        if db:
+            query = db.query(kind="ActionToken")
+            for entity in query.fetch():
+                if entity.get("user_id") == user_id:
+                    db.delete(entity.key)
         return
 
     try:
