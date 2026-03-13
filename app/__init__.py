@@ -25,8 +25,10 @@ def create_app(config_class=Config):
 
     # Initialize extensions
     if app.config["RATE_LIMIT_ENABLED"]:
+        app.config["RATELIMIT_DEFAULT"] = (
+            f"{app.config['MAX_REQUESTS_PER_MINUTE']} per minute"
+        )
         limiter.init_app(app)
-        limiter.limit(f"{app.config['MAX_REQUESTS_PER_MINUTE']} per minute")(app)
         logging.info(
             f"Rate limiting enabled: {app.config['MAX_REQUESTS_PER_MINUTE']} req/min"
         )
