@@ -116,18 +116,19 @@ def test_config_module_integration():
     os.environ["DEBUG_USER_IDS"] = "U111,U222,U333"
 
     # Import config module (this will re-read environment variables)
+    # Force a fresh evaluation of the config by instantiating or reloading
     import importlib
 
-    from config import config_module
+    import app.config
 
-    importlib.reload(config_module)
+    importlib.reload(app.config)
 
     # Verify the configuration
-    assert config_module.DEBUG_MODE is True
-    assert len(config_module.DEBUG_USER_IDS) == 3
-    assert "U111" in config_module.DEBUG_USER_IDS
-    assert "U222" in config_module.DEBUG_USER_IDS
-    assert "U333" in config_module.DEBUG_USER_IDS
+    assert app.config.Config.DEBUG_MODE is True
+    assert len(app.config.Config.DEBUG_USER_IDS) == 3
+    assert "U111" in app.config.Config.DEBUG_USER_IDS
+    assert "U222" in app.config.Config.DEBUG_USER_IDS
+    assert "U333" in app.config.Config.DEBUG_USER_IDS
 
     # Clean up
     del os.environ["DEBUG_MODE"]

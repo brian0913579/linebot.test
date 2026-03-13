@@ -1,22 +1,19 @@
+import datetime
+
 from google.cloud import datastore
 
-# Global client to reuse connection
-db = None
+_db = None
 
 
 def get_datastore_client():
-    global db
-    if db is None:
-        db = datastore.Client()
-    return db
+    global _db
+    if _db is None:
+        _db = datastore.Client()
+    return _db
 
 
 def get_allowed_users():
-    """
-    Fetches allowed users from Google Cloud Datastore.
-    Kind: 'allowed_users'
-    Key Name: user_id
-    """
+    """Fetches allowed users from Google Cloud Datastore."""
     try:
         db = get_datastore_client()
         query = db.query(kind="allowed_users")
@@ -37,8 +34,6 @@ def get_allowed_users():
 
 def add_user(user_id, user_name):
     """Adds a user to Datastore."""
-    import datetime
-
     try:
         db = get_datastore_client()
         key = db.key("allowed_users", user_id)
@@ -70,11 +65,7 @@ def remove_user(user_id):
 
 
 def get_pending_users():
-    """
-    Fetches pending users from Google Cloud Datastore.
-    Kind: 'pending_users'
-    Key Name: user_id
-    """
+    """Fetches pending users from Google Cloud Datastore."""
     try:
         db = get_datastore_client()
         query = db.query(kind="pending_users")
@@ -95,13 +86,10 @@ def get_pending_users():
 
 def add_pending_user(user_id, user_name="Unknown"):
     """Adds a pending user to Datastore."""
-    import datetime
-
     try:
         db = get_datastore_client()
         key = db.key("pending_users", user_id)
 
-        # Check if already exists to avoid overwriting timestamp (optional)
         existing = db.get(key)
         if existing:
             return True

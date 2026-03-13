@@ -1,7 +1,7 @@
 runtime: python311
 
 # Tell App Engine how to start your app:
-entrypoint: gunicorn -b :$PORT app:app
+entrypoint: gunicorn -b :$PORT run:app
 
 # If you need more memory/CPU you can bump this to F2 or higher
 instance_class: F1
