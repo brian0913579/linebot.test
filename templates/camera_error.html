@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>訪問受限</title>
+    <style>
+      body {
+        background: #0f0f0f;
+        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        padding: 24px;
+      }
+      .box { max-width: 340px; }
+      h1 { font-size: 3rem; margin-bottom: 12px; }
+      p { color: #aaa; font-size: 1rem; line-height: 1.6; }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h1>🔒</h1>
+      <p>{{ message }}</p>
+      <p style="margin-top:16px; font-size:0.85rem; color:#666;">
+        請從 LINE 重新取得監控連結
+      </p>
+    </div>
+  </body>
+</html>

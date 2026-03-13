@@ -73,11 +73,13 @@ def create_app(config_class=Config):
 
     # Register blueprints
     from app.api.admin import admin_bp
+    from app.api.camera import camera_bp
     from app.api.location import location_bp
     from app.api.webhooks import webhooks_bp
 
     app.register_blueprint(webhooks_bp)  # Registers at /webhook
     app.register_blueprint(location_bp, url_prefix="/api")
     app.register_blueprint(admin_bp, url_prefix="/admin")
+    app.register_blueprint(camera_bp)  # Registers at /camera
 
     return app

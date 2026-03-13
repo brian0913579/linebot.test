@@ -206,6 +206,54 @@ class TokenService:
             logger.error(f"Error retrieving action token: {str(e)}")
             return None, None, None
 
+    def store_camera_token(self, token, user_id):
+        expiry = time.time() + current_app.config["CAMERA_TOKEN_TTL"]
+        data = json.dumps({"user_id": user_id, "expiry": expiry})
+        try:
+            if self.redis_client:
+                return self.redis_client.setex(
+                    f"camera_token:{token}",
+                    current_app.config["CAMERA_TOKEN_TTL"],
+                    data,
+                )
+            db = self.get_ds_client()
+            if db:
+                key = db.key("CameraToken", token)
+                entity = datastore.Entity(key=key)
+                entity.update({"user_id": user_id, "expiry": expiry})
+                db.put(entity)
+            return True
+        except RedisError as e:
+            logger.error(f"Redis error while storing camera token: {str(e)}")
+            return False
+
+    def get_camera_token(self, token):
+        try:
+            if self.redis_client:
+                key = f"camera_token:{token}"
+                data = self.redis_client.get(key)
+                if not data:
+                    return None, None
+                parsed = json.loads(data)
+                if time.time() > parsed.get("expiry", 0):
+                    self.redis_client.delete(key)
+                    return None, None
+                return parsed.get("user_id"), parsed.get("expiry")
+
+            db = self.get_ds_client()
+            if db:
+                key = db.key("CameraToken", token)
+                entity = db.get(key)
+                if entity:
+                    if time.time() > entity.get("expiry", 0):
+                        db.delete(key)
+                        return None, None
+                    return entity.get("user_id"), entity.get("expiry")
+            return None, None
+        except (RedisError, json.JSONDecodeError) as e:
+            logger.error(f"Error retrieving camera token: {str(e)}")
+            return None, None
+
     def generate_token(self, user_id):
         token_open = py_secrets.token_urlsafe(16)
         token_close = py_secrets.token_urlsafe(16)

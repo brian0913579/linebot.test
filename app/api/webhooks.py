@@ -38,7 +38,7 @@ def handle_text(event):
         user_msg = event.message.text
         logger.info(f"User {user_id} sent a text message: {user_msg}")
 
-        if user_msg != "開關門":
+        if user_msg not in ("開關門", "監控", "監控畫面"):
             return
 
         ALLOWED_USERS = get_allowed_users()
@@ -49,6 +49,10 @@ def handle_text(event):
                 "🔒 您尚未開通權限。\n\n已自動將您的申請送出給管理員，請耐心等候審核。",
             )
             return
+
+        # --- Camera access branch ---
+        if user_msg in ("監控", "監控畫面"):
+            return line_service.send_camera_link(user_id, event.reply_token)
 
         if not token_service.is_user_authorized(user_id):
             return line_service.send_verification_message(user_id, event.reply_token)

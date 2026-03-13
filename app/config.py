@@ -81,6 +81,8 @@ class Config:
     MAX_ACCURACY_METERS = float(get_secret("MAX_ACCURACY_METERS", default="250"))
     VERIFY_TTL = int(get_secret("VERIFY_TTL", default="300"))
     LOCATION_TTL = int(get_secret("LOCATION_TTL", default="300"))
+    CAMERA_TOKEN_TTL = int(get_secret("CAMERA_TOKEN_TTL", default="3600"))
+    YOUTUBE_LIVE_URL = get_secret("YOUTUBE_LIVE_URL", default="")
     VERIFY_URL_BASE = get_secret(
         "VERIFY_URL_BASE", default="https://bri4nting.duckdns.org/verify-location"
     )

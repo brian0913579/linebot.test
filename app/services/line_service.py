@@ -67,6 +67,29 @@ class LineService:
             )
         )
 
+    def send_camera_link(self, user_id, reply_token):
+        """Generate a signed camera link and reply to the user."""
+        from app.api.camera import generate_camera_token
+
+        token = generate_camera_token(user_id)
+        base_url = current_app.config.get("VERIFY_URL_BASE", "").rsplit(
+            "/verify-location", 1
+        )[0]
+        camera_url = f"{base_url}/camera?token={token}"
+        ttl_hours = current_app.config.get("CAMERA_TOKEN_TTL", 3600) // 3600
+        reply = TemplateMessage(
+            altText="📹 即時監控畫面",
+            template=ButtonsTemplate(
+                text=f"您的監控連結（有效 {ttl_hours} 小時）：\n請勿將此連結分享給他人",
+                actions=[URIAction(label="📹 查看監控畫面", uri=camera_url)],
+            ),
+        )
+        return self._retry_api_call(
+            lambda: self.line_bot_api.reply_message(
+                ReplyMessageRequest(replyToken=reply_token, messages=[reply])
+            )
+        )
+
     def send_verification_message(self, user_id, reply_token):
         verify_token = py_secrets.token_urlsafe(24)
         token_service.store_verify_token(verify_token, user_id)
