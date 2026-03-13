@@ -27,7 +27,7 @@ jobs:
 
       - name: Run basic syntax check
         run: |
-          python -m py_compile app.py
+          python -m compileall app/ run.py
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v3
