@@ -31,4 +31,4 @@ export LOG_LEVEL=INFO
 # Start the app with gunicorn using the virtual environment's Python
 echo "Starting LineBot application..."
 cd "$PROJECT_ROOT"
-python -m gunicorn -w 1 -b 127.0.0.1:8080 run:app --log-level warning
+python3 -m gunicorn -w 1 -b 127.0.0.1:8080 run:app --log-level warning
