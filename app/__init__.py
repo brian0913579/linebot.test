@@ -11,7 +11,7 @@ def create_app(config_class=Config):
     Application Factory for the Flask app.
     Initializes Flask application with configured dependencies and routes.
     """
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="../templates")
     app.config.from_object(config_class)
 
     # Basic logging configuration for the entire application
