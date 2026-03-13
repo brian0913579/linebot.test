@@ -62,11 +62,20 @@ def create_app(config_class=Config):
             )
         return response
 
+    # Initialize Services
+    from app.services.line_service import line_service
+    from app.services.token_service import token_service
+
+    token_service.init_app(app)
+    line_service.init_app(app)
+
     # Register blueprints
+    from app.api.admin import admin_bp
     from app.api.location import location_bp
     from app.api.webhooks import webhooks_bp
 
-    app.register_blueprint(webhooks_bp, url_prefix="/api")
+    app.register_blueprint(webhooks_bp)  # Registers at /webhook
     app.register_blueprint(location_bp, url_prefix="/api")
+    app.register_blueprint(admin_bp, url_prefix="/admin")
 
     return app

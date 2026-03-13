@@ -93,6 +93,12 @@ class Config:
     REDIS_SSL = get_secret("REDIS_SSL", default="false").lower() in ("true", "1", "yes")
 
     # Security
+    import secrets as py_secrets
+
+    SECRET_KEY = get_secret("FLASK_SECRET_KEY", default=py_secrets.token_hex(16))
+    ADMIN_USERNAME = get_secret("ADMIN_USERNAME", default="admin")
+    ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD", default="password")
+
     RATE_LIMIT_ENABLED = (
         get_secret("RATE_LIMIT_ENABLED", default="false").lower() == "true"
     )
