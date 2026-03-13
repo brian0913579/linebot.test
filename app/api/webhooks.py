@@ -53,14 +53,7 @@ def handle_text(event):
         if not token_service.is_user_authorized(user_id):
             return line_service.send_verification_message(user_id, event.reply_token)
 
-        template = line_service.build_open_close_template(user_id)
-        line_service._retry_api_call(
-            lambda: line_service.line_bot_api.reply_message(
-                line_service._retry_api_call.__globals__["ReplyMessageRequest"](
-                    replyToken=event.reply_token, messages=[template]
-                )
-            )
-        )
+        return line_service.send_open_close_message(user_id, event.reply_token)
 
     except Exception as e:
         if user_id:

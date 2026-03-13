@@ -59,6 +59,14 @@ class LineService:
         )
         return TextMessage(text="請選擇車庫門操作：", quick_reply=quick_reply)
 
+    def send_open_close_message(self, user_id, reply_token):
+        template = self.build_open_close_template(user_id)
+        return self._retry_api_call(
+            lambda: self.line_bot_api.reply_message(
+                ReplyMessageRequest(replyToken=reply_token, messages=[template])
+            )
+        )
+
     def send_verification_message(self, user_id, reply_token):
         verify_token = py_secrets.token_urlsafe(24)
         token_service.store_verify_token(verify_token, user_id)
