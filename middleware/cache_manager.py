@@ -110,6 +110,9 @@ else:
         else None
     )
 
+# In-memory dictionary fallback if Redis is not installed
+_MEMORY_CACHE = {}
+
 
 # Authorization cache functions
 def store_verify_token(token, user_id):
@@ -130,12 +133,12 @@ def store_verify_token(token, user_id):
             # Store in Redis with expiry
             data = json.dumps({"user_id": user_id, "expiry": expiry})
             return redis_client.setex(f"verify_token:{token}", VERIFY_TTL, data)
-        # If Redis is unavailable, we need to alert the caller that
-        # the operation actually failed so they can use an alternative
+        # If Redis is unavailable, use in-memory fallback
         logger.warning(
             "Redis unavailable for storing verify token, using in-memory fallback"
         )
-        return False
+        _MEMORY_CACHE[f"verify_token:{token}"] = {"user_id": user_id, "expiry": expiry}
+        return True
     except RedisError as e:
         logger.error(f"Redis error while storing verify token: {str(e)}")
         return False
@@ -178,8 +181,16 @@ def get_verify_token(token):
             logger.info(f"Valid token from Redis for user_id: {parsed.get('user_id')}")
             return parsed.get("user_id"), parsed.get("expiry")
 
-        # If Redis is unavailable, we need to alert the caller
-        logger.warning("Redis unavailable for token lookup, returning None")
+        # If Redis is unavailable, use memory cache
+        key = f"verify_token:{token}"
+        if key in _MEMORY_CACHE:
+            data = _MEMORY_CACHE.pop(key)
+            if time.time() > data.get("expiry", 0):
+                logger.warning("Token expired in memory cache")
+                return None, None
+            return data.get("user_id"), data.get("expiry")
+
+        logger.warning("Token not found in memory cache")
         return None, None
     except (RedisError, json.JSONDecodeError) as e:
         logger.error(f"Error retrieving verify token: {str(e)}")
@@ -202,7 +213,8 @@ def authorize_user(user_id):
         if redis_client:
             # Store in Redis with expiry
             return redis_client.setex(f"auth_user:{user_id}", LOCATION_TTL, expiry)
-        # If Redis is unavailable, return True but don't store
+        # If Redis is unavailable, store in memory
+        _MEMORY_CACHE[f"auth_user:{user_id}"] = expiry
         return True
     except RedisError as e:
         logger.error(f"Redis error while authorizing user: {str(e)}")
@@ -233,7 +245,10 @@ def is_user_authorized(user_id):
             except ValueError:
                 return False
 
-        # If Redis is unavailable, return False
+        # If Redis is unavailable, check memory cache
+        expiry = _MEMORY_CACHE.get(f"auth_user:{user_id}")
+        if expiry:
+            return time.time() <= float(expiry)
         return False
     except RedisError as e:
         logger.error(f"Redis error checking user authorization: {str(e)}")
@@ -260,6 +275,11 @@ def store_action_token(token, user_id, action):
             # Store in Redis with expiry
             return redis_client.setex(f"action_token:{token}", VERIFY_TTL, data)
         # If Redis is unavailable, return True but don't store
+        _MEMORY_CACHE[f"action_token:{token}"] = {
+            "user_id": user_id,
+            "action": action,
+            "expiry": expiry,
+        }
         return True
     except RedisError as e:
         logger.error(f"Redis error while storing action token: {str(e)}")
@@ -294,7 +314,14 @@ def get_action_token(token):
 
             return parsed.get("user_id"), parsed.get("action"), parsed.get("expiry")
 
-        # If Redis is unavailable, return None
+        # If Redis is unavailable, check memory
+        key = f"action_token:{token}"
+        if key in _MEMORY_CACHE:
+            data = _MEMORY_CACHE.pop(key)
+            if time.time() > data.get("expiry", 0):
+                return None, None, None
+            return data.get("user_id"), data.get("action"), data.get("expiry")
+
         return None, None, None
     except (RedisError, json.JSONDecodeError) as e:
         logger.error(f"Error retrieving action token: {str(e)}")
@@ -316,7 +343,14 @@ def invalidate_user_tokens(user_id: str) -> None:
     Immediately invalidates all pending open/close action tokens for a given user.
     """
     if not redis_client:
+        keys_to_delete = []
+        for k, v in _MEMORY_CACHE.items():
+            if k.startswith("action_token:") and v.get("user_id") == user_id:
+                keys_to_delete.append(k)
+        for k in keys_to_delete:
+            del _MEMORY_CACHE[k]
         return
+
     try:
         keys_to_delete = []
         for key in redis_client.scan_iter("action_token:*"):
