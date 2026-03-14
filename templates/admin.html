@@ -274,7 +274,7 @@
                 >{{ uid }}</span
               >
               <form
-                action="{{ url_for('admin_approve') }}"
+                action="{{ url_for('admin.admin_approve') }}"
                 method="POST"
                 style="display: flex; gap: 0.5rem; align-items: center"
               >
@@ -300,7 +300,7 @@
               </form>
             </div>
             <form
-              action="{{ url_for('admin_reject') }}"
+              action="{{ url_for('admin.admin_reject') }}"
               method="POST"
               onsubmit="return confirm('Reject user {{ uid }}?');"
             >
@@ -349,7 +349,7 @@
               <span class="user-id">{{ uid }}</span>
             </div>
             <form
-              action="{{ url_for('admin_delete') }}"
+              action="{{ url_for('admin.admin_delete') }}"
               method="POST"
               onsubmit="return confirm('Are you sure you want to delete {{ name }}?');"
             >
