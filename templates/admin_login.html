@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | LineBot Admin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--bg);
+        color: var(--text-main);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .login-card {
+        background: var(--surface);
+        padding: 3rem 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem 0;
+        background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .subtitle {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        font-size: 0.95rem;
+      }
+
+      .form-group {
+        text-align: left;
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--text-main);
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.2s;
+        background: #f8fafc;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: white;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      }
+
+      .btn {
+        width: 100%;
+        padding: 0.875rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        background: var(--primary);
+        color: white;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+        margin-top: 1rem;
+      }
+
+      .btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+      }
+
+      /* Toasts for login errors */
+      .toast-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 50;
+      }
+      .toast {
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transform: translateX(120%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: white;
+        border-left: 4px solid var(--primary);
+      }
+      .toast.show { transform: translateX(0); }
+      .toast.error { border-left-color: #ef4444; }
+      .toast.success { border-left-color: #10b981; }
+    </style>
+  </head>
+  <body>
+    <div class="login-card">
+      <h1>Admin Portal</h1>
+      <p class="subtitle">Secure System Access</p>
+
+      <form action="{{ url_for('admin.admin_login') }}" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn">Sign In</button>
+      </form>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+    <div id="flash-data" style="display: none;">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div data-category="{{ category }}" data-message="{{ message }}"></div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <script>
+      function showToast(message, type) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        const icon = type === 'success' ? '✅' : '❌';
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        container.appendChild(toast);
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const flashes = document.querySelectorAll('#flash-data div');
+        flashes.forEach(flash => {
+          showToast(flash.dataset.message, flash.dataset.category === 'error' ? 'error' : 'success');
+        });
+      });
+    </script>
+  </body>
+</html>
