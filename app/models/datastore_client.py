@@ -65,7 +65,7 @@ def remove_user(user_id):
     db = get_datastore_client()
     if not db:
         return False
-    key = db.key("AllowedUser", user_id)
+    key = db.key("allowed_users", user_id)
     db.delete(key)
     logger.info(f"Removed user {user_id} from allowed users in Datastore.")
     return True
