@@ -60,6 +60,17 @@
         border: none;
         border-radius: 10px;
       }
+      .click-shield {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: transparent;
+        z-index: 10;
+        border-radius: 10px;
+        /* Prevent double-tap to zoom or selection on mobile */
+        touch-action: none;   
+        user-select: none;
+      }
       footer {
         margin-top: auto;
         padding: 16px;
@@ -77,6 +88,8 @@
 
     <div class="player-wrapper">
       <div class="embed-container">
+        <!-- Transparent shield to block all clicks, preventing users from clicking "Watch on YouTube" or "Share" -->
+        <div class="click-shield"></div>
         <iframe
           src="{{ youtube_url }}"
           title="YouTube video player"

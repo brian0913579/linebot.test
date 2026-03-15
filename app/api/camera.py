@@ -40,5 +40,33 @@ def camera_view():
         logger.error("YOUTUBE_LIVE_URL not configured")
         return render_template("camera_error.html", message="監控系統暫時無法使用"), 503
 
+    # Add URL parameters to restrict UI and enforce CCTV-like autoplay
+    import urllib.parse
+
+    parsed = urllib.parse.urlparse(youtube_url)
+    query = dict(urllib.parse.parse_qsl(parsed.query))
+
+    # Force strict YouTube embed settings
+    query.update(
+        {
+            "autoplay": "1",
+            "mute": "1",  # Required for autoplay in modern browsers
+            "controls": "0",  # Hide player controls
+            "modestbranding": "1",
+            "rel": "0",  # Don't show random related videos
+            "disablekb": "1",
+            "fs": "0",
+            "playsinline": "1",
+        }
+    )
+
+    # Strip tracking parameters
+    if "si" in query:
+        del query["si"]
+
+    youtube_url = urllib.parse.urlunparse(
+        parsed._replace(query=urllib.parse.urlencode(query))
+    )
+
     logger.info(f"Camera access granted for user {user_id}")
     return render_template("camera.html", youtube_url=youtube_url)
