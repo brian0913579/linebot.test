@@ -63,6 +63,7 @@
         margin-bottom: 0.5rem;
         background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
       }
 
@@ -229,6 +230,122 @@
           width: 100%;
         }
       }
+
+      /* Search Bar */
+      .search-container {
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+      .search-input {
+        width: 100%;
+        padding: 0.875rem 1rem 0.875rem 2.5rem;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        font-size: 1rem;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%2364748b" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>') no-repeat 12px center;
+        background-color: #f8fafc;
+        transition: all 0.2s;
+      }
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background-color: white;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      }
+
+      /* Toast Notifications */
+      .toast-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 50;
+      }
+      .toast {
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transform: translateX(120%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: white;
+        border-left: 4px solid var(--primary);
+      }
+      .toast.show {
+        transform: translateX(0);
+      }
+      .toast.success { border-left-color: #10b981; }
+      .toast.error { border-left-color: #ef4444; }
+
+      /* Modals */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+      }
+      .modal-overlay.active {
+        display: flex;
+        opacity: 1;
+      }
+      .modal {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        transform: scale(0.95) translateY(10px);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .modal-overlay.active .modal {
+        transform: scale(1) translateY(0);
+      }
+      .modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-main);
+      }
+      .modal-body {
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+      }
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: var(--text-main);
+      }
+      .btn-secondary:hover {
+        background: #e2e8f0;
+      }
+      
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--text-muted);
+      }
+      .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
     </style>
   </head>
   <body>
@@ -238,10 +355,21 @@
         <div class="subtitle">Secure User Management Dashboard</div>
       </header>
 
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if
-      messages %} {% for category, message in messages %}
-      <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %} {% endif %} {% endwith %} {% if pending_users %}
+      <!-- Toast Container -->
+      <div id="toast-container" class="toast-container"></div>
+
+      <!-- Render flashed messages as hidden data for JS to pick up -->
+      <div id="flash-data" style="display: none;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div data-category="{{ category }}" data-message="{{ message }}"></div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      {% if pending_users %}
       <div class="card" style="border: 2px solid var(--primary)">
         <div
           class="card-header"
@@ -299,16 +427,13 @@
                 </button>
               </form>
             </div>
-            <form
-              action="{{ url_for('admin.admin_reject') }}"
-              method="POST"
-              onsubmit="return confirm('Reject user {{ uid }}?');"
-            >
+            <form action="{{ url_for('admin.admin_reject') }}" method="POST">
               <input type="hidden" name="user_id" value="{{ uid }}" />
               <button
-                type="submit"
+                type="button"
                 class="btn btn-danger"
                 style="padding: 0.4rem 0.8rem; font-size: 0.85rem"
+                onclick="confirmAction('Reject Application', 'Are you sure you want to reject the application for {{ uid }}?', this.form)"
               >
                 Reject
               </button>
@@ -348,24 +473,143 @@
               <span class="user-name">{{ name }}</span>
               <span class="user-id">{{ uid }}</span>
             </div>
-            <form
-              action="{{ url_for('admin.admin_delete') }}"
-              method="POST"
-              onsubmit="return confirm('Are you sure you want to delete {{ name }}?');"
-            >
+            <form action="{{ url_for('admin.admin_delete') }}" method="POST">
               <input type="hidden" name="user_id" value="{{ uid }}" />
-              <button type="submit" class="btn btn-danger">Delete</button>
+              <button 
+                type="button" 
+                class="btn btn-danger"
+                onclick="confirmAction('Delete User', 'Are you sure you want to permanently delete access for {{ name }} ({{ uid }})?', this.form)"
+              >Delete</button>
             </form>
           </li>
           {% else %}
-          <li
-            style="text-align: center; color: var(--text-muted); padding: 3rem"
-          >
-            No active users found.
+          <li class="empty-state">
+            <div class="empty-icon">👥</div>
+            <h3>No active users</h3>
+            <p>Approved users will appear here.</p>
           </li>
           {% endfor %}
         </ul>
       </div>
     </div>
+
+    <!-- Reusable Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay">
+      <div class="modal">
+        <h3 id="modalTitle" class="modal-title">Confirm Action</h3>
+        <p id="modalBody" class="modal-body">Are you sure?</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="button" id="modalConfirmBtn" class="btn btn-danger">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // --- Toast Notifications ---
+      function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        
+        // Icons
+        const icon = type === 'success' ? '✅' : '❌';
+        
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        
+        container.appendChild(toast);
+        
+        // Trigger reflow for animation
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300); // Wait for transition
+        }, 3000);
+      }
+
+      // Check for server-side flash messages on load
+      document.addEventListener('DOMContentLoaded', () => {
+        const flashes = document.querySelectorAll('#flash-data div');
+        flashes.forEach(flash => {
+          const cat = flash.dataset.category;
+          const msg = flash.dataset.message;
+          showToast(msg, cat === 'error' ? 'error' : 'success');
+        });
+      });
+
+      // --- Custom Confirmation Modal ---
+      let pendingForm = null;
+
+      function confirmAction(title, message, formElement) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalBody').textContent = message;
+        pendingForm = formElement;
+        
+        const modal = document.getElementById('confirmModal');
+        modal.classList.add('active');
+      }
+
+      function closeModal() {
+        const modal = document.getElementById('confirmModal');
+        modal.classList.remove('active');
+        pendingForm = null;
+      }
+
+      document.getElementById('modalConfirmBtn').addEventListener('click', () => {
+        if (pendingForm) {
+          pendingForm.submit();
+        }
+        closeModal();
+      });
+
+      // Close on ESC or overlay click
+      document.getElementById('confirmModal').addEventListener('click', (e) => {
+        if (e.target.id === 'confirmModal') closeModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      // --- Real-time Search Filter ---
+      function filterUsers() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const ul = document.getElementById('activeUsersList');
+        // Only target li elements that have user-info (skip empty state)
+        const li = ul.querySelectorAll('li.user-item');
+        
+        let hasVisible = false;
+
+        li.forEach(item => {
+          const name = item.querySelector('.user-name')?.textContent || "";
+          const id = item.querySelector('.user-id')?.textContent || "";
+          
+          if (name.toLowerCase().indexOf(filter) > -1 || id.toLowerCase().indexOf(filter) > -1) {
+            item.style.display = "";
+            hasVisible = true;
+          } else {
+            item.style.display = "none";
+          }
+        });
+
+        // Show/hide a dynamic empty state if search yields no results
+        let noResultsLi = document.getElementById('noResultsLi');
+        if (!hasVisible && li.length > 0) {
+          if (!noResultsLi) {
+            noResultsLi = document.createElement('li');
+            noResultsLi.id = 'noResultsLi';
+            noResultsLi.className = 'empty-state';
+            noResultsLi.innerHTML = `<div class="empty-icon">🔍</div><p>No users match your search.</p>`;
+            ul.appendChild(noResultsLi);
+          }
+          noResultsLi.style.display = "";
+        } else if (noResultsLi) {
+          noResultsLi.style.display = "none";
+        }
+      }
+    </script>
   </body>
 </html>
