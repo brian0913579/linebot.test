@@ -2,12 +2,12 @@ from functools import wraps
 
 from flask import (
     Blueprint,
-    Response,
     current_app,
     flash,
     redirect,
     render_template,
     request,
+    session,
     url_for,
 )
 
@@ -15,6 +15,7 @@ from app.models.datastore_client import (
     add_user,
     get_allowed_users,
     get_pending_users,
+    log_admin_action,
     remove_pending_user,
     remove_user,
 )
@@ -35,25 +36,41 @@ def check_auth(username, password):
     return username == expected_username and password == expected_password
 
 
-def authenticate():
-    """Sends a 401 response that enables basic auth"""
-    return Response(
-        "Could not verify your access level for that URL.\n"
-        "You have to login with proper credentials",
-        401,
-        {"WWW-Authenticate": 'Basic realm="Login Required"'},
-    )
-
-
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
+        if not session.get("logged_in"):
+            return redirect(url_for("admin.admin_login", next=request.url))
         return f(*args, **kwargs)
 
     return decorated
+
+
+@admin_bp.route("/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if check_auth(username, password):
+            session.clear()  # clear any old sessions to avoid session fixation
+            session["logged_in"] = True
+            session.permanent = (
+                True  # Use permanent session (defaults to 31 days in Flask)
+            )
+            flash("Logged in successfully", "success")
+            return redirect(url_for("admin.admin_dashboard"))
+        else:
+            flash("Invalid credentials", "error")
+
+    return render_template("admin_login.html")
+
+
+@admin_bp.route("/logout")
+def admin_logout():
+    session.clear()
+    flash("You have been logged out.", "success")
+    return redirect(url_for("admin.admin_login"))
 
 
 @admin_bp.route("/", methods=["GET"])
@@ -73,6 +90,12 @@ def admin_approve():
     if user_id and user_name:
         if add_user(user_id, user_name):
             remove_pending_user(user_id)
+            log_admin_action(
+                admin_username=current_app.config["ADMIN_USERNAME"],
+                action="APPROVE_USER",
+                target_user_id=user_id,
+                metadata={"name": user_name},
+            )
             flash(f"Approved: {user_name}", "success")
         else:
             flash("Failed to approve user", "error")
@@ -88,6 +111,11 @@ def admin_reject():
     user_id = request.form.get("user_id")
     if user_id:
         if remove_pending_user(user_id):
+            log_admin_action(
+                admin_username=current_app.config["ADMIN_USERNAME"],
+                action="REJECT_USER",
+                target_user_id=user_id,
+            )
             flash(f"Rejected: {user_id}", "success")
         else:
             flash("Failed to reject user", "error")
@@ -101,6 +129,11 @@ def admin_delete():
     user_id = request.form.get("user_id")
     if user_id:
         if remove_user(user_id):
+            log_admin_action(
+                admin_username=current_app.config["ADMIN_USERNAME"],
+                action="DELETE_USER",
+                target_user_id=user_id,
+            )
             flash(f"Deleted: {user_id}", "success")
         else:
             flash("Failed to delete user", "error")

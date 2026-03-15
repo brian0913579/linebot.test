@@ -2,6 +2,10 @@ import datetime
 
 from google.cloud import datastore
 
+from utils.logger_config import get_logger
+
+logger = get_logger(__name__)
+
 _db = None
 
 
@@ -53,14 +57,50 @@ def add_user(user_id, user_name):
 
 
 def remove_user(user_id):
-    """Removes a user from Datastore."""
+    """
+    Remove a user from the allowed list.
+    Args:
+        user_id (str): The ID of the user to remove.
+    """
+    db = get_datastore_client()
+    if not db:
+        return False
+    key = db.key("AllowedUser", user_id)
+    db.delete(key)
+    logger.info(f"Removed user {user_id} from allowed users in Datastore.")
+    return True
+
+
+# ==========================================
+# Audit Logging
+# ==========================================
+def log_admin_action(admin_username, action, target_user_id, metadata=None):
+    """
+    Log an administrative action to Datastore for auditing.
+    """
+    db = get_datastore_client()
+    if not db:
+        return False
+
     try:
-        db = get_datastore_client()
-        key = db.key("allowed_users", user_id)
-        db.delete(key)
+        from datetime import datetime, timezone
+
+        key = db.key("AuditLog")
+        entity = datastore.Entity(key=key)
+        entity.update(
+            {
+                "admin_username": admin_username,
+                "action": action,
+                "target_user_id": target_user_id,
+                "metadata": metadata or {},
+                "timestamp": datetime.now(timezone.utc),
+            }
+        )
+        db.put(entity)
+        logger.info(f"Audit log saved: {admin_username} {action} {target_user_id}")
         return True
     except Exception as e:
-        print(f"Error removing user {user_id}: {e}")
+        logger.error(f"Failed to save audit log: {str(e)}")
         return False
 
 
