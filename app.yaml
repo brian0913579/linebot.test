@@ -31,7 +31,7 @@ env_variables:
   CAMERA_TOKEN_TTL: "3600"
 
   # Camera (YouTube Live embed URL)
-  YOUTUBE_LIVE_URL: "https://www.youtube.com/embed/3avzENTkFHo"
+  YOUTUBE_LIVE_URL: "https://www.youtube.com/embed/8i08qX-5JOs"
 
   # HTTP port (must match gunicorn bind)
   PORT: "8080"
