@@ -1,3 +1,5 @@
+import time
+
 from flask import Blueprint, abort, request
 from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import ShowLoadingAnimationRequest
