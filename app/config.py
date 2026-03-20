@@ -1,5 +1,6 @@
 import logging
 import os
+import secrets as py_secrets
 from functools import lru_cache
 from pathlib import Path
 
@@ -54,13 +55,6 @@ def get_secret(secret_name, default=None):
 class Config:
     """Base Configuration."""
 
-    # Core Toggle
-    CACHE_ENABLED = get_secret("CACHE_ENABLED", default="false").lower() in (
-        "true",
-        "1",
-        "yes",
-    )
-
     # LINE Bot Configuration
     LINE_CHANNEL_ACCESS_TOKEN = get_secret("LINE_CHANNEL_ACCESS_TOKEN")
     LINE_CHANNEL_SECRET = get_secret("LINE_CHANNEL_SECRET")
@@ -88,16 +82,7 @@ class Config:
     )
     APP_BASE_URL = get_secret("APP_BASE_URL", default="https://bri4nting.duckdns.org")
 
-    # Redis Configuration
-    REDIS_HOST = get_secret("REDIS_HOST", default="localhost")
-    REDIS_PORT = int(get_secret("REDIS_PORT", default="6379"))
-    REDIS_PASSWORD = get_secret("REDIS_PASSWORD", default=None)
-    REDIS_DB = int(get_secret("REDIS_DB", default="0"))
-    REDIS_SSL = get_secret("REDIS_SSL", default="false").lower() in ("true", "1", "yes")
-
     # Security
-    import secrets as py_secrets
-
     SECRET_KEY = get_secret("FLASK_SECRET_KEY", default=py_secrets.token_hex(16))
     ADMIN_USERNAME = get_secret("ADMIN_USERNAME", default="admin")
     ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD", default="password")

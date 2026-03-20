@@ -32,7 +32,7 @@ def get_allowed_users():
 
         return allowed_users
     except Exception as e:
-        print(f"Error serving allowed_users from Datastore: {e}")
+        logger.error(f"Error fetching allowed_users from Datastore: {e}")
         return {}
 
 
@@ -52,7 +52,7 @@ def add_user(user_id, user_name):
         db.put(entity)
         return True
     except Exception as e:
-        print(f"Error adding user {user_id}: {e}")
+        logger.error(f"Error adding user {user_id}: {e}")
         return False
 
 
@@ -120,7 +120,7 @@ def get_pending_users():
 
         return pending_users
     except Exception as e:
-        print(f"Error serving pending_users from Datastore: {e}")
+        logger.error(f"Error fetching pending_users from Datastore: {e}")
         return {}
 
 
@@ -145,7 +145,7 @@ def add_pending_user(user_id, user_name="Unknown"):
         db.put(entity)
         return True
     except Exception as e:
-        print(f"Error adding pending user {user_id}: {e}")
+        logger.error(f"Error adding pending user {user_id}: {e}")
         return False
 
 
@@ -157,5 +157,5 @@ def remove_pending_user(user_id):
         db.delete(key)
         return True
     except Exception as e:
-        print(f"Error removing pending user {user_id}: {e}")
+        logger.error(f"Error removing pending user {user_id}: {e}")
         return False

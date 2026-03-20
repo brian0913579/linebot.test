@@ -1,4 +1,5 @@
 import secrets as py_secrets
+import urllib.parse
 
 from flask import Blueprint, current_app, render_template, request
 
@@ -41,8 +42,6 @@ def camera_view():
         return render_template("camera_error.html", message="監控系統暫時無法使用"), 503
 
     # Add URL parameters to restrict UI and enforce CCTV-like autoplay
-    import urllib.parse
-
     parsed = urllib.parse.urlparse(youtube_url)
     query = dict(urllib.parse.parse_qsl(parsed.query))
 

@@ -1,5 +1,3 @@
-import time
-
 from flask import Blueprint, abort, request
 from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import ShowLoadingAnimationRequest
@@ -97,19 +95,14 @@ def handle_postback(event):
             )
             return
 
-        # Execute MQTT action
-        for attempt in range(3):
-            success, error = send_garage_command(action)
-            if success:
-                break
-            logger.warning(f"MQTT command failed (attempt {attempt + 1}/3): {error}")
-            if attempt < 2:
-                time.sleep(1)
-            else:
-                line_service.reply_text(
-                    event.reply_token, "⚠️ 無法連接車庫控制器，請稍後再試。"
-                )
-                return
+        # Execute MQTT action (send_garage_command retries internally)
+        success, error = send_garage_command(action)
+        if not success:
+            logger.error(f"MQTT command failed: {error}")
+            line_service.reply_text(
+                event.reply_token, "⚠️ 無法連接車庫控制器，請稍後再試。"
+            )
+            return
 
         if action == "open":
             line_service.reply_text(event.reply_token, "✅ 門已開啟，請小心進出。")
