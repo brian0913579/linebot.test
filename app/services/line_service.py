@@ -108,25 +108,18 @@ class LineService:
     def handle_system_error(self, user_id, reply_token, error, context):
         logger.error(f"Error in {context}: {error}")
         try:
-            reply = TextMessage(text="❌ 系統錯誤，請稍後再試。")
             self._retry_api_call(
                 lambda: self.line_bot_api.reply_message(
-                    ReplyMessageRequest(replyToken=reply_token, messages=[reply])
+                    ReplyMessageRequest(
+                        replyToken=reply_token,
+                        messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")],
+                    )
                 )
             )
         except Exception as reply_error:
-            logger.error(f"Unable to send error reply: {reply_error}")
-            try:
-                self._retry_api_call(
-                    lambda: self.line_bot_api.push_message(
-                        PushMessageRequest(
-                            to=user_id,
-                            messages=[TextMessage(text="❌ 系統錯誤，請稍後再試。")],
-                        )
-                    )
-                )
-            except Exception as push_error:
-                logger.error(f"Failed to send push message: {push_error}")
+            # ReplyToken is likely already expired; log and move on.
+            # Do NOT fall back to push_message() — it burns paid quota for a non-critical error notice.
+            logger.warning(f"Could not send error reply (token likely expired): {reply_error}")
 
     def reply_text(self, reply_token, text):
         return self._retry_api_call(
