@@ -88,9 +88,9 @@ class LineService:
             )
         )
 
-    def send_verification_message(self, user_id, reply_token):
+    def send_verification_message(self, user_id, reply_token, action):
         verify_token = py_secrets.token_urlsafe(24)
-        token_service.store_verify_token(verify_token, user_id)
+        token_service.store_verify_token(verify_token, user_id, action)
         verify_url = f"{current_app.config['VERIFY_URL_BASE']}?token={verify_token}"
         reply = TemplateMessage(
             altText="請先驗證定位",
