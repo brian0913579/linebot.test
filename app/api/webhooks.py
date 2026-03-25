@@ -38,7 +38,7 @@ def handle_text(event):
         user_msg = event.message.text
         logger.info(f"User {user_id} sent a text message: {user_msg}")
 
-        if user_msg not in ("開關門", "監控", "監控畫面"):
+        if user_msg not in ("開門", "關門", "監控", "監控畫面"):
             return
 
         ALLOWED_USERS = get_allowed_users()
@@ -54,10 +54,23 @@ def handle_text(event):
         if user_msg in ("監控", "監控畫面"):
             return line_service.send_camera_link(user_id, event.reply_token)
 
-        if not token_service.is_user_authorized(user_id):
-            return line_service.send_verification_message(user_id, event.reply_token)
+        # --- Door control branch ---
+        action = "open" if user_msg == "開門" else "close"
 
-        return line_service.send_open_close_message(user_id, event.reply_token)
+        if not token_service.is_user_authorized(user_id):
+            return line_service.send_verification_message(user_id, event.reply_token, action)
+
+        # Already authorized – execute MQTT command directly (no paid push message needed)
+        success, error = send_garage_command(action)
+        if not success:
+            logger.error(f"MQTT command failed: {error}")
+            line_service.reply_text(event.reply_token, "⚠️ 無法連接車庫控制器，請稍後再試。")
+            return
+
+        if action == "open":
+            line_service.reply_text(event.reply_token, "✅ 門已開啟，請小心進出。")
+        else:
+            line_service.reply_text(event.reply_token, "✅ 門已關閉，感謝您的使用。")
 
     except Exception as e:
         if user_id:
@@ -80,7 +93,8 @@ def handle_postback(event):
         logger.warning(f"Failed to show loading animation: {loading_error}")
 
     if not token_service.is_user_authorized(user_id):
-        return line_service.send_verification_message(user_id, event.reply_token)
+        line_service.reply_text(event.reply_token, "❌ 驗證已過期，請重新傳送「開門」或「關門」")
+        return
 
     try:
         token = event.postback.data

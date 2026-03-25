@@ -52,8 +52,11 @@
             const result = await resp.json();
 
             if (result.ok) {
-              document.body.innerHTML =
-                "<h2>✅ 驗證通過，請回到 LINE 操作</h2>";
+              const msg = result.message || "✅ 驗證通過";
+              const h2 = document.createElement("h2");
+              h2.textContent = msg;
+              document.body.innerHTML = "";
+              document.body.appendChild(h2);
               // 自動關閉或返回 LINE（部份瀏覽器/環境可能無法關閉 window）
               setTimeout(() => {
                 window.close();

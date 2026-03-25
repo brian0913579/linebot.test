@@ -36,13 +36,13 @@ class TokenService:
     # Verify tokens  (one-time use, consumed on first read)
     # ------------------------------------------------------------------
 
-    def store_verify_token(self, token: str, user_id: str) -> bool:
+    def store_verify_token(self, token: str, user_id: str, action: str = None) -> bool:
         expiry = time.time() + current_app.config["VERIFY_TTL"]
         try:
             db = self._db()
             key = db.key("VerifyToken", token)
             entity = datastore.Entity(key=key)
-            entity.update({"user_id": user_id, "expiry": expiry})
+            entity.update({"user_id": user_id, "expiry": expiry, "action": action})
             db.put(entity)
             return True
         except Exception as e:
@@ -55,14 +55,14 @@ class TokenService:
             key = db.key("VerifyToken", token)
             entity = db.get(key)
             if not entity:
-                return None, None
+                return None, None, None
             db.delete(key)
             if time.time() > entity.get("expiry", 0):
-                return None, None
-            return entity.get("user_id"), entity.get("expiry")
+                return None, None, None
+            return entity.get("user_id"), entity.get("expiry"), entity.get("action")
         except Exception as e:
             logger.error(f"Error retrieving verify token: {e}")
-            return None, None
+            return None, None, None
 
     # ------------------------------------------------------------------
     # Location authorisation
