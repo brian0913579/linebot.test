@@ -36,10 +36,23 @@ def camera_view():
         logger.warning(f"Revoked user {user_id} attempted camera access")
         return render_template("camera_error.html", message="您的訪問權限已被撤銷"), 403
 
-    youtube_url = current_app.config.get("YOUTUBE_LIVE_URL", "")
-    if not youtube_url:
-        logger.error("YOUTUBE_LIVE_URL not configured")
-        return render_template("camera_error.html", message="監控系統暫時無法使用"), 503
+    # Dynamically resolve the current live stream from the channel ID
+    channel_id = current_app.config.get("YOUTUBE_CHANNEL_ID", "")
+    api_key = current_app.config.get("YOUTUBE_API_KEY", "")
+
+    if channel_id and api_key:
+        from app.services.youtube_service import get_live_embed_url
+
+        youtube_url = get_live_embed_url(channel_id, api_key)
+        if not youtube_url:
+            logger.warning("Channel %s has no active live stream", channel_id)
+            return render_template("camera_error.html", message="直播尚未開始，請稍後再試"), 503
+    else:
+        # Fallback: use the static YOUTUBE_LIVE_URL if channel config is missing
+        youtube_url = current_app.config.get("YOUTUBE_LIVE_URL", "")
+        if not youtube_url:
+            logger.error("No YouTube source configured (channel ID or static URL)")
+            return render_template("camera_error.html", message="監控系統暫時無法使用"), 503
 
     # Add URL parameters to restrict UI and enforce CCTV-like autoplay
     parsed = urllib.parse.urlparse(youtube_url)

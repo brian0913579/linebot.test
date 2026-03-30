@@ -30,8 +30,11 @@ env_variables:
   LOCATION_TTL: "60"
   CAMERA_TOKEN_TTL: "3600"
 
-  # Camera (YouTube Live embed URL)
-  YOUTUBE_LIVE_URL: "https://www.youtube.com/embed/upRYi8ivVME"
+  # Camera – YouTube channel-based live stream (auto-resolves the active stream)
+  # YOUTUBE_LIVE_URL is kept as a fallback if both of these are empty.
+  YOUTUBE_CHANNEL_ID: "UCQ0ZwgZE7sXJHM85oIOWOow"
+  # YOUTUBE_API_KEY should be stored in GCP Secret Manager, not here.
+  # Add it there under the name YOUTUBE_API_KEY.
 
   # HTTP port (must match gunicorn bind)
   PORT: "8080"
