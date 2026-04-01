@@ -1,4 +1,5 @@
 import logging
+import os
 
 from flask import Flask, jsonify
 
@@ -15,10 +16,9 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # Basic logging configuration for the entire application
-    logging.basicConfig(
-        level=logging.DEBUG if app.config["DEBUG_MODE"] else logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
+    from utils.logger_config import setup_logging
+    
+    setup_logging(os.environ.get("LOG_LEVEL", "DEBUG" if app.config["DEBUG_MODE"] else "INFO"))
 
     # Validate mandatory secrets
     config_class.validate()

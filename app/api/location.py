@@ -3,7 +3,7 @@ from math import atan2, cos, radians, sin, sqrt
 
 from flask import Blueprint, current_app, jsonify, request
 
-from app.services.line_service import line_service
+from app.services.mqtt_service import send_garage_command
 from app.services.token_service import token_service
 from utils.logger_config import get_logger
 
@@ -30,7 +30,7 @@ def verify_location_handler():
     token_preview = token[:8] if token else "None"
     logger.info(f"Received location verification request for token: {token_preview}...")
 
-    user_id, expiry = token_service.get_verify_token(token)
+    user_id, expiry, action = token_service.get_verify_token(token)
     if not token or not user_id:
         return jsonify(ok=False, message="無效或已過期的驗證"), 400
 
@@ -61,16 +61,17 @@ def verify_location_handler():
         and acc <= current_app.config["MAX_ACCURACY_METERS"]
     ):
         token_service.authorize_user(user_id)
-        template = line_service.build_open_close_template(user_id)
 
-        # We need to import PushMessageRequest inside or make it available
-        from linebot.v3.messaging import PushMessageRequest
-
-        line_service._retry_api_call(
-            lambda: line_service.line_bot_api.push_message(
-                PushMessageRequest(to=user_id, messages=[template])
-            )
-        )
-        return jsonify(ok=True)
+        # Execute the garage command directly — no push_message needed.
+        # The result is shown on this web page; the user is already watching it.
+        result_label = "開啟" if action == "open" else "關閉"
+        success, error = send_garage_command(action)
+        if success:
+            return jsonify(ok=True, message=f"✅ 車庫門已{result_label}，請回到 LINE。")
+        else:
+            logger.error(f"MQTT command failed after location verify: {error}")
+            return jsonify(
+                ok=False, message="⚠️ 位置驗證通過，但無法連接車庫控制器，請稍後再試。"
+            ), 500
     else:
         return jsonify(ok=False, message="不在車場範圍內"), 200

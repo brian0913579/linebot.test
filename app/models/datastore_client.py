@@ -1,4 +1,5 @@
 import datetime
+from datetime import timezone
 
 from google.cloud import datastore
 
@@ -65,10 +66,14 @@ def remove_user(user_id):
     db = get_datastore_client()
     if not db:
         return False
-    key = db.key("allowed_users", user_id)
-    db.delete(key)
-    logger.info(f"Removed user {user_id} from allowed users in Datastore.")
-    return True
+    try:
+        key = db.key("allowed_users", user_id)
+        db.delete(key)
+        logger.info(f"Removed user {user_id} from allowed users in Datastore.")
+        return True
+    except Exception as e:
+        logger.error(f"Error removing user {user_id}: {e}")
+        return False
 
 
 # ==========================================
@@ -83,8 +88,6 @@ def log_admin_action(admin_username, action, target_user_id, metadata=None):
         return False
 
     try:
-        from datetime import datetime, timezone
-
         key = db.key("AuditLog")
         entity = datastore.Entity(key=key)
         entity.update(
@@ -93,7 +96,7 @@ def log_admin_action(admin_username, action, target_user_id, metadata=None):
                 "action": action,
                 "target_user_id": target_user_id,
                 "metadata": metadata or {},
-                "timestamp": datetime.now(timezone.utc),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
         )
         db.put(entity)

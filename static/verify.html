@@ -52,13 +52,9 @@
             const result = await resp.json();
 
             if (result.ok) {
-              document.body.innerHTML =
-                "<h2>✅ 驗證通過，請回到 LINE 操作</h2>";
-              // 自動關閉或返回 LINE（部份瀏覽器/環境可能無法關閉 window）
-              setTimeout(() => {
-                window.close();
-                window.history.back();
-              }, 2000);
+              // Show the action result message returned by the server
+              // (e.g. "✅ 車庫門已開啟，請回到 LINE。")
+              document.body.innerHTML = `<h2>${result.message}</h2>`;
             } else {
               document.body.innerHTML = `<h2>❌ ${result.message}</h2>`;
             }

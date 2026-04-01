@@ -30,3 +30,9 @@ emqxsl-ca.crt
 # Testing
 .pytest_cache/
 .coverage
+
+# Logs
+*.log
+app.log
+error.log
+gunicorn.log

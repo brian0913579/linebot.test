@@ -110,5 +110,3 @@ def send_garage_command(action):
             if client and client.is_connected():
                 client.loop_stop()
                 client.disconnect()
-
-    return False, "Unknown error occurred"

@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import sys
 
 from google.cloud import datastore
 
@@ -46,7 +47,7 @@ def remove_user(user_id):
     print(f"✅ Removed user: {user_id}")
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Manage users in Google Cloud Datastore"
     )
@@ -75,9 +76,13 @@ if __name__ == "__main__":
             remove_user(args.user_id)
         else:
             parser.print_help()
+            sys.exit(1)
     except Exception as e:
         print(f"Error: {e}")
         print(
             "Tip: Ensure you have set GOOGLE_APPLICATION_CREDENTIALS or "
             "run 'gcloud auth application-default login'"
         )
+
+if __name__ == "__main__":
+    main()

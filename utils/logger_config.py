@@ -52,8 +52,3 @@ def setup_logging(log_level: str = "INFO") -> logging.Logger:
 def get_logger(name: str) -> logging.Logger:
     """Get a logger for a specific module."""
     return logging.getLogger(name)
-
-
-# Auto-configure when imported
-if __name__ != "__main__":
-    setup_logging(os.environ.get("LOG_LEVEL", "INFO"))

@@ -26,15 +26,6 @@ pytest-fixtures>=0.1.0
 # Performance Testing
 pytest-benchmark>=4.0.0
 
-# Async Testing (if needed)
-pytest-asyncio>=0.21.1
-
-# Redis Testing (if using Redis)
-fakeredis>=2.18.1
-
-# Database Testing
-pytest-postgresql>=5.0.0
-
 # Security Testing
 bandit>=1.7.5
 safety>=2.3.5

@@ -25,8 +25,6 @@ python-dotenv==1.1.1
 Flask-Limiter==3.11.0
 
 # Caching (Redis with fallback)
-redis>=5.2.0
-
 # Utilities
 requests==2.32.5
 

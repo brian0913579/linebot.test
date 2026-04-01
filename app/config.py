@@ -65,7 +65,7 @@ class Config:
     )
     MQTT_PORT = int(get_secret("MQTT_PORT", default="8883"))
     MQTT_USERNAME = get_secret("MQTT_USERNAME", default="piuser")
-    MQTT_PASSWORD = get_secret("MQTT_PASSWORD", default="cool.com")
+    MQTT_PASSWORD = get_secret("MQTT_PASSWORD")
     MQTT_TOPIC = get_secret("MQTT_TOPIC", default="garage/command")
 
     # Location Verification
@@ -87,7 +87,7 @@ class Config:
     # Security
     SECRET_KEY = get_secret("FLASK_SECRET_KEY", default=py_secrets.token_hex(16))
     ADMIN_USERNAME = get_secret("ADMIN_USERNAME", default="admin")
-    ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD", default="password")
+    ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD")
 
     RATE_LIMIT_ENABLED = (
         get_secret("RATE_LIMIT_ENABLED", default="false").lower() == "true"

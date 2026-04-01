@@ -8,10 +8,6 @@ from linebot.v3.messaging import (
     ButtonsTemplate,
     Configuration,
     MessagingApi,
-    PostbackAction,
-    PushMessageRequest,
-    QuickReply,
-    QuickReplyItem,
     ReplyMessageRequest,
     TemplateMessage,
     TextMessage,
@@ -44,58 +40,16 @@ class LineService:
         self.line_bot_api = MessagingApi(api_client)
         self.handler = WebhookHandler(channel_secret)
 
-    def build_open_close_template(self, user_id):
-        open_token, close_token = token_service.generate_token(user_id)
-        token_service.store_action_token(open_token, user_id, "open")
-        token_service.store_action_token(close_token, user_id, "close")
-
-        quick_reply = QuickReply(
-            items=[
-                QuickReplyItem(action=PostbackAction(label="🟢 開門", data=open_token)),
-                QuickReplyItem(
-                    action=PostbackAction(label="🔴 關門", data=close_token)
-                ),
-            ]
-        )
-        return TextMessage(text="請選擇車庫門操作：", quick_reply=quick_reply)
-
-    def send_open_close_message(self, user_id, reply_token):
-        template = self.build_open_close_template(user_id)
-        return self._retry_api_call(
-            lambda: self.line_bot_api.reply_message(
-                ReplyMessageRequest(replyToken=reply_token, messages=[template])
-            )
-        )
-
-    def send_camera_link(self, user_id, reply_token):
-        """Generate a signed camera link and reply to the user."""
-        from app.api.camera import generate_camera_token
-
-        token = generate_camera_token(user_id)
-        base_url = current_app.config.get("APP_BASE_URL", "").rstrip("/")
-        camera_url = f"{base_url}/camera?token={token}"
-        ttl_hours = current_app.config.get("CAMERA_TOKEN_TTL", 3600) // 3600
-        reply = TemplateMessage(
-            altText="📹 即時監控畫面",
-            template=ButtonsTemplate(
-                text=f"您的監控連結（有效 {ttl_hours} 小時）：\n請勿將此連結分享給他人",
-                actions=[URIAction(label="📹 查看監控畫面", uri=camera_url)],
-            ),
-        )
-        return self._retry_api_call(
-            lambda: self.line_bot_api.reply_message(
-                ReplyMessageRequest(replyToken=reply_token, messages=[reply])
-            )
-        )
-
-    def send_verification_message(self, user_id, reply_token):
+    def send_verification_message(self, user_id, reply_token, action):
+        """Send a location-verify link. The intended action is embedded in the token."""
         verify_token = py_secrets.token_urlsafe(24)
-        token_service.store_verify_token(verify_token, user_id)
+        token_service.store_verify_token(verify_token, user_id, action)
         verify_url = f"{current_app.config['VERIFY_URL_BASE']}?token={verify_token}"
+        action_label = "開門" if action == "open" else "關門"
         reply = TemplateMessage(
             altText="請先驗證定位",
             template=ButtonsTemplate(
-                text="請先在車場範圍內進行位置驗證",
+                text=f"執行【{action_label}】前，請先在車場範圍內進行位置驗證",
                 actions=[URIAction(label="📍 驗證我的位置", uri=verify_url)],
             ),
         )
@@ -130,10 +84,24 @@ class LineService:
             )
         )
 
-    def push_text(self, user_id, text):
+    def send_camera_link(self, user_id, reply_token):
+        """Generate a signed camera link and reply to the user."""
+        from app.api.camera import generate_camera_token
+
+        token = generate_camera_token(user_id)
+        base_url = current_app.config.get("APP_BASE_URL", "").rstrip("/")
+        camera_url = f"{base_url}/camera?token={token}"
+        ttl_hours = current_app.config.get("CAMERA_TOKEN_TTL", 3600) // 3600
+        reply = TemplateMessage(
+            altText="📹 即時監控畫面",
+            template=ButtonsTemplate(
+                text=f"您的監控連結（有效 {ttl_hours} 小時）：\n請勿將此連結分享給他人",
+                actions=[URIAction(label="📹 查看監控畫面", uri=camera_url)],
+            ),
+        )
         return self._retry_api_call(
-            lambda: self.line_bot_api.push_message(
-                PushMessageRequest(to=user_id, messages=[TextMessage(text=text)])
+            lambda: self.line_bot_api.reply_message(
+                ReplyMessageRequest(replyToken=reply_token, messages=[reply])
             )
         )
 
