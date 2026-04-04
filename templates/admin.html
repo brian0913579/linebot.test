@@ -479,20 +479,47 @@
         </div>
 
         <ul class="user-list" id="activeUsersList">
-          {% for uid, name in users.items() %}
+          {% for uid, info in users.items() %}
           <li class="user-item">
             <div class="user-info">
-              <span class="user-name">{{ name }}</span>
-              <span class="user-id">{{ uid }}</span>
+              <span class="user-name">{{ info.user_name }}</span>
+              <span class="user-id" style="font-size: 0.9rem;">
+                {{ uid }}
+                {% if info.nickname %}<span style="background: var(--border); color: var(--text-main); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 6px;">Nickname: {{ info.nickname }}</span>{% endif %}
+                {% if info.parking_space %}<span style="background: var(--border); color: var(--text-main); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; margin-left: 6px;">Parking: {{ info.parking_space }}</span>{% endif %}
+              </span>
+              <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+                {% if info.start_date or info.end_date %}
+                  Rent: {{ info.start_date | default('-') }} to {{ info.end_date | default('-') }}
+                {% endif %}
+                {% if info.contract_url %}
+                  | <a href="{{ info.contract_url }}" target="_blank" style="color: var(--primary); text-decoration: underline;">View Contract</a>
+                {% endif %}
+              </div>
+              <div style="margin-top: 4px; display: flex; gap: 4px;">
+                {% if info.is_admin %}<span style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;">Admin</span>{% endif %}
+                {% if info.is_moderator %}<span style="background: #10b981; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;">Moderator</span>{% endif %}
+              </div>
             </div>
-            <form action="{{ url_for('admin.admin_delete') }}" method="POST">
-              <input type="hidden" name="user_id" value="{{ uid }}" />
+            <div style="display: flex; gap: 0.5rem;">
               <button 
                 type="button" 
-                class="btn btn-danger"
-                onclick="confirmAction('Delete User', 'Are you sure you want to permanently delete access for {{ name }} ({{ uid }})?', this.form)"
-              >Delete</button>
-            </form>
+                class="btn btn-secondary"
+                style="padding: 0.4rem 0.6rem; font-size: 0.85rem;"
+                data-uid="{{ uid }}" 
+                data-info="{{ info | tojson | forceescape }}"
+                onclick='openEditModalFromBtn(this)'
+              >Edit</button>
+              <form action="{{ url_for('admin.admin_delete') }}" method="POST">
+                <input type="hidden" name="user_id" value="{{ uid }}" />
+                <button 
+                  type="button" 
+                  class="btn btn-danger"
+                  style="padding: 0.4rem 0.6rem; font-size: 0.85rem;"
+                  onclick="confirmAction('Delete User', 'Are you sure you want to permanently delete access for {{ info.user_name }} ({{ uid }})?', this.form)"
+                >Delete</button>
+              </form>
+            </div>
           </li>
           {% else %}
           <li class="empty-state">
@@ -514,6 +541,59 @@
           <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
           <button type="button" id="modalConfirmBtn" class="btn btn-danger">Confirm</button>
         </div>
+      </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editModal" class="modal-overlay">
+      <div class="modal" style="max-width: 500px;">
+        <h3 class="modal-title">Edit User Properties</h3>
+        <form id="editForm" action="{{ url_for('admin.edit_user') }}" method="POST" enctype="multipart/form-data">
+          <input type="hidden" id="editUserId" name="user_id" />
+          
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-size: 0.9rem; margin-bottom: 0.25rem;">Nickname</label>
+            <input type="text" id="editNickname" name="nickname" placeholder="Nickname..." />
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-size: 0.9rem; margin-bottom: 0.25rem;">Parking Space Number</label>
+            <input type="text" id="editParkingSpace" name="parking_space" placeholder="e.g. B1-13" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.9rem; margin-bottom: 0.25rem;">Start Date</label>
+              <input type="date" id="editStartDate" name="start_date" />
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.9rem; margin-bottom: 0.25rem;">End Date</label>
+              <input type="date" id="editEndDate" name="end_date" />
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1.5rem; margin-bottom: 1rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer;">
+              <input type="checkbox" id="editIsAdmin" name="is_admin" onchange="togglePhotoUpload()" /> Is Admin
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer;">
+              <input type="checkbox" id="editIsModerator" name="is_moderator" onchange="togglePhotoUpload()" /> Is Moderator
+            </label>
+          </div>
+
+          <div id="contractPhotoBlock" style="margin-bottom: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <label style="display: block; font-size: 0.9rem; margin-bottom: 0.5rem;">Contract Photo Template</label>
+            <input type="file" id="editContractPhoto" name="contract_photo" accept="image/*,application/pdf" style="padding: 0.5rem; border: dashed 1px var(--border); background: #f8fafc; font-size: 0.8rem;" />
+            <div id="contractUrlContainer" style="margin-top: 0.5rem; font-size: 0.85rem; display: none;">
+              <a id="contractLink" href="#" target="_blank" style="color: var(--primary);">View Current Photo</a>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -622,6 +702,55 @@
           noResultsLi.style.display = "none";
         }
       }
+      // --- Edit Modal logic ---
+      function openEditModalFromBtn(btn) {
+        const uid = btn.getAttribute('data-uid');
+        const info = JSON.parse(btn.getAttribute('data-info'));
+        openEditModal(uid, info);
+      }
+
+      function openEditModal(uid, info) {
+        document.getElementById('editUserId').value = uid;
+        document.getElementById('editNickname').value = info.nickname || '';
+        document.getElementById('editParkingSpace').value = info.parking_space || '';
+        document.getElementById('editStartDate').value = info.start_date || '';
+        document.getElementById('editEndDate').value = info.end_date || '';
+        
+        document.getElementById('editIsAdmin').checked = !!info.is_admin;
+        document.getElementById('editIsModerator').checked = !!info.is_moderator;
+
+        const contractUrlBlock = document.getElementById('contractUrlContainer');
+        const contractLink = document.getElementById('contractLink');
+        if (info.contract_url) {
+          contractUrlBlock.style.display = 'block';
+          contractLink.href = info.contract_url;
+        } else {
+          contractUrlBlock.style.display = 'none';
+        }
+
+        togglePhotoUpload();
+
+        const modal = document.getElementById('editModal');
+        modal.classList.add('active');
+      }
+
+      function closeEditModal() {
+        const modal = document.getElementById('editModal');
+        modal.classList.remove('active');
+        document.getElementById('editForm').reset();
+      }
+
+      function togglePhotoUpload() {
+        const isAdmin = document.getElementById('editIsAdmin').checked;
+        const isMod = document.getElementById('editIsModerator').checked;
+        const block = document.getElementById('contractPhotoBlock');
+        if (isAdmin || isMod) {
+          block.style.display = 'none';
+        } else {
+          block.style.display = 'block';
+        }
+      }
+
     </script>
   </body>
 </html>

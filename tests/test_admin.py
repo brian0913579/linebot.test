@@ -112,3 +112,80 @@ class TestAdminActions:
         )
         assert resp.status_code == 302
         mock_rm.assert_called_once_with("U3")
+
+    @patch("app.api.admin.log_admin_action")
+    @patch("app.api.admin.update_user", return_value=True)
+    def test_edit_user(self, mock_update, mock_log, client):
+        resp = client.post(
+            "/admin/edit_user",
+            data={
+                "user_id": "U1",
+                "nickname": "Ally",
+                "parking_space": "B1",
+                "is_admin": "on",
+                "is_moderator": "off",
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 302
+        mock_update.assert_called_once_with("U1", {
+            "nickname": "Ally",
+            "start_date": "",
+            "end_date": "",
+            "parking_space": "B1",
+            "is_admin": True,
+            "is_moderator": False,
+        })
+        mock_log.assert_called_once()
+
+    def test_edit_user_missing_id(self, client):
+        resp = client.post("/admin/edit_user", data={}, follow_redirects=True)
+        assert b"Missing user ID" in resp.data
+
+    @patch("app.api.admin.update_user", return_value=False)
+    def test_edit_user_fail(self, mock_update, client):
+        resp = client.post(
+            "/admin/edit_user",
+            data={"user_id": "U1"},
+            follow_redirects=True,
+        )
+        assert b"Failed to update user" in resp.data
+
+    @patch("app.services.storage_service.upload_contract_photo", return_value="http://fake")
+    @patch("app.api.admin.update_user", return_value=True)
+    def test_edit_user_with_photo(self, mock_update, mock_upload, client):
+        import io
+        resp = client.post(
+            "/admin/edit_user",
+            data={
+                "user_id": "U2",
+                "contract_photo": (io.BytesIO(b"abc"), "contract.pdf")
+            },
+            content_type="multipart/form-data",
+            follow_redirects=False
+        )
+        assert resp.status_code == 302
+        mock_upload.assert_called_once()
+        mock_update.assert_called_once()
+        updates = mock_update.call_args[0][1]
+        assert updates["contract_url"] == "http://fake"
+
+    @patch("app.services.storage_service.upload_contract_photo", return_value=None)
+    @patch("app.api.admin.update_user", return_value=True)
+    def test_edit_user_with_photo_fail(self, mock_update, mock_upload, client):
+        import io
+        resp = client.post(
+            "/admin/edit_user",
+            data={
+                "user_id": "U2",
+                "contract_photo": (io.BytesIO(b"abc"), "contract.pdf")
+            },
+            content_type="multipart/form-data",
+            follow_redirects=False
+        )
+        assert resp.status_code == 302
+        mock_upload.assert_called_once()
+        mock_update.assert_called_once()
+        updates = mock_update.call_args[0][1]
+        assert "contract_url" not in updates
+

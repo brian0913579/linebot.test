@@ -27,9 +27,17 @@ def get_allowed_users():
         allowed_users = {}
         for entity in results:
             user_id = entity.get("user_id") or entity.key.name
-            user_name = entity.get("user_name", "Unknown")
             if user_id:
-                allowed_users[user_id] = user_name
+                allowed_users[user_id] = {
+                    "user_name": entity.get("user_name", "Unknown"),
+                    "nickname": entity.get("nickname", ""),
+                    "start_date": entity.get("start_date", ""),
+                    "end_date": entity.get("end_date", ""),
+                    "parking_space": entity.get("parking_space", ""),
+                    "is_admin": entity.get("is_admin", False),
+                    "is_moderator": entity.get("is_moderator", False),
+                    "contract_url": entity.get("contract_url", "")
+                }
 
         return allowed_users
     except Exception as e:
@@ -37,7 +45,7 @@ def get_allowed_users():
         return {}
 
 
-def add_user(user_id, user_name):
+def add_user(user_id, user_name, nickname="", start_date="", end_date="", parking_space="", is_admin=False, is_moderator=False, contract_url=""):
     """Adds a user to Datastore."""
     try:
         db = get_datastore_client()
@@ -47,6 +55,13 @@ def add_user(user_id, user_name):
             {
                 "user_id": user_id,
                 "user_name": user_name,
+                "nickname": nickname,
+                "start_date": start_date,
+                "end_date": end_date,
+                "parking_space": parking_space,
+                "is_admin": is_admin,
+                "is_moderator": is_moderator,
+                "contract_url": contract_url,
                 "created_at": datetime.datetime.now(datetime.timezone.utc),
             }
         )
@@ -54,6 +69,26 @@ def add_user(user_id, user_name):
         return True
     except Exception as e:
         logger.error(f"Error adding user {user_id}: {e}")
+        return False
+
+
+def update_user(user_id, updates):
+    """Updates an existing allowed user in Datastore."""
+    try:
+        db = get_datastore_client()
+        key = db.key("allowed_users", user_id)
+        entity = db.get(key)
+        if not entity:
+            logger.error(f"Cannot update non-existent user {user_id}")
+            return False
+            
+        for k, v in updates.items():
+            entity[k] = v
+            
+        db.put(entity)
+        return True
+    except Exception as e:
+        logger.error(f"Error updating user {user_id}: {e}")
         return False
 
 

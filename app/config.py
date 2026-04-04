@@ -88,6 +88,7 @@ class Config:
     SECRET_KEY = get_secret("FLASK_SECRET_KEY", default=py_secrets.token_hex(16))
     ADMIN_USERNAME = get_secret("ADMIN_USERNAME", default="admin")
     ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD")
+    GCS_CONTRACT_BUCKET_NAME = get_secret("GCS_CONTRACT_BUCKET_NAME", default="linebot-contract-photos")
 
     RATE_LIMIT_ENABLED = (
         get_secret("RATE_LIMIT_ENABLED", default="false").lower() == "true"

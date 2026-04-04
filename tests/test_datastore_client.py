@@ -50,6 +50,33 @@ class TestAllowedUsers:
         remove_user("U1")
         assert "U1" not in get_allowed_users()
 
+    @patch("app.models.datastore_client.get_datastore_client")
+    def test_update_user(self, mock_client):
+        from tests.conftest import FakeDatastoreClient, FakeEntity
+        ds = FakeDatastoreClient()
+        mock_client.return_value = ds
+        
+        from app.models.datastore_client import update_user, add_user, datastore
+        with patch("app.models.datastore_client.datastore") as mds:
+            mds.Entity = lambda key: FakeEntity(key)
+            add_user("U1", "Alice")
+        
+        result = update_user("U1", {"nickname": "Ally"})
+        assert result is True
+        
+        entity = ds.get(ds.key("allowed_users", "U1"))
+        assert entity["nickname"] == "Ally"
+
+    @patch("app.models.datastore_client.get_datastore_client")
+    def test_update_user_nonexistent(self, mock_client):
+        from tests.conftest import FakeDatastoreClient
+        ds = FakeDatastoreClient()
+        mock_client.return_value = ds
+        
+        from app.models.datastore_client import update_user
+        result = update_user("U_NOPE", {"nickname": "Ghost"})
+        assert result is False
+
 
 class TestPendingUsers:
     @patch("app.models.datastore_client.get_datastore_client")
@@ -143,6 +170,12 @@ class TestDatastoreExceptions:
         mock_client.return_value.query.side_effect = Exception("DB error")
         from app.models.datastore_client import get_allowed_users
         assert get_allowed_users() == {}
+        
+    @patch("app.models.datastore_client.get_datastore_client")
+    def test_update_user_exception(self, mock_client):
+        mock_client.return_value.get.side_effect = Exception("DB error")
+        from app.models.datastore_client import update_user
+        assert update_user("U1", {}) is False
 
     @patch("app.models.datastore_client.get_datastore_client")
     def test_get_pending_users_exception(self, mock_client):
