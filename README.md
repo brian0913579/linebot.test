@@ -1,6 +1,6 @@
 # LINE Bot Garage Door Controller
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10563/badge)](https://www.bestpractices.dev/projects/10563)
 
 A highly secure, robust, and location-aware LINE Bot service designed to remotely control a garage door via the LINE messaging platform. Built with a Python/Flask backend and designed to be deployed natively on Google Cloud (App Engine). Validated users can open and close the garage door **only** after providing verifiable proof of their physical proximity to the garage location.
@@ -206,6 +206,6 @@ _(All states are mapped securely under the hood to Google Cloud Datastore under 
 
 ## 📜 License & Contact
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 For core bug tracking, question handling, or integration details, open a repository issue or contact: `cool.brian1206cool@gmail.com`.
