@@ -65,6 +65,9 @@ class TestConfig:
     DEBUG_MODE = False
     DEBUG_USER_IDS = []
 
+    # Geofencing
+    REQUIRE_LOCATION_VERIFY = False
+
     @classmethod
     def validate(cls):
         pass  # Skip validation in tests

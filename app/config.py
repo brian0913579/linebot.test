@@ -69,6 +69,11 @@ class Config:
     MQTT_TOPIC = get_secret("MQTT_TOPIC", default="garage/command")
 
     # Location Verification
+    REQUIRE_LOCATION_VERIFY = get_secret("REQUIRE_LOCATION_VERIFY", default="false").lower() in (
+        "true",
+        "1",
+        "yes",
+    )
     PARK_LAT = float(get_secret("PARK_LAT", default="24.79155"))
     PARK_LNG = float(get_secret("PARK_LNG", default="120.99442"))
     MAX_DIST_KM = float(get_secret("MAX_DIST_KM", default="1.0"))

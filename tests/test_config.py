@@ -134,3 +134,43 @@ class TestConfigLoading:
         finally:
             if did_create and config_mod.env_path.exists():
                 config_mod.env_path.unlink()
+
+
+class TestRequireLocationVerify:
+    """Tests for the REQUIRE_LOCATION_VERIFY config flag."""
+
+    def test_default_is_false(self):
+        """REQUIRE_LOCATION_VERIFY should default to False (geofencing off)."""
+        import importlib, os
+        import app.config as config_mod
+
+        env = dict(os.environ)
+        env.pop("REQUIRE_LOCATION_VERIFY", None)
+
+        with patch.dict("os.environ", env, clear=True):
+            importlib.reload(config_mod)
+            assert config_mod.Config.REQUIRE_LOCATION_VERIFY is False
+
+    def test_enabled_via_env_true(self):
+        """Setting REQUIRE_LOCATION_VERIFY=true enables geofencing."""
+        import importlib, os
+        import app.config as config_mod
+
+        env = dict(os.environ)
+        env["REQUIRE_LOCATION_VERIFY"] = "true"
+
+        with patch.dict("os.environ", env, clear=True):
+            importlib.reload(config_mod)
+            assert config_mod.Config.REQUIRE_LOCATION_VERIFY is True
+
+    def test_enabled_via_env_1(self):
+        """Setting REQUIRE_LOCATION_VERIFY=1 also enables geofencing."""
+        import importlib, os
+        import app.config as config_mod
+
+        env = dict(os.environ)
+        env["REQUIRE_LOCATION_VERIFY"] = "1"
+
+        with patch.dict("os.environ", env, clear=True):
+            importlib.reload(config_mod)
+            assert config_mod.Config.REQUIRE_LOCATION_VERIFY is True

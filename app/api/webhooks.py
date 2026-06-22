@@ -65,7 +65,7 @@ def handle_text(event):
         action = DOOR_COMMANDS[user_msg]
         action_label = "開啟" if action == "open" else "關閉"
 
-        if not token_service.is_user_authorized(user_id):
+        if current_app.config["REQUIRE_LOCATION_VERIFY"] and not token_service.is_user_authorized(user_id):
             return line_service.send_verification_message(user_id, event.reply_token, action)
 
         reply_token = event.reply_token

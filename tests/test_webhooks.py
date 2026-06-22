@@ -174,7 +174,8 @@ class TestHandleText:
             event = _make_event(user_id="Uauth", text="開門")
             handle_text(event)
 
-        mock_ts.is_user_authorized.assert_called_once_with("Uauth")
+        # is_user_authorized is only called when REQUIRE_LOCATION_VERIFY is True;
+        # with geofencing off (default), we go straight to the MQTT command.
         mock_mqtt.assert_called_once_with("open")
         mock_ls.reply_text.assert_called_once()
         assert "開啟" in mock_ls.reply_text.call_args[0][1]
@@ -183,6 +184,7 @@ class TestHandleText:
     @patch("app.api.webhooks.line_service")
     @patch("app.models.datastore_client.get_datastore_client")
     def test_unverified_user_gets_verification_link(self, mock_client, mock_ls, mock_ts, app):
+        """When geofencing is ON and user has no cached location auth, send verification link."""
         from tests.conftest import FakeDatastoreClient, FakeEntity, FakeKey
         ds = FakeDatastoreClient()
         mock_client.return_value = ds
@@ -191,14 +193,48 @@ class TestHandleText:
 
         mock_ts.is_user_authorized.return_value = False
 
-        with app.app_context():
-            from app.api.webhooks import handle_text
-            event = _make_event(user_id="Uauth", text="關門")
-            handle_text(event)
+        # Explicitly enable geofencing for this test
+        app.config["REQUIRE_LOCATION_VERIFY"] = True
+        try:
+            with app.app_context():
+                from app.api.webhooks import handle_text
+                event = _make_event(user_id="Uauth", text="關門")
+                handle_text(event)
+        finally:
+            app.config["REQUIRE_LOCATION_VERIFY"] = False
 
         mock_ls.send_verification_message.assert_called_once_with(
             "Uauth", "test-reply-token", "close"
         )
+
+    @patch("app.api.webhooks.send_garage_command", return_value=(True, None))
+    @patch("app.api.webhooks.token_service")
+    @patch("app.api.webhooks.line_service")
+    @patch("app.models.datastore_client.get_datastore_client")
+    def test_geofencing_disabled_sends_command_directly(self, mock_client, mock_ls, mock_ts, mock_mqtt, app):
+        """When REQUIRE_LOCATION_VERIFY is False (default), door opens immediately
+        even if is_user_authorized would return False — no verification link sent."""
+        from tests.conftest import FakeDatastoreClient, FakeEntity, FakeKey
+        ds = FakeDatastoreClient()
+        mock_client.return_value = ds
+        entity = FakeEntity(FakeKey("allowed_users", "Uauth"), {"user_id": "Uauth", "user_name": "Alice"})
+        ds._store.setdefault("allowed_users", {})["Uauth"] = entity
+
+        # is_user_authorized returns False, but geofencing is disabled
+        mock_ts.is_user_authorized.return_value = False
+        app.config["REQUIRE_LOCATION_VERIFY"] = False  # default, explicit for clarity
+
+        with app.app_context():
+            from app.api.webhooks import handle_text
+            event = _make_event(user_id="Uauth", text="開門")
+            handle_text(event)
+
+        # Should NOT prompt for location
+        mock_ls.send_verification_message.assert_not_called()
+        # Should fire the MQTT command directly
+        mock_mqtt.assert_called_once_with("open")
+        mock_ls.reply_text.assert_called_once()
+        assert "開啟" in mock_ls.reply_text.call_args[0][1]
 
     @patch("app.api.webhooks.line_service")
     @patch("app.models.datastore_client.get_datastore_client")
@@ -252,17 +288,18 @@ class TestHandleText:
         mock_ls.reply_text.assert_called_once()
         assert "無法連接車庫控制器" in mock_ls.reply_text.call_args[0][1]
 
+    @patch("app.api.webhooks.send_garage_command", side_effect=Exception("System Failure"))
     @patch("app.api.webhooks.token_service")
     @patch("app.api.webhooks.line_service")
     @patch("app.models.datastore_client.get_datastore_client")
-    def test_handle_text_exception(self, mock_client, mock_ls, mock_ts, app):
+    def test_handle_text_exception(self, mock_client, mock_ls, mock_ts, mock_mqtt, app):
+        """When an unexpected exception occurs, handle_system_error is called.
+        With geofencing off, we trigger the exception via send_garage_command."""
         from tests.conftest import FakeDatastoreClient, FakeEntity, FakeKey
         ds = FakeDatastoreClient()
         mock_client.return_value = ds
         entity = FakeEntity(FakeKey("allowed_users", "Uauth"), {"user_id": "Uauth", "user_name": "Alice"})
         ds._store.setdefault("allowed_users", {})["Uauth"] = entity
-
-        mock_ts.is_user_authorized.side_effect = Exception("System Failure")
 
         with app.app_context():
             from app.api.webhooks import handle_text
